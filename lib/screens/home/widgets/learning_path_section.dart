@@ -20,7 +20,7 @@ class LearningPathSection extends StatelessWidget {
           SizedBox(
             height: AppSizes.h200,
             child: ListView.separated(
-              separatorBuilder: (context, index) => Gap (AppSizes.w16),
+              separatorBuilder: (context, index) => Gap(AppSizes.w16),
               padding: EdgeInsets.zero,
               scrollDirection: Axis.horizontal,
               itemCount: paths.length,
@@ -44,7 +44,7 @@ class LearningPathSection extends StatelessWidget {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [ 
+                      children: [
                         // Image
                         ClipRRect(
                           borderRadius: BorderRadius.only(
@@ -97,7 +97,6 @@ class LearningPathSection extends StatelessWidget {
                                         ?.copyWith(fontSize: AppSizes.sp13),
                                   ),
                                   const Spacer(),
-
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: AppSizes.w8,

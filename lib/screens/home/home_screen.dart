@@ -3,13 +3,14 @@ import 'package:eduon/bloc/courses_event.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/repository/course_repository.dart';
-import 'package:eduon/screens/course/course_screen.dart';
 import 'package:eduon/screens/home/widgets/home_header.dart';
 import 'package:eduon/screens/home/widgets/learning_path_section.dart';
 import 'package:eduon/screens/home/widgets/student_Guide_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
+import 'widgets/popular_courses_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -56,16 +57,17 @@ class _HomeViewState extends State<HomeView> {
                 StudentGuideSection(),
                 Gap(AppSizes.h20),
                 LearningPathSection(),
+
+                Gap(AppSizes.h20),
+                // Popular Courses
+                PopularCoursesSection(playlist: state.popularCourses),
                 // Categories Tabs
                 _buildCategoryTabs(),
 
                 // Courses by Category
-                _buildCategoryCourses(state),
+                //_buildCategoryCourses(state),
 
                 const SizedBox(height: 20),
-
-                // Popular Courses
-                _buildPopularCourses(state),
               ],
             ),
           );
@@ -115,127 +117,44 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildCategoryCourses(CoursesState state) {
-    // Loading
-    if (state.isCategoriesLoading) {
-      return const SizedBox(
-        height: 200,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
+//   Widget _buildCategoryCourses(CoursesState state) {
+//     // Loading
+//     if (state.isCategoriesLoading) {
+//       return const SizedBox(
+//         height: 200,
+//         child: Center(child: CircularProgressIndicator()),
+//       );
+//     }
 
-    // لو مفيش Categories
-    if (state.categories.isEmpty) return const SizedBox();
+//     // لو مفيش Categories
+//     if (state.categories.isEmpty) return const SizedBox();
 
-    // فلتر على حسب الـ Category المختارة
-    final category = state.categories.firstWhere(
-      (cat) => cat.name == selectedCategory,
-      orElse: () => state.categories.first,
-    );
+//     // فلتر على حسب الـ Category المختارة
+//     final category = state.categories.firstWhere(
+//       (cat) => cat.name == selectedCategory,
+//       orElse: () => state.categories.first,
+//     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            '$selectedCategory Courses',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: category.playlists.length,
-            itemBuilder: (context, index) {
-              final playlist = category.playlists[index];
-              return _buildCourseCard(playlist);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPopularCourses(CoursesState state) {
-    // Loading
-    if (state.isPopularLoading) {
-      return const SizedBox(
-        height: 200,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    // لو مفيش Popular
-    if (state.popularCourses.isEmpty) return const SizedBox();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text(
-            '🔥 Popular Courses',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(
-          height: 200,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.popularCourses.length,
-            itemBuilder: (context, index) {
-              final playlist = state.popularCourses[index];
-              return _buildCourseCard(playlist);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCourseCard(playlist) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => CourseScreen(playlistId: playlist.playlistId),
-          ),
-        );
-      },
-      child: Container(
-        width: 160,
-        margin: const EdgeInsets.symmetric(horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                playlist.thumbnailUrl,
-                height: 120,
-                width: 160,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              playlist.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              playlist.channelTitle,
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.all(16),
+//           child: Text(
+//             '$selectedCategory Courses',
+//             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 200,
+//           child: ListView.builder(
+//             scrollDirection: Axis.horizontal,
+//             itemCount: category.playlists.length,
+//             itemBuilder: (context, index) =>
+//                 PopularCoursesSection(playlist: category.playlists),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
 }
-
-// أضف الـ Method دي في _HomeViewState

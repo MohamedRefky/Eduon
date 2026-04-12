@@ -10,8 +10,8 @@ class HomeHeader extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: double.infinity,
-          height: AppSizes.h280,
+          width: MediaQuery.of(context).size.width,
+          height: AppSizes.h270,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(AppSizes.r30),
@@ -29,7 +29,7 @@ class HomeHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Gap(AppSizes.h30),
+              Gap(AppSizes.h20),
               Row(
                 children: [
                   CircleAvatar(
