@@ -7,7 +7,7 @@ import 'package:eduon/data/services/youtube_api_service.dart';
 class CourseRepository {
   final YoutubeApiService _apiService = YoutubeApiService();
 
-  // جيب كل الـ Categories مع الـ Playlists بتاعتهم
+  // جيب الـ Categories مع الـ Playlists بتاعتهم
   Future<List<CategoryModel>> getAllCategories() async {
     List<CategoryModel> categories = [];
 
@@ -18,11 +18,16 @@ class CourseRepository {
       List<PlaylistModel> playlists = [];
 
       for (final playlistId in playlistIds) {
-        final playlist = await _apiService.getPlaylistDetails(
-          playlistId,
-          categoryName,
-        );
-        playlists.add(playlist);
+        try {
+          final playlist = await _apiService.getPlaylistDetails(
+            playlistId,
+            categoryName,
+          );
+          playlists.add(playlist);
+        } catch (e) {
+          // لو Playlist فيها مشكلة نتخطاها
+          continue;
+        }
       }
 
       categories.add(
@@ -36,9 +41,8 @@ class CourseRepository {
     return categories;
   }
 
-  // جيب الـ Playlist Details بالـ ID بس
+  // جيب الـ Playlist Details بالـ ID
   Future<PlaylistModel> getPlaylistById(String playlistId) async {
-    // هنبحث في الـ categoryPlaylists عن الـ Category بتاعت الـ Playlist دي
     String category = '';
 
     for (final entry in ApiConstants.categoryPlaylists.entries) {
@@ -51,21 +55,31 @@ class CourseRepository {
     return await _apiService.getPlaylistDetails(playlistId, category);
   }
 
-  // جيب فيديوهات Playlist معينة بالـ ID بس
+  // جيب فيديوهات Playlist معينة بالـ ID
   Future<PlaylistModel> getPlaylistWithVideos(String playlistId) async {
-    // جيب الـ Playlist Details
     final playlist = await getPlaylistById(playlistId);
-
-    // جيب الفيديوهات
     final videos = await _apiService.getPlaylistVideos(playlistId);
 
-    // جيب الـ viewCount و duration لكل فيديو
-    final videosWithDetails = await _apiService.getVideosDetails(videos);
+    // جيب الـ viewCount لأول 50 فيديو بس
+    List<VideoModel> videosWithDetails = [];
+    if (videos.isNotEmpty) {
+      // قسم الفيديوهات لمجموعات 50 عشان الـ API limit
+      for (var i = 0; i < videos.length; i += 50) {
+        final end = (i + 50 < videos.length) ? i + 50 : videos.length;
+        final batch = videos.sublist(i, end);
+        try {
+          final details = await _apiService.getVideosDetails(batch);
+          videosWithDetails.addAll(details);
+        } catch (e) {
+          videosWithDetails.addAll(batch);
+        }
+      }
+    }
 
     return playlist.copyWith(videos: videosWithDetails);
   }
 
-  // جيب الـ Popular Courses من كل الـ Categories
+  // جيب الـ Popular Courses - بسيط من غير API Calls كتير
   Future<List<PlaylistModel>> getPopularCourses() async {
     List<PlaylistModel> allPlaylists = [];
 
@@ -74,33 +88,22 @@ class CourseRepository {
       final playlistIds = entry.value;
 
       for (final playlistId in playlistIds) {
-        final playlist = await _apiService.getPlaylistDetails(
-          playlistId,
-          categoryName,
-        );
-
-        // جيب أول فيديو بس عشان ناخد الـ viewCount
-        final videos = await _apiService.getPlaylistVideos(playlistId);
-
-        if (videos.isNotEmpty) {
-          final firstVideo = <VideoModel>[videos.first];
-          final videosWithDetails =
-              await _apiService.getVideosDetails(firstVideo);
-          allPlaylists.add(playlist.copyWith(videos: videosWithDetails));
-        } else {
+        try {
+          final playlist = await _apiService.getPlaylistDetails(
+            playlistId,
+            categoryName,
+          );
           allPlaylists.add(playlist);
+        } catch (e) {
+          continue;
         }
       }
     }
 
-    // رتب على حسب الـ viewCount من أعلى لأقل
-    allPlaylists.sort((a, b) {
-      final aViews = a.videos.isNotEmpty ? a.videos.first.viewCount : 0;
-      final bViews = b.videos.isNotEmpty ? b.videos.first.viewCount : 0;
-      return bViews.compareTo(aViews);
-    });
+    // رتب على حسب عدد الفيديوهات (بدل viewCount عشان نوفر API calls)
+    allPlaylists.sort((a, b) => b.videoCount.compareTo(a.videoCount));
 
-    // رجع أول 10 بس
-    return allPlaylists.take(10).toList();
+    return allPlaylists.take(5).toList();
   }
 }
+

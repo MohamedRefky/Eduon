@@ -4,7 +4,12 @@ class ApiConstants {
 
   static const Map<String, List<String>> categoryPlaylists = {
     'Tech': [
-      'PLDoPjvoNmBAw_t_XWUFbBX-c9MafPk9ji',
+      'PLDoPjvoNmBAw_t_XWUFbBX-c9MafPk9ji', // HTML
+      'PLDoPjvoNmBAzhFD3niPAa1C1gXG4cs14J',  // HTML 2
+      'PLDoPjvoNmBAzjsz06gkzlSrlev53MGIKe',  // CSS
+      'PLDoPjvoNmBAzLyvrWPwMw6bbBlTwPxgLF',  // JavaScript OOP
+      'PLDoPjvoNmBAz7wegzgoJvVJdr-WwE5Pwt',  // C++ Functions
+      'PLDoPjvoNmBAyX4CCOP--TR36SfD5g7gru',  // C++ Problem Solving
     ],
     'Design': [
       'PLjzhiGLyugKwnM6uN4NXhfpU8L7XvtDEv',

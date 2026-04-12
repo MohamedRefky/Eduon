@@ -1,32 +1,42 @@
 import 'package:eduon/core/models/category_model.dart';
 import 'package:eduon/core/models/playlist_model.dart';
 
-abstract class CoursesState {}
-
-class Initial extends CoursesState {}
-
-class AllCategoriesLoading extends CoursesState {}
-
-class AllCategoriesLoaded extends CoursesState {
+class CoursesState {
   final List<CategoryModel> categories;
-  AllCategoriesLoaded({required this.categories});
-}
+  final List<PlaylistModel> popularCourses;
+  final PlaylistModel? selectedPlaylist;
+  final bool isCategoriesLoading;
+  final bool isPopularLoading;
+  final bool isPlaylistLoading;
+  final String? errorMessage;
 
-class PlaylistLoading extends CoursesState {}
+  CoursesState({
+    this.categories = const [],
+    this.popularCourses = const [],
+    this.selectedPlaylist,
+    this.isCategoriesLoading = false,
+    this.isPopularLoading = false,
+    this.isPlaylistLoading = false,
+    this.errorMessage,
+  });
 
-class PlaylistLoaded extends CoursesState {
-  final PlaylistModel playlist;
-  PlaylistLoaded({required this.playlist});
-}
-
-class PopularCoursesLoading extends CoursesState {}
-
-class PopularCoursesLoaded extends CoursesState {
-  final List<PlaylistModel> playlists;
-  PopularCoursesLoaded({required this.playlists});
-}
-
-class CoursesError extends CoursesState {
-  final String errorMessage;
-  CoursesError({required this.errorMessage});
+  CoursesState copyWith({
+    List<CategoryModel>? categories,
+    List<PlaylistModel>? popularCourses,
+    PlaylistModel? selectedPlaylist,
+    bool? isCategoriesLoading,
+    bool? isPopularLoading,
+    bool? isPlaylistLoading,
+    String? errorMessage,
+  }) {
+    return CoursesState(
+      categories: categories ?? this.categories,
+      popularCourses: popularCourses ?? this.popularCourses,
+      selectedPlaylist: selectedPlaylist ?? this.selectedPlaylist,
+      isCategoriesLoading: isCategoriesLoading ?? this.isCategoriesLoading,
+      isPopularLoading: isPopularLoading ?? this.isPopularLoading,
+      isPlaylistLoading: isPlaylistLoading ?? this.isPlaylistLoading,
+      errorMessage: errorMessage,
+    );
+  }
 }
