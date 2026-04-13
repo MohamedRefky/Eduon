@@ -11,7 +11,7 @@ class HomeHeader extends StatelessWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          height: AppSizes.h270,
+          height: AppSizes.h260,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(AppSizes.r30),
@@ -20,7 +20,10 @@ class HomeHeader extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color(0xFF0F172A), Color(0xFFC0C7D2)],
+              colors: [
+                Color(0xFF0F172A),
+                Color(0xFFC0C7D2).withValues(alpha: 0.7),
+              ],
             ),
           ),
         ),
@@ -45,7 +48,7 @@ class HomeHeader extends StatelessWidget {
                   Text('EDUON', style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
-              Gap(AppSizes.h20),
+              Gap(AppSizes.h16),
               Text("Hi, Tamer!", style: TextTheme.of(context).titleLarge),
               Gap(AppSizes.h8),
               Text(

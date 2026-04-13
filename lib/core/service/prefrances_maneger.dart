@@ -7,7 +7,7 @@ class PrefrancesManeger {
 
   PrefrancesManeger._internal();
   late final SharedPreferences _preferences;
-  init() async {
+  Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
   }
 
@@ -19,15 +19,15 @@ class PrefrancesManeger {
     return _preferences.getBool(key);
   }
 
-  setString(String key, String value) {
+  Future<bool> setString(String key, String value) {
     return _preferences.setString(key, value);
   }
 
-  remove(String key) async {
+  Future<bool> remove(String key) async {
     return await _preferences.remove(key);
   }
 
-  setBool(String key, bool value) {
+  Future<bool> setBool(String key, bool value) {
     return _preferences.setBool(key, value);
   }
 }

@@ -15,6 +15,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_inappwebview: ^6.1.5
   flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.4
   gap: ^3.0.1
   shared_preferences: ^2.5.5
   url_launcher: ^6.3.2
@@ -31,6 +32,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/svg/
 
   fonts:
     - family: PlusJakartaSans

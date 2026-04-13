@@ -5,6 +5,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   scaffoldBackgroundColor: Color(0xFFd2dae3),
+  fontFamily: "PlusJakartaSans",
 
   // appBarTheme: AppBarTheme(
   //   backgroundColor: Color(0xFFF6F7F9),
@@ -19,10 +20,9 @@ ThemeData lightTheme = ThemeData(
   //   primaryContainer: Color(0xFFFFFFFF),
   //   secondary: Color(0xFF3A4640),
   // ),
-
-  // textButtonTheme: TextButtonThemeData(
-  //   style: TextButton.styleFrom(foregroundColor: Colors.black),
-  // ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(foregroundColor: Colors.black),
+  ),
 
   // elevatedButtonTheme: ElevatedButtonThemeData(
   //   style: ElevatedButton.styleFrom(
@@ -63,7 +63,6 @@ ThemeData lightTheme = ThemeData(
       fontFamily: "PlusJakartaSans",
       fontWeight: FontWeight.bold,
       overflow: TextOverflow.ellipsis,
-       
     ),
     displaySmall: TextStyle(
       fontFamily: "PlusJakartaSans",
@@ -106,26 +105,42 @@ ThemeData lightTheme = ThemeData(
       color: Color(0xFF363F57),
     ),
 
-    // inputDecorationTheme: InputDecorationTheme(
-    //   border: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(AppSizes.r16),
-    //     borderSide: BorderSide(color: Color(0xFFD1DAD6), width: AppSizes.w1),
-    //   ),
-    //   focusedBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(AppSizes.r16),
-    //     borderSide: BorderSide(color: Color(0xFFD1DAD6), width: AppSizes.w1),
-    //   ),
-    //   errorBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(AppSizes.r16),
-    //     borderSide: BorderSide(color: Colors.red, width: AppSizes.w1),
-    //   ),
-    //   enabledBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.circular(AppSizes.r16),
-    //     borderSide: BorderSide(color: Color(0xFFD1DAD6), width: AppSizes.w1),
-    //   ),
-    //   filled: true,
-    //   fillColor: Color(0xFFFFFFFF),
-    //   hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
+    bodyLarge: TextStyle(
+      color: const Color(0xFF475569),
+      fontSize: AppSizes.sp32,
+      fontWeight: FontWeight.w800,
+      fontFamily: "PlusJakartaSans",
+      height: 0.875,
+      letterSpacing: -0.5,
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    
+        border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderSide: BorderSide(color: Color(0xFF51565F), width: AppSizes.w1),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderSide: BorderSide(color: Color(0xFF51565F), width: AppSizes.w1),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderSide: BorderSide(color: Colors.red, width: AppSizes.w1),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderSide: BorderSide.none,
+    ),
+    
+    filled: true,
+    fillColor: Color(0xFF9bacc1),
+    prefixIconColor: Color(0xFF51565F),
+    hintStyle: TextStyle(
+      color: Color(0xFF6B7280),
+      fontSize: AppSizes.sp16,
+      fontFamily: "PlusJakartaSans",
+    ),
   ),
 
   // iconTheme: IconThemeData(color: Color(0xFF161F1B), size: AppSizes.sp24),

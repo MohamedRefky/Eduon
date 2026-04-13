@@ -50,7 +50,7 @@ class YoutubeApiService {
             'playlistId': playlistId,
             'maxResults': 50,
             'key': ApiConstants.apiKey,
-            if (nextPageToken != null) 'pageToken': nextPageToken,
+            'pageToken': ?nextPageToken,
           },
         );
 

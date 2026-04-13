@@ -1,4 +1,3 @@
-import 'package:eduon/core/Theme/dark_theme.dart';
 import 'package:eduon/core/Theme/light_theme.dart';
 import 'package:eduon/core/Theme/themes_controller.dart';
 import 'package:flutter/material.dart';
