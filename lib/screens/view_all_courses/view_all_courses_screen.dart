@@ -5,7 +5,6 @@ import 'package:eduon/core/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
@@ -31,7 +30,7 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           if (state.isCategoriesLoading) {
@@ -47,40 +46,81 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
           final filteredCourses = _selectedCategory == 'All'
               ? allCourses
               : allCourses
-                    .where((p) => p.category == _selectedCategory)
-                    .toList();
+                  .where((p) => p.category == _selectedCategory)
+                  .toList();
 
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const HeaderSection(),
-                Gap(AppSizes.h16),
-                const SearchFieldWidget(),
-                Gap(AppSizes.h16),
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const HeaderSection(),
+                      Gap(AppSizes.h16),
+                      const SearchFieldWidget(),
+                      Gap(AppSizes.h16),
 
-                // Category Filter
-                CategoryFilterGrid(
-                  selectedCategory: _selectedCategory,
-                  onCategoryTap: _onCategoryTap,
+                      // Category Filter (Business - Design - Tech - Soft Skills)
+                      CategoryFilterGrid(
+                        selectedCategory: _selectedCategory,
+                        onCategoryTap: _onCategoryTap,
+                      ),
+
+                      Gap(AppSizes.h8),
+                    ],
+                  ),
                 ),
+              ),
 
-                Gap(AppSizes.h8),
-
-                // Count & Selected Category
-                CoursesCountHeader(
+              //  Count Header  full width)
+              SliverToBoxAdapter(
+                child: CoursesCountHeader(
                   count: filteredCourses.length,
                   selectedCategory: _selectedCategory,
                   onClear: () => setState(() => _selectedCategory = 'All'),
                 ),
+              ),
 
-                Gap(AppSizes.h8),
-
-                // Courses List
-                Expanded(child: CoursesListView(courses: filteredCourses)),
-              ],
-            ),
+              //  Courses List
+              filteredCourses.isEmpty
+                  ? SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.school_outlined,
+                                size: 64, color: Colors.grey),
+                            SizedBox(height: 16),
+                            Text('No courses found',
+                                style: TextStyle(color: Colors.grey)),
+                          ],
+                        ),
+                      ),
+                    )
+                  : SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                bottom: index == filteredCourses.length - 1
+                                    ? AppSizes.h16
+                                    : AppSizes.h12,
+                              ),
+                              child: CourseItem(
+                                playlist: filteredCourses[index],
+                              ),
+                            );
+                          },
+                          childCount: filteredCourses.length,
+                        ),
+                      ),
+                    ),
+            ],
           );
         },
       ),

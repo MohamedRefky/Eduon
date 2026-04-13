@@ -24,9 +24,9 @@ class CoursesCountHeader extends StatelessWidget {
         children: [
           Text(
             '$count Courses',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
+            style: TextTheme.of(context).displaySmall?.copyWith(
+              fontSize: AppSizes.sp14,
+              fontWeight: FontWeight.w600,
             ),
           ),
           const Spacer(),
@@ -34,31 +34,26 @@ class CoursesCountHeader extends StatelessWidget {
             GestureDetector(
               onTap: onClear,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.h8,
+                  vertical: AppSizes.h4,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6C63FF).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFF587DBD).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(AppSizes.r12),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       selectedCategory,
-                      style: const TextStyle(
-                        color: Color(0xFF6C63FF),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                      style: TextTheme.of(context).displaySmall?.copyWith(
+                        color: Color(0xFF587DBD),
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.close,
-                      size: 14,
-                      color: Color(0xFF6C63FF),
-                    ),
+                    SizedBox(width: AppSizes.w4),
+                    Icon(Icons.close, size: AppSizes.sp16, color: Colors.black),
                   ],
                 ),
               ),

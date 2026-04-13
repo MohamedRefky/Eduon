@@ -54,15 +54,14 @@ class CategoryFilterGrid extends StatelessWidget {
 
   Widget _buildCategoryItem(String name, String svgPath, Color color) {
     final isSelected = selectedCategory == name;
-    
     return AnimatedScale(
-      scale: isSelected ? 1.05 : 1.0,
+      scale: isSelected ? 1.06 : 1.0,
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       child: CustomContainer(
         text: name,
         svgPath: svgPath,
-        containerColor: isSelected ? color : color.withOpacity(0.5),
+        containerColor: isSelected ? color : color.withValues(alpha: 0.5),
         onTap: () => onCategoryTap(name),
       ),
     );

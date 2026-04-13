@@ -16,6 +16,7 @@ class AppSizes {
   static final double sp34 = 34.sp;
 
   /// Heights
+  static final double h2 = 2.h;
   static final double h4 = 4.h;
   static final double h8 = 8.h;
   static final double h6 = 6.h;
