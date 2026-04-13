@@ -25,7 +25,7 @@ class CourseRepository {
           );
           playlists.add(playlist);
         } catch (e) {
-          // لو Playlist فيها مشكلة نتخطاها
+          
           continue;
         }
       }
@@ -103,7 +103,7 @@ class CourseRepository {
     // رتب على حسب عدد الفيديوهات (بدل viewCount عشان نوفر API calls)
     allPlaylists.sort((a, b) => b.videoCount.compareTo(a.videoCount));
 
-    return allPlaylists.take(5).toList();
+    return allPlaylists.take(50).toList();
   }
 }
 

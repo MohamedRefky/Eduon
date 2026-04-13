@@ -87,7 +87,7 @@ class LearningPathSection extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.menu_book,
-                                    color: Color(0xFF64748B),
+                                    color: Color(0xFF334155),
                                     size: AppSizes.sp16,
                                   ),
                                   Gap(AppSizes.w4),

@@ -2,6 +2,7 @@ import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/screens/course/course_screen.dart';
+import 'package:eduon/screens/view_all_courses/view_all_courses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -20,7 +21,6 @@ class PopularCoursesSection extends StatelessWidget {
             child: Center(child: CircularProgressIndicator()),
           );
         }
-
         if (state.popularCourses.isEmpty) return const SizedBox();
 
         return Padding(
@@ -28,17 +28,43 @@ class PopularCoursesSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Popular Courses',
-                style: TextTheme.of(context).displayLarge,
+              Row(
+                children: [
+                  Text(
+                    'Popular Courses',
+                    style: TextTheme.of(context).displayLarge,
+                  ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<CoursesBloc>(),
+                            child: const ViewAllCoursesScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'View all',
+                      style: TextTheme.of(context).displayMedium?.copyWith(
+                        fontSize: AppSizes.sp14,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (context, index) => Gap(AppSizes.h12),
                 padding: EdgeInsets.zero,
                 scrollDirection: Axis.vertical,
-                itemCount: state.popularCourses.length,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   final playlist = state.popularCourses[index];
                   return GestureDetector(
@@ -53,35 +79,56 @@ class PopularCoursesSection extends StatelessWidget {
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
+                      height: AppSizes.h80,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Gap(AppSizes.h12),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppSizes.r12),
                             child: Image.network(
                               playlist.thumbnailUrl,
-                              height: 120,
-                              width: 160,
-                              fit: BoxFit.cover,
+                              height: AppSizes.h80,
+                              width: AppSizes.h120,
+                              fit: BoxFit.fill,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            playlist.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            playlist.channelTitle,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
+                          Gap(AppSizes.w10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  playlist.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextTheme.of(context).displayMedium,
+                                ),
+                                Gap(AppSizes.h6),
+                                Text(
+                                  playlist.channelTitle,
+                                  style: TextTheme.of(context).displaySmall,
+                                ),
+                                Gap(AppSizes.h4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.menu_book,
+                                      color: Color(0xFF334155),
+                                      size: AppSizes.sp16,
+                                    ),
+                                    Gap(AppSizes.w4),
+                                    Text(
+                                      'Lessons ${playlist.videoCount}',
+                                      style: TextTheme.of(context).displaySmall,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ],

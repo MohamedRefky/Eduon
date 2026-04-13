@@ -63,10 +63,11 @@ ThemeData lightTheme = ThemeData(
       fontFamily: "PlusJakartaSans",
       fontWeight: FontWeight.bold,
       overflow: TextOverflow.ellipsis,
+       
     ),
     displaySmall: TextStyle(
       fontFamily: "PlusJakartaSans",
-      color: Color(0xFF64748B),
+      color: Color(0xFF334155),
       fontSize: AppSizes.sp12,
       fontWeight: FontWeight.w500,
     ),

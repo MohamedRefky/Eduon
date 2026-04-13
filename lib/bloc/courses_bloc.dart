@@ -68,7 +68,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         allPlaylists.sort((a, b) => b.videoCount.compareTo(a.videoCount));
 
         emit(state.copyWith(
-          popularCourses: allPlaylists.take(5).toList(),
+          popularCourses: allPlaylists.take(50).toList(),
           isPopularLoading: false,
         ));
       } else {

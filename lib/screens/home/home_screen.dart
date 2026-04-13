@@ -61,12 +61,12 @@ class _HomeViewState extends State<HomeView> {
                 Gap(AppSizes.h20),
                 // Popular Courses
                 PopularCoursesSection(playlist: state.popularCourses),
+
                 // Categories Tabs
-                _buildCategoryTabs(),
 
                 // Courses by Category
                 //_buildCategoryCourses(state),
-
+                //  _buildCategoryTabs(),
                 const SizedBox(height: 20),
               ],
             ),
@@ -76,85 +76,85 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildCategoryTabs() {
-    final categories = ['Tech', 'Design', 'Business', 'Soft Skills'];
+  // Widget _buildCategoryTabs() {
+  //   final categories = ['Tech', 'Design', 'Business', 'Soft Skills'];
 
-    return SizedBox(
-      height: 50,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final isSelected = category == selectedCategory;
+  //   return SizedBox(
+  //     height: 50,
+  //     child: ListView.builder(
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: categories.length,
+  //       itemBuilder: (context, index) {
+  //         final category = categories[index];
+  //         final isSelected = category == selectedCategory;
 
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCategory = category;
-              });
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.deepPurple : Colors.grey[200],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: Text(
-                  category,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  //         return GestureDetector(
+  //           onTap: () {
+  //             setState(() {
+  //               selectedCategory = category;
+  //             });
+  //           },
+  //           child: Container(
+  //             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+  //             padding: const EdgeInsets.symmetric(horizontal: 16),
+  //             decoration: BoxDecoration(
+  //               color: isSelected ? Colors.deepPurple : Colors.grey[200],
+  //               borderRadius: BorderRadius.circular(20),
+  //             ),
+  //             child: Center(
+  //               child: Text(
+  //                 category,
+  //                 style: TextStyle(
+  //                   color: isSelected ? Colors.white : Colors.black,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
-//   Widget _buildCategoryCourses(CoursesState state) {
-//     // Loading
-//     if (state.isCategoriesLoading) {
-//       return const SizedBox(
-//         height: 200,
-//         child: Center(child: CircularProgressIndicator()),
-//       );
-//     }
+  //   Widget _buildCategoryCourses(CoursesState state) {
+  //     // Loading
+  //     if (state.isCategoriesLoading) {
+  //       return const SizedBox(
+  //         height: 200,
+  //         child: Center(child: CircularProgressIndicator()),
+  //       );
+  //     }
 
-//     // لو مفيش Categories
-//     if (state.categories.isEmpty) return const SizedBox();
+  //     // لو مفيش Categories
+  //     if (state.categories.isEmpty) return const SizedBox();
 
-//     // فلتر على حسب الـ Category المختارة
-//     final category = state.categories.firstWhere(
-//       (cat) => cat.name == selectedCategory,
-//       orElse: () => state.categories.first,
-//     );
+  //     // فلتر على حسب الـ Category المختارة
+  //     final category = state.categories.firstWhere(
+  //       (cat) => cat.name == selectedCategory,
+  //       orElse: () => state.categories.first,
+  //     );
 
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(16),
-//           child: Text(
-//             '$selectedCategory Courses',
-//             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//         ),
-//         SizedBox(
-//           height: 200,
-//           child: ListView.builder(
-//             scrollDirection: Axis.horizontal,
-//             itemCount: category.playlists.length,
-//             itemBuilder: (context, index) =>
-//                 PopularCoursesSection(playlist: category.playlists),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
+  //     return Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(16),
+  //           child: Text(
+  //             '$selectedCategory Courses',
+  //             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 200,
+  //           child: ListView.builder(
+  //             scrollDirection: Axis.horizontal,
+  //             itemCount: category.playlists.length,
+  //             itemBuilder: (context, index) =>
+  //                 PopularCoursesSection(playlist: category.playlists),
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   }
 }
