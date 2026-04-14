@@ -1,6 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/models/playlist_model.dart';
-import 'package:eduon/screens/course/course_screen.dart';
+import 'package:eduon/screens/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -15,11 +15,12 @@ class CourseItem extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => CourseScreen(playlistId: playlist.playlistId),
+          builder: (_) => CoursesDetailsScreen(playlistId: playlist.playlistId),
         ),
       ),
       child: Container(
-        height: AppSizes.h100,
+        // height: 350,
+        width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(AppSizes.r12),
@@ -31,105 +32,133 @@ class CourseItem extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
           children: [
-            // Thumbnail
             ClipRRect(
-              borderRadius: BorderRadius.circular(AppSizes.r12),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(AppSizes.r12),
+                topRight: Radius.circular(AppSizes.r12),
+              ),
               child: Image.network(
                 playlist.thumbnailUrl,
-                height: AppSizes.h100,
-                width: AppSizes.h120,
-                fit: BoxFit.fill,
+                height: AppSizes.h180,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
             Gap(AppSizes.w10),
-
             // Content
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSizes.h8,
-                  horizontal: AppSizes.w4,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Title
-                    Text(
-                      playlist.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.displayMedium,
+            Padding(
+              padding: EdgeInsets.only(
+                left: AppSizes.w10,
+                right: AppSizes.w10,
+                bottom: AppSizes.h10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Title
+                  Text(
+                    playlist.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: const Color(0xFF003346),
                     ),
-                    Gap(AppSizes.h4),
+                  ),
+                  Gap(AppSizes.h4),
+                  // Description
+                  playlist.description.isEmpty
+                      ? const SizedBox.shrink()
+                      : Text(
+                          playlist.description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.displaySmall
+                              ?.copyWith(
+                                fontSize: AppSizes.sp14,
 
-                    // Channel Name
-                    Text(
-                      playlist.channelTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                    Gap(AppSizes.h4),
+                                color: const Color(0xFF346178),
+                              ),
+                        ),
 
-                    // Category & Lessons Count
-                    Row(
-                      children: [
-                        // Category Badge
-                        Flexible(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(
-                                0xFF6C63FF,
-                              ).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(AppSizes.r4),
-                            ),
-                            child: Text(
-                              playlist.category,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.displaySmall
-                                  ?.copyWith(
-                                    color: const Color(0xFF587DBD),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
+                  Gap(AppSizes.h8),
+                  // Category & Lessons Count
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Category Badge
+                      Flexible(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF99ecfe),
+                            borderRadius: BorderRadius.circular(AppSizes.r8),
+                          ),
+                          child: Text(
+                            playlist.category.toUpperCase(),
+                            style: Theme.of(context).textTheme.displaySmall
+                                ?.copyWith(
+                                  color: const Color(0xFF005C52),
+                                  fontWeight: FontWeight.w700,
+                                ),
                           ),
                         ),
-                        const Spacer(),
+                      ),
 
-                        // Lessons Count
-                        Icon(
-                          Icons.menu_book,
-                          color: const Color(0xFF334155),
-                          size: AppSizes.sp16,
-                        ),
-                        Gap(AppSizes.w4),
-                        Text(
-                          '${playlist.videoCount} lessons',
+                      // Lessons Count
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.menu_book,
+                            color: const Color(0xFF334155),
+                            size: AppSizes.sp16,
+                          ),
+                          Gap(AppSizes.w4),
+                          Text(
+                            '${playlist.videoCount} lessons',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Gap(AppSizes.h8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Channel Name
+                      Expanded(
+                        child: Text(
+                          playlist.channelTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Arrow Icon
-            Padding(
-              padding: EdgeInsets.only(right: AppSizes.w8),
-              child: Icon(
-                Icons.chevron_right,
-                color: Colors.grey,
-                size: AppSizes.sp24,
+                      ),
+                      Container(
+                        height: AppSizes.h30,
+                        width: AppSizes.w70,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF2D3854),
+                          borderRadius: BorderRadius.circular(AppSizes.r12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Start ',
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

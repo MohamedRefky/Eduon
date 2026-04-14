@@ -7,7 +7,9 @@ import 'package:eduon/data/services/youtube_api_service.dart';
 class CourseRepository {
   final YoutubeApiService _apiService = YoutubeApiService();
 
-  // جيب الـ Categories مع الـ Playlists بتاعتهم
+  // =========================
+  // GET ALL CATEGORIES
+  // =========================
   Future<List<CategoryModel>> getAllCategories() async {
     List<CategoryModel> categories = [];
 
@@ -25,7 +27,6 @@ class CourseRepository {
           );
           playlists.add(playlist);
         } catch (e) {
-          
           continue;
         }
       }
@@ -41,7 +42,9 @@ class CourseRepository {
     return categories;
   }
 
-  // جيب الـ Playlist Details بالـ ID
+  // =========================
+  // GET PLAYLIST BY ID
+  // =========================
   Future<PlaylistModel> getPlaylistById(String playlistId) async {
     String category = '';
 
@@ -55,18 +58,21 @@ class CourseRepository {
     return await _apiService.getPlaylistDetails(playlistId, category);
   }
 
-  // جيب فيديوهات Playlist معينة بالـ ID
+  // =========================
+  // GET PLAYLIST WITH VIDEOS
+  // (ENRICHED)
+  // =========================
   Future<PlaylistModel> getPlaylistWithVideos(String playlistId) async {
     final playlist = await getPlaylistById(playlistId);
     final videos = await _apiService.getPlaylistVideos(playlistId);
 
-    // جيب الـ viewCount لأول 50 فيديو بس
     List<VideoModel> videosWithDetails = [];
+
     if (videos.isNotEmpty) {
-      // قسم الفيديوهات لمجموعات 50 عشان الـ API limit
       for (var i = 0; i < videos.length; i += 50) {
         final end = (i + 50 < videos.length) ? i + 50 : videos.length;
         final batch = videos.sublist(i, end);
+
         try {
           final details = await _apiService.getVideosDetails(batch);
           videosWithDetails.addAll(details);
@@ -79,7 +85,9 @@ class CourseRepository {
     return playlist.copyWith(videos: videosWithDetails);
   }
 
-  // جيب الـ Popular Courses - بسيط من غير API Calls كتير
+  // =========================
+  // GET POPULAR COURSES
+  // =========================
   Future<List<PlaylistModel>> getPopularCourses() async {
     List<PlaylistModel> allPlaylists = [];
 
@@ -100,10 +108,11 @@ class CourseRepository {
       }
     }
 
-    // رتب على حسب عدد الفيديوهات (بدل viewCount عشان نوفر API calls)
-    allPlaylists.sort((a, b) => b.videoCount.compareTo(a.videoCount));
+    // ترتيب حسب عدد الفيديوهات
+    allPlaylists.sort(
+      (a, b) => b.videoCount.compareTo(a.videoCount),
+    );
 
     return allPlaylists.take(50).toList();
   }
 }
-

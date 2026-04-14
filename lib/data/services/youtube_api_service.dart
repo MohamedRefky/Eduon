@@ -12,9 +12,13 @@ class YoutubeApiService {
     ),
   );
 
-  // جيب معلومات الـ Playlist
+  // =========================
+  // GET PLAYLIST DETAILS
+  // =========================
   Future<PlaylistModel> getPlaylistDetails(
-      String playlistId, String category) async {
+    String playlistId,
+    String category,
+  ) async {
     try {
       final response = await _dio.get(
         '/playlists',
@@ -26,6 +30,7 @@ class YoutubeApiService {
       );
 
       final items = response.data['items'] as List;
+
       if (items.isEmpty) {
         throw Exception('Playlist not found');
       }
@@ -36,7 +41,9 @@ class YoutubeApiService {
     }
   }
 
-  // جيب فيديوهات الـ Playlist
+  // =========================
+  // GET PLAYLIST VIDEOS
+  // =========================
   Future<List<VideoModel>> getPlaylistVideos(String playlistId) async {
     List<VideoModel> allVideos = [];
     String? nextPageToken;
@@ -50,11 +57,12 @@ class YoutubeApiService {
             'playlistId': playlistId,
             'maxResults': 50,
             'key': ApiConstants.apiKey,
-            'pageToken': ?nextPageToken,
+            'pageToken': nextPageToken,
           },
         );
 
         final items = response.data['items'] as List;
+
         allVideos.addAll(
           items.map((item) => VideoModel.fromPlaylistItem(item)).toList(),
         );
@@ -68,41 +76,64 @@ class YoutubeApiService {
     }
   }
 
-  // جيب الـ viewCount و duration
-  Future<List<VideoModel>> getVideosDetails(List<VideoModel> videos) async {
-    if (videos.isEmpty) return videos;
+  // =========================
+  // GET VIDEOS STATS (views, likes, duration)
+  // =========================
+ Future<List<VideoModel>> getVideosDetails(List<VideoModel> videos) async {
+  if (videos.isEmpty) return videos;
 
-    try {
-      final videoIds = videos.map((v) => v.videoId).join(',');
+  try {
+    final videoIds = videos.map((v) => v.videoId).join(',');
 
-      final response = await _dio.get(
-        '/videos',
-        queryParameters: {
-          'part': 'statistics,contentDetails',
-          'id': videoIds,
-          'key': ApiConstants.apiKey,
-        },
+    final response = await _dio.get(
+      '/videos',
+      queryParameters: {
+        'part': 'statistics,contentDetails',
+        'id': videoIds,
+        'key': ApiConstants.apiKey,
+      },
+    );
+
+    final items = response.data['items'] ?? [];
+
+    if (items.isEmpty) return videos;
+
+    final Map<String, dynamic> detailsMap = {
+      for (var item in items) item['id']: item,
+    };
+
+    return videos.map((video) {
+      final detail = detailsMap[video.videoId];
+
+      if (detail == null) return video;
+
+      final stats = (detail['statistics'] ?? {}) as Map;
+      final content = (detail['contentDetails'] ?? {}) as Map;
+
+      return video.copyWith(
+        viewCount: int.tryParse(stats['viewCount']?.toString() ?? '0') ?? 0,
+        likeCount: int.tryParse(stats['likeCount']?.toString() ?? '0') ?? 0,
+        duration: _formatDuration(content['duration'] ?? ''),
       );
-
-      final items = response.data['items'] as List;
-
-      return videos.map((video) {
-        final detail = items.firstWhere(
-          (item) => item['id'] == video.videoId,
-          orElse: () => null,
-        );
-
-        if (detail != null) {
-          return video.copyWith(
-            viewCount:
-                int.tryParse(detail['statistics']?['viewCount'] ?? '0') ?? 0,
-            duration: detail['contentDetails']?['duration'] ?? '',
-          );
-        }
-        return video;
-      }).toList();
-    } on DioException catch (e) {
-      throw Exception('API Error: ${e.message}');
-    }
+    }).toList();
+  } on DioException catch (e) {
+    throw Exception('API Error: ${e.message}');
   }
+}
+}
+String _formatDuration(String iso) {
+  final regex = RegExp(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?');
+
+  final match = regex.firstMatch(iso);
+
+  if (match == null) return '0:00';
+
+  final hours = int.tryParse(match.group(1) ?? '0') ?? 0;
+  final minutes = int.tryParse(match.group(2) ?? '0') ?? 0;
+  final seconds = int.tryParse(match.group(3) ?? '0') ?? 0;
+
+  final totalMinutes = hours * 60 + minutes;
+  final sec = seconds.toString().padLeft(2, '0');
+
+  return '$totalMinutes:$sec';
 }

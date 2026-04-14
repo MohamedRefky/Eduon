@@ -1,9 +1,9 @@
 import 'package:eduon/core/Theme/light_theme.dart';
 import 'package:eduon/core/Theme/themes_controller.dart';
+import 'package:eduon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'screens/home/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               //darkTheme: darkTheme,
               themeMode: currentMode,
-              home: const HomeScreen(),
+              home: const MainScreen(),
             );
           },
         );

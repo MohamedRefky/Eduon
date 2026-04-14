@@ -89,7 +89,11 @@ ThemeData lightTheme = ThemeData(
       color: Color(0xFF475569),
     ),
 
-    titleSmall: TextStyle(color: Colors.white, fontSize: AppSizes.sp16),
+    titleSmall: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp16,
+      fontFamily: "PlusJakartaSans",
+    ),
 
     titleMedium: TextStyle(
       color: Colors.white,
@@ -115,8 +119,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    
-        border: OutlineInputBorder(
+    border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSizes.r16),
       borderSide: BorderSide(color: Color(0xFF51565F), width: AppSizes.w1),
     ),
@@ -132,7 +135,7 @@ ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(AppSizes.r16),
       borderSide: BorderSide.none,
     ),
-    
+
     filled: true,
     fillColor: Color(0xFF9bacc1),
     prefixIconColor: Color(0xFF51565F),

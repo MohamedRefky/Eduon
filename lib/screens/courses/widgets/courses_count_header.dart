@@ -39,7 +39,7 @@ class CoursesCountHeader extends StatelessWidget {
                   vertical: AppSizes.h4,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF587DBD).withValues(alpha: 0.1),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(AppSizes.r12),
                 ),
                 child: Row(
@@ -49,7 +49,7 @@ class CoursesCountHeader extends StatelessWidget {
                       selectedCategory,
                       style: TextTheme.of(context).displaySmall?.copyWith(
                         color: Color(0xFF587DBD),
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     SizedBox(width: AppSizes.w4),

@@ -1,10 +1,9 @@
-
 import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_event.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/models/learning_path_model.dart';
 import 'package:eduon/repository/course_repository.dart';
-import 'package:eduon/screens/course/course_screen.dart';
+import 'package:eduon/screens/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +15,9 @@ class LearningPathScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CoursesBloc(repository: CourseRepository())
-        ..add(GetAllCategoriesEvent()),
+      create: (context) =>
+          CoursesBloc(repository: CourseRepository())
+            ..add(GetAllCategoriesEvent()),
       child: LearningPathView(learningPath: learningPath),
     );
   }
@@ -31,9 +31,7 @@ class LearningPathView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(learningPath.title),
-      ),
+      appBar: AppBar(title: Text(learningPath.title)),
       body: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           return Column(
@@ -79,7 +77,7 @@ class LearningPathView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => CourseScreen(
+                        builder: (_) => CoursesDetailsScreen(
                           playlistId: learningPath.playlistIds.first,
                         ),
                       ),
@@ -132,10 +130,7 @@ class LearningPathView extends StatelessWidget {
                     ),
                     Text(
                       learningPath.description,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
+                      style: const TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   ],
                 ),
@@ -233,7 +228,8 @@ class LearningPathView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => CourseScreen(playlistId: playlistId),
+                    builder: (_) =>
+                        CoursesDetailsScreen(playlistId: playlistId),
                   ),
                 );
               },

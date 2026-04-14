@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class CourseScreen extends StatelessWidget {
+class CoursesDetailsScreen extends StatelessWidget {
   final String playlistId;
 
-  const CourseScreen({super.key, required this.playlistId});
+  const CoursesDetailsScreen({super.key, required this.playlistId});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-
 class VideoModel {
   final String videoId;
   final String title;
@@ -7,6 +6,7 @@ class VideoModel {
   final String channelTitle;
   final int position;
   final int viewCount;
+  final int likeCount;
   final String duration;
 
   VideoModel({
@@ -18,12 +18,12 @@ class VideoModel {
     required this.position,
     this.viewCount = 0,
     this.duration = '',
+    this.likeCount = 0,
   });
 
   factory VideoModel.fromPlaylistItem(Map<String, dynamic> json) {
-    final snippet = json['snippet'];
-    final thumbnails = snippet['thumbnails'];
-
+final snippet = json['snippet'] ?? {};
+final thumbnails = snippet['thumbnails'] ?? {};
     String thumbnail = '';
     if (thumbnails['maxres'] != null) {
       thumbnail = thumbnails['maxres']['url'];
@@ -36,19 +36,18 @@ class VideoModel {
     }
 
     return VideoModel(
-      videoId: snippet['resourceId']['videoId'],
-      title: snippet['title'],
+     videoId: snippet['resourceId']?['videoId'] ?? '',
+      title: snippet['title'] ?? '',
       description: snippet['description'] ?? '',
       thumbnailUrl: thumbnail,
       channelTitle: snippet['videoOwnerChannelTitle'] ?? '',
       position: snippet['position'] ?? 0,
+      
+
     );
   }
 
-  VideoModel copyWith({
-    int? viewCount,
-    String? duration,
-  }) {
+  VideoModel copyWith({int? viewCount, String? duration , int? likeCount}) {
     return VideoModel(
       videoId: videoId,
       title: title,
@@ -58,6 +57,7 @@ class VideoModel {
       position: position,
       viewCount: viewCount ?? this.viewCount,
       duration: duration ?? this.duration,
+      likeCount: likeCount ?? this.likeCount,
     );
   }
 }

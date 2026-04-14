@@ -1,8 +1,8 @@
 import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/screens/course/course_screen.dart';
 import 'package:eduon/screens/courses/courses_screen.dart';
+import 'package:eduon/screens/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -72,8 +72,9 @@ class PopularCoursesSection extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              CourseScreen(playlistId: playlist.playlistId),
+                          builder: (_) => CoursesDetailsScreen(
+                            playlistId: playlist.playlistId,
+                          ),
                         ),
                       );
                     },

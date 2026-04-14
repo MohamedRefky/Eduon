@@ -1,5 +1,3 @@
-
-
 import 'video_model.dart';
 
 class PlaylistModel {
@@ -24,27 +22,27 @@ class PlaylistModel {
   });
 
   factory PlaylistModel.fromJson(Map<String, dynamic> json, String category) {
-    final snippet = json['snippet'];
-    final thumbnails = snippet['thumbnails'];
+    final snippet = json['snippet'] ?? {};
+    final thumbnails = snippet['thumbnails'] ?? {};
 
-    String thumbnail = '';
-    if (thumbnails['maxres'] != null) {
-      thumbnail = thumbnails['maxres']['url'];
-    } else if (thumbnails['high'] != null) {
-      thumbnail = thumbnails['high']['url'];
-    } else if (thumbnails['medium'] != null) {
-      thumbnail = thumbnails['medium']['url'];
-    } else {
-      thumbnail = thumbnails['default']['url'];
-    }
+    String thumbnail =
+        (thumbnails['maxres'] ??
+            thumbnails['high'] ??
+            thumbnails['medium'] ??
+            thumbnails['default'] ??
+            {})['url'] ??
+        '';
 
     return PlaylistModel(
-      playlistId: json['id'],
-      title: snippet['title'],
+      playlistId: json['id'] is String
+          ? json['id']
+          : json['id']?['playlistId'] ?? '',
+
+      title: snippet['title'] ?? 'No Title',
       description: snippet['description'] ?? '',
       thumbnailUrl: thumbnail,
       channelTitle: snippet['channelTitle'] ?? '',
-      videoCount: json['contentDetails']['itemCount'] ?? 0,
+      videoCount: json['contentDetails']?['itemCount'] ?? 0,
       category: category,
     );
   }
