@@ -11,20 +11,26 @@ class CustomContainer extends StatelessWidget {
     required this.onTap,
     this.svgSize,
     required this.svgColor,
+    this.isSelected = false, // ✅ أضيف ده
   });
+
   final String text;
   final String svgPath;
   final double? svgSize;
   final Function() onTap;
   final Color svgColor;
+  final bool isSelected; // ✅ أضيف ده
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.all(AppSizes.h8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          // ✅ لو selected يبقى بلون الـ svg، لو لأ يبقى أبيض
+          color: isSelected ? svgColor : Colors.white,
           borderRadius: BorderRadius.circular(AppSizes.r12),
           boxShadow: [
             BoxShadow(
@@ -45,7 +51,11 @@ class CustomContainer extends StatelessWidget {
                 child: SvgPicture.asset(
                   svgPath,
                   fit: BoxFit.contain,
-                  colorFilter: ColorFilter.mode(svgColor, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    // ✅ لو selected الأيقونة تبقى بيضاء
+                    isSelected ? Colors.white : svgColor,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -53,9 +63,11 @@ class CustomContainer extends StatelessWidget {
             Text(
               text,
               maxLines: 1,
-              style: Theme.of(
-                context,
-              ).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp14),
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                fontSize: AppSizes.sp14,
+                // ✅ لو selected النص يبقى أبيض
+                color: isSelected ? Colors.white : null,
+              ),
             ),
           ],
         ),

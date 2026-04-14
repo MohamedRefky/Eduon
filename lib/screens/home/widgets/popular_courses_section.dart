@@ -10,6 +10,7 @@ import 'package:gap/gap.dart';
 class PopularCoursesSection extends StatelessWidget {
   const PopularCoursesSection({super.key, required this.playlist});
   final dynamic playlist;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CoursesBloc, CoursesState>(
@@ -34,7 +35,7 @@ class PopularCoursesSection extends StatelessWidget {
                     'Popular Courses',
                     style: TextTheme.of(context).displayLarge,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -57,7 +58,6 @@ class PopularCoursesSection extends StatelessWidget {
                   ),
                 ],
               ),
-
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -78,61 +78,100 @@ class PopularCoursesSection extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Container(
+
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: AppSizes.h80,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSizes.r12),
-                            child: Image.network(
-                              playlist.thumbnailUrl,
-                              height: AppSizes.h80,
-                              width: AppSizes.h120,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          Gap(AppSizes.w10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  playlist.title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextTheme.of(context).displayMedium,
-                                ),
-                                Gap(AppSizes.h6),
-                                Text(
-                                  playlist.channelTitle,
-                                  style: TextTheme.of(context).displaySmall,
-                                ),
-                                Gap(AppSizes.h4),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.menu_book,
-                                      color: Color(0xFF334155),
-                                      size: AppSizes.sp16,
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppSizes.r12),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(AppSizes.r12),
+                              child: Image.network(
+                                playlist.thumbnailUrl,
+                                height: AppSizes.h90,
+                                width: AppSizes.h120,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    height: AppSizes.h90,
+                                    width: AppSizes.h120,
+                                    color: Colors.grey[300],
+                                    child: const Icon(
+                                      Icons.image_not_supported,
                                     ),
-                                    Gap(AppSizes.w4),
-                                    Text(
-                                      'Lessons ${playlist.videoCount}',
-                                      style: TextTheme.of(context).displaySmall,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                            Gap(AppSizes.w8),
+
+                            Expanded(
+                              child: SingleChildScrollView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppSizes.h6,
+                                    horizontal: AppSizes.h4,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+
+                                    children: [
+                                      Text(
+                                        playlist.title,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextTheme.of(
+                                          context,
+                                        ).displayMedium?.copyWith(height: 1.1),
+                                      ),
+                                      Gap(AppSizes.h4),
+                                      Text(
+                                        playlist.channelTitle,
+                                        maxLines: 1,
+
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextTheme.of(
+                                          context,
+                                        ).displaySmall,
+                                      ),
+                                      Gap(AppSizes.h4),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.menu_book,
+                                            color: const Color(0xFF334155),
+                                            size: AppSizes.sp14,
+                                          ),
+                                          Gap(AppSizes.w2),
+                                          Flexible(
+                                            child: Text(
+                                              'Lessons ${playlist.videoCount}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextTheme.of(
+                                                context,
+                                              ).displaySmall,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Gap(AppSizes.w4),
+                          ],
+                        ),
                       ),
                     ),
                   );

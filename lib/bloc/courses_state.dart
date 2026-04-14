@@ -5,6 +5,9 @@ class CoursesState {
   final List<CategoryModel> categories;
   final List<PlaylistModel> popularCourses;
   final PlaylistModel? selectedPlaylist;
+  final List<PlaylistModel> allPlaylists;
+  final List<PlaylistModel> filteredPlaylists;
+  final String searchQuery;
   final bool isCategoriesLoading;
   final bool isPopularLoading;
   final bool isPlaylistLoading;
@@ -18,6 +21,9 @@ class CoursesState {
     this.isPopularLoading = false,
     this.isPlaylistLoading = false,
     this.errorMessage,
+    this.searchQuery = '',
+    this.allPlaylists = const [],
+    this.filteredPlaylists = const [],
   });
 
   CoursesState copyWith({
@@ -28,6 +34,9 @@ class CoursesState {
     bool? isPopularLoading,
     bool? isPlaylistLoading,
     String? errorMessage,
+    List<PlaylistModel>? allPlaylists,
+    List<PlaylistModel>? filteredPlaylists,
+    String? searchQuery,
   }) {
     return CoursesState(
       categories: categories ?? this.categories,
@@ -37,6 +46,9 @@ class CoursesState {
       isPopularLoading: isPopularLoading ?? this.isPopularLoading,
       isPlaylistLoading: isPlaylistLoading ?? this.isPlaylistLoading,
       errorMessage: errorMessage,
+      allPlaylists: allPlaylists ?? this.allPlaylists,
+      filteredPlaylists: filteredPlaylists ?? this.filteredPlaylists,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }

@@ -10,3 +10,8 @@ class GetPlaylistVideosEvent extends CoursesEvent {
 }
 
 class GetPopularCoursesEvent extends CoursesEvent {}
+class SearchPlaylistsEvent extends CoursesEvent {
+  final String query;
+
+  SearchPlaylistsEvent(this.query);
+}

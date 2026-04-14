@@ -4,12 +4,11 @@ class ApiConstants {
 
   static const Map<String, List<String>> categoryPlaylists = {
     'Tech': [
-    
-      'PLDoPjvoNmBAzhFD3niPAa1C1gXG4cs14J',  // HTML 2
-      'PLDoPjvoNmBAzjsz06gkzlSrlev53MGIKe',  // CSS
-      'PLDoPjvoNmBAzLyvrWPwMw6bbBlTwPxgLF',  // JavaScript OOP
-      'PLDoPjvoNmBAz7wegzgoJvVJdr-WwE5Pwt',  // C++ Functions
-      'PLDoPjvoNmBAyX4CCOP--TR36SfD5g7gru',  // C++ Problem Solving
+      'PLDoPjvoNmBAzhFD3niPAa1C1gXG4cs14J', // HTML 2
+      'PLDoPjvoNmBAzjsz06gkzlSrlev53MGIKe', // CSS
+      'PLDoPjvoNmBAzLyvrWPwMw6bbBlTwPxgLF', // JavaScript OOP
+      'PLDoPjvoNmBAz7wegzgoJvVJdr-WwE5Pwt', // C++ Functions
+      'PLDoPjvoNmBAyX4CCOP--TR36SfD5g7gru', // C++ Problem Solving
       'PLDoPjvoNmBAw_t_XWUFbBX-c9MafPk9ji', // Elzero HTML
       'PLDoPjvoNmBAzHSjcR-HnW9tnxyuye8KbF', // Elzero CSS
       'PLDoPjvoNmBAx3kiplQR_oeDqLDBUDYwVv', // Elzero JS
@@ -20,17 +19,29 @@ class ApiConstants {
     ],
     'Design': [
       'PLjzhiGLyugKwnM6uN4NXhfpU8L7XvtDEv',
-         'PLDyQo7g0_nsX8_gZAB8KD1lL4j4halQBJ', // Figma Tutorial
+      'PLDyQo7g0_nsX8_gZAB8KD1lL4j4halQBJ', // Figma Tutorial
       'PLpQQipWcxwt9U7qgyYkvNH3Mp8XHXCMmQ', // UI/UX Design
+      'PL0lNJEnwfVVOQ8qKmLoT7tLdTDKhEDzmG', // UI/UX Design
+      'PLmQ0KfqeaHAuud_Aav-94nfToArf6Uh4K', // UI/UX Design
+      'PL1h8Fv-RGaUJJdI0JS6I9eE49kXFxbQwJ', // UI/UX Design
+      'PL46oPSW-1dJocf6ILQW2GAsmwGoa85pzP', // UI/UX Design
+      'PLPKlKj-O4T-WX6X0PwwCIdEcUReL1Nrq8', // UI/UX Design
+      'PLsH_0SbzxwhEizhQxg8-J3MVvxIwNQyjy', // UI/UX Design
+      'PLiwfne4PXRuFoKOlhGoZccpq79vN1UH0e', // UI/UX Design
+      'PLRApDqMC8bRlgBpMZd-8AJeDo_G5CafwD', // UI/UX Design
     ],
     'Business': [
       'PL1O57nCUQ-e-OVRFdIB-Gu1U91yH7egmm',
-       'PLrwW6euLXbSPNlIgR0u80pIu4nMvSGPrm', // Marketing
+      'PLrwW6euLXbSPNlIgR0u80pIu4nMvSGPrm', // Marketing
       'PLUl4u3cNGP63UUkfL0onkxF6MYgVa04Fn', // MIT Entrepreneurship
+      "PLb2l66-lkbaGLF0krEfIsHxkdqptgOLBD", // Business Strategy
     ],
     'Soft Skills': [
       'PLiY-jf8J2Mplc6151KJnXdzFYT9LO5Drs',
       'PLH-H0QRd3fYdIQD_jz9WJSkEBNZfoYFSz', // Communication Skills
+      'PLqGEgt_8f5gTvVdZK6zIiQ6xCA_2RkQlM'
+          'PLkYwapokNFE-h-QVVM8sSaUz3ouGxUqgH',
+      'PLWPirh4EWFpFIElSxplDlEhRDZHkBD-0n',
     ],
   };
 }

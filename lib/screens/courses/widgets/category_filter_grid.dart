@@ -35,12 +35,13 @@ class CategoryFilterGrid extends StatelessWidget {
 
   static const List<Map<String, dynamic>> _categories = [
     {'name': 'All', 'svg': 'assets/svg/all_courses.svg', 'color': Colors.black},
-    {'name': 'Tech', 'svg': 'assets/svg/tech.svg', 'color': Color(0xFF00675C)},
     {
       'name': 'Design',
       'svg': 'assets/svg/design.svg',
       'color': Color(0xFF702AE1),
     },
+    {'name': 'Tech', 'svg': 'assets/svg/tech.svg', 'color': Color(0xFF00675C)},
+
     {
       'name': 'Soft Skills',
       'svg': 'assets/svg/soft_skills.svg',
@@ -52,7 +53,7 @@ class CategoryFilterGrid extends StatelessWidget {
       'color': Color(0xFF00647B),
     },
   ];
-  Widget _buildCategoryItem(String name, String svgPath, Color svgColor) {
+  Widget _buildCategoryItem(String name, String svgPath, Color svgColor ) {
     final isSelected = selectedCategory == name;
     return AnimatedScale(
       scale: isSelected ? 1.1 : 1.0,
@@ -63,6 +64,7 @@ class CategoryFilterGrid extends StatelessWidget {
         text: name,
         svgPath: svgPath,
         onTap: () => onCategoryTap(name),
+        isSelected: isSelected,
       ),
     );
   }
