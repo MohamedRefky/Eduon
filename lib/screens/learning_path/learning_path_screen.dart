@@ -112,10 +112,6 @@ class LearningPathView extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Text(
-              //   learningPath.icon,
-              //   style: const TextStyle(fontSize: 40),
-              // ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

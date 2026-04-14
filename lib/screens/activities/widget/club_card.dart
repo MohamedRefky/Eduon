@@ -1,0 +1,128 @@
+import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
+
+class ClubCardWidget extends StatelessWidget {
+  const ClubCardWidget({super.key, required this.club});
+  final Map<String, dynamic> club;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: AppSizes.h16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppSizes.r15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image Placeholder
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(AppSizes.r15),
+              topRight: Radius.circular(AppSizes.r15),
+            ),
+            child: Image.asset(
+              club['image'] as String,
+              height: AppSizes.h160,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: AppSizes.h160,
+                  width: double.infinity,
+                  color: club['color'] as Color,
+                  child: const Icon(
+                    Icons.image_not_supported,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.all(AppSizes.h12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      club['svg'] as String,
+                      width: AppSizes.sp16,
+                      height: AppSizes.sp16,
+                      fit: BoxFit.contain,
+                    ),
+                    Gap(AppSizes.w8),
+                    Expanded(
+                      child: Text(
+                        club['name'] as String,
+                        style: TextTheme.of(
+                          context,
+                        ).displayMedium?.copyWith(fontSize: AppSizes.sp15),
+                      ),
+                    ),
+                  ],
+                ),
+                Gap(AppSizes.h8),
+                Text(
+                  club['description'] as String,
+                  style: TextTheme.of(context).displaySmall?.copyWith(
+                    fontSize: AppSizes.sp12,
+                    height: 1.5,
+                  ),
+                ),
+                Gap(AppSizes.h4),
+                Text(
+                  club['tag'] as String,
+                  style: TextTheme.of(context).displaySmall?.copyWith(
+                    fontSize: AppSizes.sp12,
+                    color: Colors.grey,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                Gap(AppSizes.h12),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    height: AppSizes.h35,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF334155),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppSizes.r8),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: AppSizes.w24),
+                      ),
+                      child: Text(
+                        'Join',
+                        style: TextTheme.of(context).displaySmall?.copyWith(
+                          color: Colors.white,
+                          fontSize: AppSizes.sp14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
