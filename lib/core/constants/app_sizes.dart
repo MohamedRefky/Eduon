@@ -12,6 +12,7 @@ class AppSizes {
   static final double sp22 = 22.sp;
   static final double sp24 = 24.sp;
   static final double sp28 = 28.sp;
+  static final double sp30 = 30.sp;
   static final double sp32 = 32.sp;
   static final double sp34 = 34.sp;
 
@@ -62,6 +63,7 @@ class AppSizes {
   static final double w42 = 42.w;
   static final double w45 = 45.w;
   static final double w48 = 48.w;
+  static final double w70 = 70.w;
   static final double w130 = 130.w;
   static final double w150 = 150.w;
   static final double w160 = 160.w;

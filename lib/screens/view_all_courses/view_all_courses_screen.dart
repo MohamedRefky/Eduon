@@ -5,6 +5,7 @@ import 'package:eduon/core/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
@@ -46,8 +47,8 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
           final filteredCourses = _selectedCategory == 'All'
               ? allCourses
               : allCourses
-                  .where((p) => p.category == _selectedCategory)
-                  .toList();
+                    .where((p) => p.category == _selectedCategory)
+                    .toList();
 
           return CustomScrollView(
             slivers: [
@@ -61,7 +62,6 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
                       Gap(AppSizes.h16),
                       const SearchFieldWidget(),
                       Gap(AppSizes.h16),
-
                       // Category Filter (Business - Design - Tech - Soft Skills)
                       CategoryFilterGrid(
                         selectedCategory: _selectedCategory,
@@ -91,11 +91,16 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Icon(Icons.school_outlined,
-                                size: 64, color: Colors.grey),
+                            Icon(
+                              Icons.school_outlined,
+                              size: 64,
+                              color: Colors.grey,
+                            ),
                             SizedBox(height: 16),
-                            Text('No courses found',
-                                style: TextStyle(color: Colors.grey)),
+                            Text(
+                              'No courses found',
+                              style: TextStyle(color: Colors.grey),
+                            ),
                           ],
                         ),
                       ),
@@ -103,21 +108,20 @@ class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
                   : SliverPadding(
                       padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
                       sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                bottom: index == filteredCourses.length - 1
-                                    ? AppSizes.h16
-                                    : AppSizes.h12,
-                              ),
-                              child: CourseItem(
-                                playlist: filteredCourses[index],
-                              ),
-                            );
-                          },
-                          childCount: filteredCourses.length,
-                        ),
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index == filteredCourses.length - 1
+                                  ? AppSizes.h16
+                                  : AppSizes.h12,
+                            ),
+                            child: Column(
+                              children: [
+                                CourseItem(playlist: filteredCourses[index]),
+                              ],
+                            ),
+                          );
+                        }, childCount: filteredCourses.length),
                       ),
                     ),
             ],

@@ -1,7 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/screens/view_all_courses/widgets/custom_container.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class CategoryFilterGrid extends StatelessWidget {
   final String selectedCategory;
@@ -15,38 +14,38 @@ class CategoryFilterGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Wrap(
+      spacing: AppSizes.w8,
+      runSpacing: AppSizes.h8,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildCategoryItem(
-              'Business',
-              'assets/svg/business.svg',
-              const Color(0xFFa8d7e8),
-            ),
-            _buildCategoryItem(
-              'Design',
-              'assets/svg/design.svg',
-              const Color(0xFFadbbcc),
-            ),
-          ],
+        _buildCategoryItem(
+          'All',
+          'assets/svg/all_courses.svg',
+
+          const Color(0xFFa8d7e8),
         ),
-        Gap(AppSizes.h12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildCategoryItem(
-              'Tech',
-              'assets/svg/tech.svg',
-              const Color(0xFFacc4cb),
-            ),
-            _buildCategoryItem(
-              'Soft Skills',
-              'assets/svg/soft_skills.svg',
-              const Color(0xFF7ab8de),
-            ),
-          ],
+        _buildCategoryItem(
+          'Business',
+          'assets/svg/business.svg',
+          const Color(0xFFa8d7e8),
+        ),
+
+        _buildCategoryItem(
+          'Design',
+          'assets/svg/design.svg',
+          const Color(0xFFadbbcc),
+        ),
+
+        _buildCategoryItem(
+          'Tech',
+          'assets/svg/tech.svg',
+          const Color(0xFFacc4cb),
+        ),
+
+        _buildCategoryItem(
+          'Soft Skills',
+          'assets/svg/soft_skills.svg',
+          const Color(0xFF7ab8de),
         ),
       ],
     );
