@@ -40,7 +40,7 @@ class CourseItem extends StatelessWidget {
                 playlist.thumbnailUrl,
                 height: AppSizes.h100,
                 width: AppSizes.h120,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
             Gap(AppSizes.w10),

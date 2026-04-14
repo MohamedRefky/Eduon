@@ -5,21 +5,20 @@ import 'package:eduon/core/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
 import 'widgets/header_section.dart';
 import 'widgets/search_field_widget.dart';
 
-class ViewAllCoursesScreen extends StatefulWidget {
-  const ViewAllCoursesScreen({super.key});
+class CoursesScreen extends StatefulWidget {
+  const CoursesScreen({super.key});
 
   @override
-  State<ViewAllCoursesScreen> createState() => _ViewAllCoursesScreenState();
+  State<CoursesScreen> createState() => _CoursesScreenState();
 }
 
-class _ViewAllCoursesScreenState extends State<ViewAllCoursesScreen> {
+class _CoursesScreenState extends State<CoursesScreen> {
   String _selectedCategory = 'All';
 
   void _onCategoryTap(String category) {

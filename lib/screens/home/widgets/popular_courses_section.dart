@@ -2,7 +2,7 @@ import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/screens/course/course_screen.dart';
-import 'package:eduon/screens/view_all_courses/view_all_courses_screen.dart';
+import 'package:eduon/screens/courses/courses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -42,7 +42,7 @@ class PopularCoursesSection extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
                             value: context.read<CoursesBloc>(),
-                            child: const ViewAllCoursesScreen(),
+                            child: const CoursesScreen(),
                           ),
                         ),
                       );

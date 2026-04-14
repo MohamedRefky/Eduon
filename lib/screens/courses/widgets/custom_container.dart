@@ -8,47 +8,51 @@ class CustomContainer extends StatelessWidget {
     super.key,
     required this.text,
     required this.svgPath,
-    required this.containerColor,
     required this.onTap,
-    this.svgColor,
     this.svgSize,
+    required this.svgColor,
   });
   final String text;
   final String svgPath;
-  final Color? svgColor;
   final double? svgSize;
-  final Color containerColor;
   final Function() onTap;
+  final Color svgColor;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        //width: AppSizes.w70,
         padding: EdgeInsets.all(AppSizes.h8),
         decoration: BoxDecoration(
-          color: containerColor,
-          borderRadius: BorderRadius.circular(AppSizes.r4),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppSizes.r12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.20),
-              blurRadius: 20,
-              offset: const Offset(0, 4),
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SvgPicture.asset(svgPath, height: AppSizes.h16),
+            ClipRRect(
+              child: SizedBox(
+                height: AppSizes.h16,
+                width: AppSizes.h16,
+                child: SvgPicture.asset(
+                  svgPath,
+                  fit: BoxFit.contain,
+                  colorFilter: ColorFilter.mode(svgColor, BlendMode.srcIn),
+                ),
+              ),
+            ),
             Gap(AppSizes.h4),
             Text(
               text,
-              textAlign: TextAlign.center,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
               style: Theme.of(
                 context,
               ).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp14),
