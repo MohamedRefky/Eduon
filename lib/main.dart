@@ -4,9 +4,13 @@ import 'package:eduon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'core/service/prefrances_maneger.dart';
 
-void main() {
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PrefrancesManeger().init();
   ThemesController.init();
   runApp(const MyApp());
 }
@@ -24,6 +28,7 @@ class MyApp extends StatelessWidget {
           valueListenable: ThemesController.themeNotifier,
           builder: (context, ThemeMode currentMode, child) {
             return MaterialApp(
+              navigatorObservers: [routeObserver],
               debugShowCheckedModeBanner: false,
               theme: lightTheme,
               //darkTheme: darkTheme,

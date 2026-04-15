@@ -106,7 +106,7 @@ class LearningPathView extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      color: Colors.deepPurple.withOpacity(0.1),
+      color: Colors.deepPurple.withValues(alpha: 0.1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -209,7 +209,7 @@ class LearningPathView extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: Colors.deepPurple.withOpacity(0.3),
+                    color: Colors.deepPurple.withValues(alpha: 0.3),
                   ),
                 ),
             ],
@@ -236,7 +236,7 @@ class LearningPathView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.grey.withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

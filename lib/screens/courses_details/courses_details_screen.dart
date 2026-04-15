@@ -2,6 +2,7 @@ import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_event.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/models/video_model.dart';
+import 'package:eduon/core/service/video_progress_service.dart'; // ✅ أضف
 import 'package:eduon/repository/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,10 @@ class _CourseViewState extends State<CourseView> {
   int _currentIndex = 0;
   bool _isPlayerReady = false;
   List<VideoModel> _videos = [];
+  bool _hasMarkedAsWatched = false;
+
+  // ✅ أضف VideoProgressService
+  final VideoProgressService _progressService = VideoProgressService();
 
   void _initPlayer(String videoId) {
     _controller?.dispose();
@@ -49,14 +54,87 @@ class _CourseViewState extends State<CourseView> {
   }
 
   void _listener() {
-    if (_isPlayerReady && mounted) {
+    if (_isPlayerReady && mounted && _controller != null) {
+      final position = _controller!.value.position;
+      final duration = _controller!.metadata.duration;
+
+      // ✅ حفظ التقدم كل 5 ثواني
+      if (position.inSeconds % 5 == 0 && position.inSeconds > 0) {
+        _saveProgress(position.inSeconds, duration.inSeconds);
+      }
+
+      // ✅ إذا وصل 90%، احفظه كمكتمل
+      if (!_hasMarkedAsWatched &&
+          duration.inSeconds > 0 &&
+          (position.inSeconds / duration.inSeconds) >= 0.9) {
+        _markAsWatched();
+      }
+
       setState(() {});
+    }
+  }
+
+  // ✅ حفظ التقدم
+  Future<void> _saveProgress(int position, int duration) async {
+    final playlistId = context
+        .read<CoursesBloc>()
+        .state
+        .selectedPlaylist
+        ?.playlistId;
+    if (playlistId == null || _videos.isEmpty) return;
+
+    await _progressService.saveVideoPosition(
+      _videos[_currentIndex].videoId,
+      position,
+      duration,
+    );
+  }
+
+  // ✅ تحديد الفيديو كمكتمل
+  Future<void> _markAsWatched() async {
+    final playlist = context.read<CoursesBloc>().state.selectedPlaylist;
+    if (playlist == null || _videos.isEmpty) return;
+
+    _hasMarkedAsWatched = true;
+
+    // حفظ معلومات الكورس
+    await _progressService.saveCourseInfo(
+      playlist.playlistId,
+      playlist.title,
+      _videos.length,
+      playlist.thumbnailUrl,
+    );
+
+    // إضافة للكورسات النشطة
+    await _progressService.addToActiveCourses(playlist.playlistId);
+
+    // تحديد الفيديو كمكتمل
+    await _progressService.markAsWatched(
+      playlist.playlistId,
+      _videos[_currentIndex].videoId,
+    );
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.white),
+              SizedBox(width: 8),
+              Text('✅ Video completed!'),
+            ],
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.green,
+        ),
+      );
     }
   }
 
   void _playVideo(int index) {
     setState(() {
       _currentIndex = index;
+      _hasMarkedAsWatched = false; // ✅ إعادة تعيين
     });
     _controller?.load(_videos[index].videoId);
   }
@@ -75,6 +153,13 @@ class _CourseViewState extends State<CourseView> {
 
   @override
   void deactivate() {
+    // ✅ حفظ الموضع عند الخروج
+    if (_controller != null && _videos.isNotEmpty) {
+      final position = _controller!.value.position;
+      final duration = _controller!.metadata.duration;
+      _saveProgress(position.inSeconds, duration.inSeconds);
+    }
+
     _controller?.pause();
     super.deactivate();
   }
@@ -89,12 +174,23 @@ class _CourseViewState extends State<CourseView> {
   Widget build(BuildContext context) {
     return BlocBuilder<CoursesBloc, CoursesState>(
       builder: (context, state) {
-        // لو الـ Videos اتحملت للأول مرة
+        // ✅ تهيئة معلومات الكورس
         if (state.selectedPlaylist != null &&
             state.selectedPlaylist!.videos.isNotEmpty &&
             _videos.isEmpty) {
           _videos = state.selectedPlaylist!.videos;
           _initPlayer(_videos[0].videoId);
+
+          // ✅ حفظ معلومات الكورس عند التحميل
+          _progressService.saveCourseInfo(
+            state.selectedPlaylist!.playlistId,
+            state.selectedPlaylist!.title,
+            _videos.length,
+            state.selectedPlaylist!.thumbnailUrl,
+          );
+          _progressService.addToActiveCourses(
+            state.selectedPlaylist!.playlistId,
+          );
         }
 
         return YoutubePlayerBuilder(
@@ -116,7 +212,9 @@ class _CourseViewState extends State<CourseView> {
           ),
           builder: (context, player) {
             return Scaffold(
-              appBar: AppBar(title: const Text('Course Details')),
+              appBar: AppBar(
+                title: Text(state.selectedPlaylist?.title ?? 'Course Details'),
+              ),
               body: Column(
                 children: [
                   // Loading
@@ -126,13 +224,11 @@ class _CourseViewState extends State<CourseView> {
                       child: Center(child: CircularProgressIndicator()),
                     )
                   else if (_videos.isNotEmpty)
-                    // Video Player مع الـ Overlay Buttons
                     Stack(
                       children: [
-                        // Player
                         player,
 
-                        // Previous Button على الشمال
+                        // Previous Button
                         Positioned(
                           left: 8,
                           top: 0,
@@ -143,7 +239,7 @@ class _CourseViewState extends State<CourseView> {
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Colors.black.withValues(alpha: 0.5),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Icon(
@@ -158,7 +254,7 @@ class _CourseViewState extends State<CourseView> {
                           ),
                         ),
 
-                        // Next Button على اليمين
+                        // Next Button
                         Positioned(
                           right: 8,
                           top: 0,
@@ -171,7 +267,7 @@ class _CourseViewState extends State<CourseView> {
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Colors.black.withValues(alpha: 0.5),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Icon(
@@ -186,7 +282,7 @@ class _CourseViewState extends State<CourseView> {
                           ),
                         ),
 
-                        // Video Title فوق
+                        // Video Title
                         Positioned(
                           top: 8,
                           left: 50,
@@ -197,7 +293,7 @@ class _CourseViewState extends State<CourseView> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -231,7 +327,7 @@ class _CourseViewState extends State<CourseView> {
                               return ListTile(
                                 onTap: () => _playVideo(index),
                                 tileColor: isPlaying
-                                    ? Colors.deepPurple.withOpacity(0.1)
+                                    ? Colors.deepPurple.withValues(alpha: 0.1)
                                     : null,
                                 leading: Stack(
                                   alignment: Alignment.center,
@@ -250,7 +346,9 @@ class _CourseViewState extends State<CourseView> {
                                         width: 80,
                                         height: 60,
                                         decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: Colors.black.withValues(
+                                            alpha: 0.5,
+                                          ),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
