@@ -15,7 +15,6 @@ class StudentGuideSection extends StatelessWidget {
         vertical: AppSizes.h8,
       ),
       width: double.infinity,
-      height: AppSizes.h125,
       decoration: BoxDecoration(
         color: const Color(0xFF475569),
         borderRadius: BorderRadius.circular(AppSizes.r12),

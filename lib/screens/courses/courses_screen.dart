@@ -1,10 +1,11 @@
 import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/widgets/custom_app_bar.dart';
+import 'package:eduon/core/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
@@ -30,7 +31,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: const CustomHeader(),
       body: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           if (state.isCategoriesLoading) {
@@ -89,11 +90,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.search_off,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
+                        Icon(Icons.search_off, size: 64, color: Colors.grey),
                         SizedBox(height: 16),
                         Text(
                           'No results found',
@@ -103,7 +100,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     ),
                   ),
                 )
-
               // ✅ لو الفلتر مفيش نتايج
               else if (filteredCourses.isEmpty)
                 const SliverFillRemaining(
@@ -126,25 +122,21 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     ),
                   ),
                 )
-
               // ✅ عرض الكورسات
               else
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: index == filteredCourses.length - 1
-                                ? AppSizes.h16
-                                : AppSizes.h12,
-                          ),
-                          child: CourseItem(playlist: filteredCourses[index]),
-                        );
-                      },
-                      childCount: filteredCourses.length,
-                    ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == filteredCourses.length - 1
+                              ? AppSizes.h16
+                              : AppSizes.h12,
+                        ),
+                        child: CourseItem(playlist: filteredCourses[index]),
+                      );
+                    }, childCount: filteredCourses.length),
                   ),
                 ),
             ],

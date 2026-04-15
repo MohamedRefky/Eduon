@@ -14,10 +14,10 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   late final List<Widget> screens;
@@ -31,10 +31,12 @@ class _MainScreenState extends State<MainScreen> {
       CoursesScreen(),
       EdoneAiScreeen(),
       ActivitiesScreen(),
-      ProfileScreeen(),
+      ProfileScreen(),
     ];
   }
-
+  void changeTab(int index) {
+    setState(() => _currentIndex = index);
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -48,9 +50,8 @@ class _MainScreenState extends State<MainScreen> {
 
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() => _currentIndex = index);
-          },
+           onTap: changeTab,
+         
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(

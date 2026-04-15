@@ -7,22 +7,27 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xFFd2dae3),
   fontFamily: "PlusJakartaSans",
 
-  // appBarTheme: AppBarTheme(
-  //   backgroundColor: Color(0xFFF6F7F9),
-  //   centerTitle: true,
-  //   titleTextStyle: TextStyle(
-  //     color: Color(0xFF161F1B),
-  //     fontSize: AppSizes.sp20,
-  //   ),
-  //   iconTheme: IconThemeData(color: Color(0xFF161F1B)),
-  // ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Color(0xFFd2dae3),
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: TextStyle(
+      color: Color(0xFF0F172A),
+      fontSize: AppSizes.sp20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'PlusJakartaSans',
+    ),
+    iconTheme: IconThemeData(color: Color(0xFF0F172A)),
+  ),
+
   // colorScheme: ColorScheme.light(
   //   primaryContainer: Color(0xFFFFFFFF),
   //   secondary: Color(0xFF3A4640),
   // ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(foregroundColor: Colors.black),
-  ),
+
+  // textButtonTheme: TextButtonThemeData(
+  //   style: TextButton.styleFrom(foregroundColor: Colors.black),
+  // ),
 
   // elevatedButtonTheme: ElevatedButtonThemeData(
   //   style: ElevatedButton.styleFrom(

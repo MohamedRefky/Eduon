@@ -1,6 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/screens/activities/constants/activities_constants.dart';
 import 'package:eduon/screens/activities/widget/club_card.dart';
+import 'package:eduon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -11,21 +12,17 @@ class ActivitiesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const MainScreen()),
+              (route) => false,
+            );
+          },
           child: Icon(Icons.arrow_back, size: AppSizes.sp24),
         ),
-        title: Text(
-          'students Activities',
-          style: TextTheme.of(context).titleSmall?.copyWith(
-            color: Color(0xFF0F172A),
-            fontSize: AppSizes.sp18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: const Text('Students Activities'),
       ),
       body: ListView(
         padding: EdgeInsets.all(AppSizes.h16),

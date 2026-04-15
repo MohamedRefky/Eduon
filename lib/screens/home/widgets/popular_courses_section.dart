@@ -1,8 +1,8 @@
 import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/screens/courses/courses_screen.dart';
 import 'package:eduon/screens/courses_details/courses_details_screen.dart';
+import 'package:eduon/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -38,15 +38,11 @@ class PopularCoursesSection extends StatelessWidget {
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BlocProvider.value(
-                            value: context.read<CoursesBloc>(),
-                            child: const CoursesScreen(),
-                          ),
-                        ),
-                      );
+                      final mainScreenState = context
+                          .findAncestorStateOfType<MainScreenState>();
+                      if (mainScreenState != null) {
+                        mainScreenState.changeTab(1);
+                      }
                     },
                     child: Text(
                       'View all',

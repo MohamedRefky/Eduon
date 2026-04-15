@@ -9,14 +9,11 @@ class StudentGuideScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(Icons.arrow_back, size: AppSizes.sp24),
         ),
-        title: Text('Student Guide', style: TextTheme.of(context).displayLarge),
+        title: Text('Student Guide'),
       ),
       body: ListView(
         padding: EdgeInsets.all(AppSizes.h16),
