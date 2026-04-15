@@ -56,6 +56,7 @@ ThemeData lightTheme = ThemeData(
   //   ),
   // ),
   textTheme: TextTheme(
+    
     displayLarge: TextStyle(
       color: Colors.black,
       fontSize: AppSizes.sp20,
