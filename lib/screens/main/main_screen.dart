@@ -3,7 +3,7 @@ import 'package:eduon/bloc/courses_event.dart';
 import 'package:eduon/repository/course_repository.dart';
 import 'package:eduon/screens/activities/Activities_screen.dart';
 import 'package:eduon/screens/courses/courses_screen.dart';
-import 'package:eduon/screens/eduon_aI/edone_ai_screeen.dart';
+import 'package:eduon/screens/eduon_aI/screen/edone_ai_screeen.dart';
 import 'package:eduon/screens/home/home_screen.dart';
 import 'package:eduon/screens/profile/profile_screeen.dart';
 import 'package:flutter/material.dart';

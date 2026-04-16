@@ -13,7 +13,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () {
             Navigator.pushAndRemoveUntil(
@@ -22,15 +21,9 @@ class ProfileScreen extends StatelessWidget {
               (route) => false,
             );
           },
-          child: Icon(Icons.arrow_back, size: AppSizes.sp24),
+          child: Icon(Icons.arrow_back),
         ),
         title: const Text('My Profile'),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: AppSizes.w16),
-            child: Icon(Icons.settings_outlined, size: AppSizes.sp24),
-          ),
-        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(AppSizes.h16),

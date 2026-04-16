@@ -20,7 +20,7 @@ class ActivitiesScreen extends StatelessWidget {
               (route) => false,
             );
           },
-          child: Icon(Icons.arrow_back, size: AppSizes.sp24),
+          child: Icon(Icons.arrow_back),
         ),
         title: const Text('Students Activities'),
       ),

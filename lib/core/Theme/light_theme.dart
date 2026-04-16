@@ -17,6 +17,7 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w600,
       fontFamily: 'PlusJakartaSans',
     ),
+
     iconTheme: IconThemeData(color: Color(0xFF0F172A)),
   ),
 
@@ -56,7 +57,6 @@ ThemeData lightTheme = ThemeData(
   //   ),
   // ),
   textTheme: TextTheme(
-    
     displayLarge: TextStyle(
       color: Colors.black,
       fontSize: AppSizes.sp20,
@@ -151,6 +151,12 @@ ThemeData lightTheme = ThemeData(
       fontFamily: "PlusJakartaSans",
     ),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
+      splashFactory: NoSplash.splashFactory,
+    ),
+  ),
 
   // iconTheme: IconThemeData(color: Color(0xFF161F1B), size: AppSizes.sp24),
   // dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
@@ -174,7 +180,6 @@ ThemeData lightTheme = ThemeData(
   //   unselectedItemColor: Color(0xFF3A4640),
   //   type: BottomNavigationBarType.fixed,
   // ),
-  splashFactory: NoSplash.splashFactory,
   popupMenuTheme: PopupMenuThemeData(
     color: Color(0xFFF6F7F9),
     shape: RoundedRectangleBorder(
