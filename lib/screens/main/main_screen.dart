@@ -29,7 +29,7 @@ class MainScreenState extends State<MainScreen> {
     screens = [
       HomeScreen(),
       CoursesScreen(),
-      EdoneAiScreeen(),
+      EdoneAiScreen(),
       ActivitiesScreen(),
       ProfileScreen(),
     ];

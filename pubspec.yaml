@@ -9,14 +9,18 @@ environment:
 dependencies:
   bloc: ^9.2.0
   cached_network_image: ^3.4.1
+  chat_gpt_sdk: ^3.1.5
+  dash_chat_2: ^0.0.21
   dio: ^5.9.2
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_dotenv: ^6.0.0
   flutter_inappwebview: ^6.1.5
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.4
   gap: ^3.0.1
+  google_generative_ai: ^0.4.7
   shared_preferences: ^2.5.5
   url_launcher: ^6.3.2
   youtube_player_flutter: ^9.1.3
