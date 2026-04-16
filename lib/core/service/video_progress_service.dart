@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'prefrances_maneger.dart';
 
 class VideoProgressService {

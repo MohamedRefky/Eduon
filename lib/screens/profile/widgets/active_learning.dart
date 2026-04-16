@@ -117,7 +117,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
     return Container(
       padding: EdgeInsets.all(AppSizes.h12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFd2dae3),
         borderRadius: BorderRadius.circular(AppSizes.r12),
         boxShadow: [
           BoxShadow(
@@ -136,7 +136,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
                     thumbnailUrl,
                     width: AppSizes.h56,
                     height: AppSizes.h56,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) {
                       return _buildDefaultIcon();
                     },

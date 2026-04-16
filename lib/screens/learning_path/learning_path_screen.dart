@@ -84,7 +84,7 @@ class LearningPathView extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.play_arrow),
-                  label: const Text('ابدأ من الأول'),
+                  label: const Text('Start Now'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
