@@ -12,6 +12,7 @@ dependencies:
   chat_gpt_sdk: ^3.1.5
   dash_chat_2: ^0.0.21
   dio: ^5.9.2
+  equatable: ^2.0.8
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1

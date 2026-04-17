@@ -1,6 +1,6 @@
 import 'package:eduon/core/Theme/light_theme.dart';
 import 'package:eduon/core/Theme/themes_controller.dart';
-import 'package:eduon/screens/main/main_screen.dart';
+import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
