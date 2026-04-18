@@ -1,15 +1,22 @@
-import 'package:eduon/core/service/video_progress_service.dart';
+import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'cubit/video_cubit.dart';
+import 'cubit/video_state.dart';
+import 'widgets/open_in_youtube_button.dart';
+import 'widgets/video_details_section.dart';
+import 'widgets/video_time_row.dart';
 
-class VideoScreen extends StatefulWidget {
+class VideoScreen extends StatelessWidget {
   final String videoId;
   final String title;
-  final String playlistId; // ✅ أضف
-  final String playlistTitle; // ✅ أضف
-  final int totalVideos; // ✅ أضف
-  final String? thumbnailUrl; // ✅ أضف (اختياري)
+  final String playlistId;
+  final String playlistTitle;
+  final int totalVideos;
+  final String? thumbnailUrl;
 
   const VideoScreen({
     super.key,
@@ -22,20 +29,47 @@ class VideoScreen extends StatefulWidget {
   });
 
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => VideoCubit(
+        videoId: videoId,
+        playlistId: playlistId,
+        playlistTitle: playlistTitle,
+        totalVideos: totalVideos,
+        thumbnailUrl: thumbnailUrl,
+      )..initialize(),
+      child: VideoView(
+        videoId: videoId,
+        title: title,
+        playlistTitle: playlistTitle,
+      ),
+    );
+  }
 }
 
-class _VideoScreenState extends State<VideoScreen> {
-  late YoutubePlayerController _controller;
-  bool _isPlayerReady = false;
-  bool _hasMarkedAsWatched = false;
+class VideoView extends StatefulWidget {
+  final String videoId;
+  final String title;
+  final String playlistTitle;
 
-  final VideoProgressService _progressService = VideoProgressService();
+  const VideoView({
+    super.key,
+    required this.videoId,
+    required this.title,
+    required this.playlistTitle,
+  });
+
+  @override
+  State<VideoView> createState() => _VideoViewState();
+}
+
+class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
+  late final YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _initializeVideo();
+    WidgetsBinding.instance.addObserver(this);
 
     _controller = YoutubePlayerController(
       initialVideoId: widget.videoId,
@@ -46,214 +80,166 @@ class _VideoScreenState extends State<VideoScreen> {
         forceHD: false,
         useHybridComposition: true,
       ),
-    )..addListener(_listener);
+    )..addListener(_onPlayerUpdate);
   }
 
-  // ✅ تهيئة الفيديو
-  Future<void> _initializeVideo() async {
-    // حفظ معلومات الكورس
-    await _progressService.saveCourseInfo(
-      widget.playlistId,
-      widget.playlistTitle,
-      widget.totalVideos,
-      widget.thumbnailUrl,
-    );
+  void _onPlayerUpdate() {
+    if (!mounted) return;
 
-    // إضافة للكورسات النشطة
-    await _progressService.addToActiveCourses(widget.playlistId);
-
-    // جلب آخر موضع
-    final position = await _progressService.getVideoPosition(widget.videoId);
-    if (position != null && position > 5) {
-      _controller.seekTo(Duration(seconds: position));
-    }
-  }
-
-  void _listener() {
-    if (_isPlayerReady && mounted) {
-      final position = _controller.value.position;
-      final duration = _controller.metadata.duration;
-
-      // حفظ التقدم كل 5 ثواني
-      if (position.inSeconds % 5 == 0 && position.inSeconds > 0) {
-        _progressService.saveVideoPosition(
-          widget.videoId,
-          position.inSeconds,
-          duration.inSeconds,
-        );
-      }
-
-      // إذا وصل 90%، احفظه كمكتمل
-      if (!_hasMarkedAsWatched &&
-          duration.inSeconds > 0 &&
-          (position.inSeconds / duration.inSeconds) >= 0.9) {
-        _markAsWatched();
-      }
-
-      setState(() {});
-    }
-  }
-
-  Future<void> _markAsWatched() async {
-    _hasMarkedAsWatched = true;
-    await _progressService.markAsWatched(widget.playlistId, widget.videoId);
-
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.check_circle, color: Colors.white),
-              SizedBox(width: 8),
-              Text('✅ Video completed!'),
-            ],
-          ),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.green,
-        ),
-      );
-    }
-  }
-
-  @override
-  void deactivate() {
-    // حفظ الموضع عند الخروج
+    final cubit = context.read<VideoCubit>();
     final position = _controller.value.position;
     final duration = _controller.metadata.duration;
-    _progressService.saveVideoPosition(
-      widget.videoId,
-      position.inSeconds,
-      duration.inSeconds,
-    );
 
-    _controller.pause();
-    super.deactivate();
+    cubit.onPositionChanged(
+      currentSeconds: position.inSeconds,
+      totalSeconds: duration.inSeconds,
+    );
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      context.read<VideoCubit>().saveCurrentProgress();
+    }
   }
 
   Future<void> _openInYoutube() async {
     final url = Uri.parse('https://www.youtube.com/watch?v=${widget.videoId}');
-    try {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open YouTube')),
-        );
-      }
+
+    final launched = await launchUrl(url, mode: LaunchMode.externalApplication);
+
+    if (!launched && mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Could not open YouTube')));
     }
   }
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inSeconds.remainder(60);
-
-    if (hours > 0) {
-      return '$hours:${twoDigits(minutes)}:${twoDigits(seconds)}';
-    }
-    return '${twoDigits(minutes)}:${twoDigits(seconds)}';
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      onExitFullScreen: () {},
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.red,
-        progressColors: const ProgressBarColors(
-          playedColor: Colors.red,
-          handleColor: Colors.redAccent,
+    return PopScope(
+      onPopInvokedWithResult: (_, _) => _saveProgress(),
+      child: YoutubePlayerBuilder(
+        onExitFullScreen: () {},
+        player: YoutubePlayer(
+          controller: _controller,
+          showVideoProgressIndicator: true,
+          progressIndicatorColor: Colors.red,
+          progressColors: const ProgressBarColors(
+            playedColor: Colors.red,
+            handleColor: Colors.redAccent,
+          ),
+          onReady: () => context.read<VideoCubit>().onPlayerReady(),
         ),
-        onReady: () {
-          _isPlayerReady = true;
+        builder: (context, player) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                widget.title.isNotEmpty ? widget.title : 'Video Player',
+              ),
+            ),
+            body: BlocListener<VideoCubit, VideoState>(
+              listenWhen: (prev, curr) =>
+                  !prev.hasMarkedAsWatched && curr.hasMarkedAsWatched,
+              listener: (context, _) => _showCompletionSnackBar(context),
+              child: BlocListener<VideoCubit, VideoState>(
+                listenWhen: (prev, curr) =>
+                    prev.resumeFromSeconds != curr.resumeFromSeconds &&
+                    curr.resumeFromSeconds != null,
+                listener: (context, state) => _controller.seekTo(
+                  Duration(seconds: state.resumeFromSeconds!),
+                ),
+                child: BlocBuilder<VideoCubit, VideoState>(
+                  builder: (context, state) => state.status == VideoStatus.error
+                      ? _buildErrorState(context, state)
+                      : _buildSuccessState(player),
+                ),
+              ),
+            ),
+          );
         },
       ),
-      builder: (context, player) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              widget.title.isNotEmpty ? widget.title : 'Video Player',
-            ),
+    );
+  }
+
+  void _saveProgress() {
+    context.read<VideoCubit>().saveCurrentProgress();
+  }
+
+  void _showCompletionSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(Icons.check_circle, color: Colors.white),
+            SizedBox(width: AppSizes.w8),
+            Text('Video completed!'),
+          ],
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, VideoState state) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, size: AppSizes.sp48, color: Colors.red),
+          Gap(AppSizes.h16),
+          Text(
+            state.errorMessage ?? 'Something went wrong',
+            textAlign: TextAlign.center,
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              player,
-              const SizedBox(height: 16),
-
-              // عرض التقدم
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Text(
-                      _formatDuration(_controller.value.position),
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    const Spacer(),
-                    Text(
-                      _formatDuration(_controller.metadata.duration),
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              if (widget.title.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    widget.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-              const SizedBox(height: 8),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  widget.playlistTitle,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ElevatedButton.icon(
-                  onPressed: _openInYoutube,
-                  icon: const Icon(Icons.play_circle_fill),
-                  label: const Text('Open in YouTube'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          Gap(AppSizes.h16),
+          ElevatedButton(
+            onPressed: () => context.read<VideoCubit>().initialize(),
+            child: const Text('Retry'),
           ),
-        );
-      },
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSuccessState(Widget player) {
+    return ListView(
+      padding: EdgeInsets.only(bottom: AppSizes.h24),
+      children: [
+        player,
+        Gap(AppSizes.h16),
+        _buildVideoInfo(),
+        Gap(AppSizes.h16),
+        OpenInYoutubeButton(onPressed: _openInYoutube),
+      ],
+    );
+  }
+
+  Widget _buildVideoInfo() {
+    return BlocBuilder<VideoCubit, VideoState>(
+      builder: (context, state) => Column(
+        children: [
+          VideoTimeRow(
+            currentTime: state.currentTimeFormatted,
+            totalTime: state.totalTimeFormatted,
+          ),
+          Gap(AppSizes.h16),
+          VideoDetailsSection(
+            title: widget.title,
+            playlistTitle: widget.playlistTitle,
+          ),
+        ],
+      ),
     );
   }
 }
