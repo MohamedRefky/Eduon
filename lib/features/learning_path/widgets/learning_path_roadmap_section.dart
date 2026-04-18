@@ -48,7 +48,7 @@ class LearningPathRoadmapSection extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) =>
-                            CoursesDetailsScreen(playlistId: playlistId),
+                            CourseDetailsScreen(playlistId: playlistId),
                       ),
                     );
                   },
@@ -65,7 +65,7 @@ class LearningPathRoadmapSection extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => CoursesDetailsScreen(
+                          builder: (_) => CourseDetailsScreen(
                             playlistId: learningPath.playlistIds.first,
                           ),
                         ),

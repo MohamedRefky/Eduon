@@ -1,48 +1,54 @@
-import 'package:eduon/bloc/courses_bloc.dart';
-import 'package:eduon/bloc/courses_event.dart';
-import 'package:eduon/bloc/courses_state.dart';
-import 'package:eduon/core/models/video_model.dart';
-import 'package:eduon/core/service/video_progress_service.dart'; // ✅ أضف
-import 'package:eduon/repository/course_repository.dart';
+import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'cubit/course_details_cubit.dart';
+import 'cubit/course_details_state.dart';
+import 'widgets/course_details_loading.dart';
+import 'widgets/video_list_section.dart';
+import 'widgets/video_player_section.dart';
 
-class CoursesDetailsScreen extends StatelessWidget {
+class CourseDetailsScreen extends StatelessWidget {
   final String playlistId;
 
-  const CoursesDetailsScreen({super.key, required this.playlistId});
+  const CourseDetailsScreen({super.key, required this.playlistId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          CoursesBloc(repository: CourseRepository())
-            ..add(GetPlaylistVideosEvent(playlistId: playlistId)),
-      child: const CourseView(),
+      create: (_) =>
+          CourseDetailsCubit(playlistId: playlistId)..loadPlaylistVideos(),
+      child: const _CourseDetailsView(),
     );
   }
 }
 
-class CourseView extends StatefulWidget {
-  const CourseView({super.key});
+class _CourseDetailsView extends StatefulWidget {
+  const _CourseDetailsView();
 
   @override
-  State<CourseView> createState() => _CourseViewState();
+  State<_CourseDetailsView> createState() => _CourseDetailsViewState();
 }
 
-class _CourseViewState extends State<CourseView> {
+class _CourseDetailsViewState extends State<_CourseDetailsView>
+    with WidgetsBindingObserver {
   YoutubePlayerController? _controller;
-  int _currentIndex = 0;
   bool _isPlayerReady = false;
-  List<VideoModel> _videos = [];
-  bool _hasMarkedAsWatched = false;
 
-  // ✅ أضف VideoProgressService
-  final VideoProgressService _progressService = VideoProgressService();
+  late final CourseDetailsCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _cubit = context.read<CourseDetailsCubit>();
+  }
 
   void _initPlayer(String videoId) {
     _controller?.dispose();
+    _isPlayerReady = false;
+
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
@@ -50,404 +56,161 @@ class _CourseViewState extends State<CourseView> {
         mute: false,
         useHybridComposition: true,
       ),
-    )..addListener(_listener);
+    )..addListener(_onPlayerUpdate);
+
+    setState(() {});
   }
 
-  void _listener() {
-    if (_isPlayerReady && mounted && _controller != null) {
-      final position = _controller!.value.position;
-      final duration = _controller!.metadata.duration;
+  void _onPlayerUpdate() {
+    if (!_isPlayerReady || !mounted || _controller == null) return;
 
-      // ✅ حفظ التقدم كل 5 ثواني
-      if (position.inSeconds % 5 == 0 && position.inSeconds > 0) {
-        _saveProgress(position.inSeconds, duration.inSeconds);
-      }
+    final position = _controller!.value.position;
+    final duration = _controller!.metadata.duration;
 
-      // ✅ إذا وصل 90%، احفظه كمكتمل
-      if (!_hasMarkedAsWatched &&
-          duration.inSeconds > 0 &&
-          (position.inSeconds / duration.inSeconds) >= 0.9) {
-        _markAsWatched();
-      }
-
-      setState(() {});
-    }
-  }
-
-  // ✅ حفظ التقدم
-  Future<void> _saveProgress(int position, int duration) async {
-    final playlistId = context
-        .read<CoursesBloc>()
-        .state
-        .selectedPlaylist
-        ?.playlistId;
-    if (playlistId == null || _videos.isEmpty) return;
-
-    await _progressService.saveVideoPosition(
-      _videos[_currentIndex].videoId,
-      position,
-      duration,
+    _cubit.onPositionChanged(
+      currentSeconds: position.inSeconds,
+      totalSeconds: duration.inSeconds,
     );
-  }
-
-  // ✅ تحديد الفيديو كمكتمل
-  Future<void> _markAsWatched() async {
-    final playlist = context.read<CoursesBloc>().state.selectedPlaylist;
-    if (playlist == null || _videos.isEmpty) return;
-
-    _hasMarkedAsWatched = true;
-
-    // حفظ معلومات الكورس
-    await _progressService.saveCourseInfo(
-      playlist.playlistId,
-      playlist.title,
-      _videos.length,
-      playlist.thumbnailUrl,
-    );
-
-    // إضافة للكورسات النشطة
-    await _progressService.addToActiveCourses(playlist.playlistId);
-
-    // تحديد الفيديو كمكتمل
-    await _progressService.markAsWatched(
-      playlist.playlistId,
-      _videos[_currentIndex].videoId,
-    );
-
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.check_circle, color: Colors.white),
-              SizedBox(width: 8),
-              Text('✅ Video completed!'),
-            ],
-          ),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.green,
-        ),
-      );
-    }
-  }
-
-  void _playVideo(int index) {
-    setState(() {
-      _currentIndex = index;
-      _hasMarkedAsWatched = false; // ✅ إعادة تعيين
-    });
-    _controller?.load(_videos[index].videoId);
-  }
-
-  void _playNext() {
-    if (_currentIndex < _videos.length - 1) {
-      _playVideo(_currentIndex + 1);
-    }
-  }
-
-  void _playPrevious() {
-    if (_currentIndex > 0) {
-      _playVideo(_currentIndex - 1);
-    }
   }
 
   @override
-  void deactivate() {
-    // ✅ حفظ الموضع عند الخروج
-    if (_controller != null && _videos.isNotEmpty) {
-      final position = _controller!.value.position;
-      final duration = _controller!.metadata.duration;
-      _saveProgress(position.inSeconds, duration.inSeconds);
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      _saveProgress();
     }
+  }
 
-    _controller?.pause();
-    super.deactivate();
+  void _saveProgress() {
+    if (_controller == null) return;
+
+    _cubit.saveCurrentProgress(
+      positionSeconds: _controller!.value.position.inSeconds,
+      durationSeconds: _controller!.metadata.duration.inSeconds,
+    );
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _saveProgress();
     _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CoursesBloc, CoursesState>(
-      builder: (context, state) {
-        // ✅ تهيئة معلومات الكورس
-        if (state.selectedPlaylist != null &&
-            state.selectedPlaylist!.videos.isNotEmpty &&
-            _videos.isEmpty) {
-          _videos = state.selectedPlaylist!.videos;
-          _initPlayer(_videos[0].videoId);
-
-          // ✅ حفظ معلومات الكورس عند التحميل
-          _progressService.saveCourseInfo(
-            state.selectedPlaylist!.playlistId,
-            state.selectedPlaylist!.title,
-            _videos.length,
-            state.selectedPlaylist!.thumbnailUrl,
-          );
-          _progressService.addToActiveCourses(
-            state.selectedPlaylist!.playlistId,
-          );
-        }
-
-        return YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller:
-                _controller ?? YoutubePlayerController(initialVideoId: ''),
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: Colors.red,
-            progressColors: const ProgressBarColors(
-              playedColor: Colors.red,
-              handleColor: Colors.redAccent,
+    return BlocListener<CourseDetailsCubit, CourseDetailsState>(
+      listenWhen: (previous, current) =>
+          !previous.hasMarkedAsWatched && current.hasMarkedAsWatched,
+      listener: (context, state) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Text('Video completed!'),
+              ],
             ),
-            onReady: () {
-              _isPlayerReady = true;
-            },
-            onEnded: (data) {
-              _playNext();
-            },
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.green,
           ),
-          builder: (context, player) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(state.selectedPlaylist?.title ?? 'Course Details'),
-              ),
-              body: Column(
-                children: [
-                  // Loading
-                  if (state.isPlaylistLoading)
-                    const SizedBox(
-                      height: 220,
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  else if (_videos.isNotEmpty)
-                    Stack(
-                      children: [
-                        player,
-
-                        // Previous Button
-                        Positioned(
-                          left: 8,
-                          top: 0,
-                          bottom: 0,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: _currentIndex > 0 ? _playPrevious : null,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.skip_previous,
-                                  color: _currentIndex > 0
-                                      ? Colors.white
-                                      : Colors.white38,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Next Button
-                        Positioned(
-                          right: 8,
-                          top: 0,
-                          bottom: 0,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: _currentIndex < _videos.length - 1
-                                  ? _playNext
-                                  : null,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.skip_next,
-                                  color: _currentIndex < _videos.length - 1
-                                      ? Colors.white
-                                      : Colors.white38,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Video Title
-                        Positioned(
-                          top: 8,
-                          left: 50,
-                          right: 50,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              _videos[_currentIndex].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  const Divider(),
-
-                  // Videos List
-                  Expanded(
-                    child: _videos.isEmpty
-                        ? const Center(child: CircularProgressIndicator())
-                        : ListView.builder(
-                            itemCount: _videos.length,
-                            itemBuilder: (context, index) {
-                              final video = _videos[index];
-                              final isPlaying = index == _currentIndex;
-
-                              return ListTile(
-                                onTap: () => _playVideo(index),
-                                tileColor: isPlaying
-                                    ? Colors.deepPurple.withValues(alpha: 0.1)
-                                    : null,
-                                leading: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.network(
-                                        video.thumbnailUrl,
-                                        width: 80,
-                                        height: 60,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    if (isPlaying)
-                                      Container(
-                                        width: 80,
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                        ),
-                                        child: const Icon(
-                                          Icons.play_arrow,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                title: Text(
-                                  video.title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: isPlaying
-                                        ? Colors.deepPurple
-                                        : Colors.black,
-                                  ),
-                                ),
-                                subtitle: Row(
-                                  children: [
-                                    Text(
-                                      '#${index + 1}',
-                                      style: TextStyle(
-                                        color: isPlaying
-                                            ? Colors.deepPurple
-                                            : Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    const Icon(
-                                      Icons.remove_red_eye,
-                                      size: 14,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      _formatViewCount(video.viewCount),
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    const Icon(
-                                      Icons.access_time,
-                                      size: 14,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      _formatDuration(video.duration),
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                  ),
-                ],
-              ),
-            );
-          },
         );
       },
+      child: BlocConsumer<CourseDetailsCubit, CourseDetailsState>(
+        listenWhen: (previous, current) =>
+            previous.currentIndex != current.currentIndex ||
+            (previous.status != CourseDetailsStatus.loaded &&
+                current.status == CourseDetailsStatus.loaded),
+        listener: (context, state) {
+          if (state.currentVideo != null) {
+            if (_controller == null) {
+              _initPlayer(state.currentVideo!.videoId);
+            } else {
+              _controller!.load(state.currentVideo!.videoId);
+              _isPlayerReady = false;
+            }
+          }
+        },
+        builder: (context, state) {
+          return PopScope(
+            onPopInvokedWithResult: (_, _) => _saveProgress(),
+            child: YoutubePlayerBuilder(
+              player: YoutubePlayer(
+                controller:
+                    _controller ?? YoutubePlayerController(initialVideoId: ''),
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: Colors.red,
+                progressColors: const ProgressBarColors(
+                  playedColor: Colors.red,
+                  handleColor: Colors.redAccent,
+                ),
+                onReady: () {
+                  _isPlayerReady = true;
+                },
+                onEnded: (_) => _cubit.playNext(),
+              ),
+              builder: (context, player) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      state.playlistTitle.isNotEmpty
+                          ? state.playlistTitle
+                          : 'Course Details',
+                    ),
+                  ),
+                  body: _buildBody(state, player),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
-  String _formatViewCount(int count) {
-    if (count >= 1000000) {
-      return '${(count / 1000000).toStringAsFixed(1)}M';
-    } else if (count >= 1000) {
-      return '${(count / 1000).toStringAsFixed(1)}K';
-    }
-    return count.toString();
-  }
+  Widget _buildBody(CourseDetailsState state, Widget player) {
+    switch (state.status) {
+      case CourseDetailsStatus.initial:
+      case CourseDetailsStatus.loading:
+        return const CourseDetailsLoading();
 
-  String _formatDuration(String duration) {
-    if (duration.isEmpty) return '';
-    final regex = RegExp(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?');
-    final match = regex.firstMatch(duration);
-    if (match == null) return '';
-    final hours = int.tryParse(match.group(1) ?? '0') ?? 0;
-    final minutes = int.tryParse(match.group(2) ?? '0') ?? 0;
-    final seconds = int.tryParse(match.group(3) ?? '0') ?? 0;
-    if (hours > 0) {
-      return '$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+      case CourseDetailsStatus.error:
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: AppSizes.sp48, color: Colors.red),
+              Gap(AppSizes.h16),
+              Text(state.errorMessage ?? 'Something went wrong'),
+              Gap(AppSizes.h16),
+              ElevatedButton(
+                onPressed: _cubit.loadPlaylistVideos,
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        );
+
+      case CourseDetailsStatus.loaded:
+        return Column(
+          children: [
+            VideoPlayerSection(
+              player: player,
+              state: state,
+              onNext: _cubit.playNext,
+              onPrevious: _cubit.playPrevious,
+            ),
+            const Divider(),
+            VideoListSection(
+              videos: state.videos,
+              currentIndex: state.currentIndex,
+              onVideoSelected: (index) => _cubit.playVideo(index),
+            ),
+          ],
+        );
     }
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 }

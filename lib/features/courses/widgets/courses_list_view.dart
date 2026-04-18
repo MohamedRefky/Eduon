@@ -15,7 +15,7 @@ class CourseItem extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => CoursesDetailsScreen(playlistId: playlist.playlistId),
+          builder: (_) => CourseDetailsScreen(playlistId: playlist.playlistId),
         ),
       ),
       child: Container(

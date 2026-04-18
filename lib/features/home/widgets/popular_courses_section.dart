@@ -68,7 +68,7 @@ class PopularCoursesSection extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => CoursesDetailsScreen(
+                          builder: (_) => CourseDetailsScreen(
                             playlistId: playlist.playlistId,
                           ),
                         ),
