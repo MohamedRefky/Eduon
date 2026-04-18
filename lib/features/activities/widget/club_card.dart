@@ -2,12 +2,23 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart'; // استيراد المكتبة
 
 class ClubCardWidget extends StatelessWidget {
   const ClubCardWidget({super.key, required this.club});
   final Map<String, dynamic> club;
+
+  Future<void> _openLink(String link) async {
+    final Uri url = Uri.parse(link);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $link');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String link = club['link'] as String? ?? '';
+
     return Container(
       margin: EdgeInsets.only(bottom: AppSizes.h16),
       decoration: BoxDecoration(
@@ -24,7 +35,6 @@ class ClubCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image Placeholder
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(AppSizes.r15),
@@ -48,7 +58,6 @@ class ClubCardWidget extends StatelessWidget {
               },
             ),
           ),
-
           Padding(
             padding: EdgeInsets.all(AppSizes.h12),
             child: Column(
@@ -98,7 +107,7 @@ class ClubCardWidget extends StatelessWidget {
                   child: SizedBox(
                     height: AppSizes.h35,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: link.isNotEmpty ? () => _openLink(link) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF334155),
                         foregroundColor: Colors.white,

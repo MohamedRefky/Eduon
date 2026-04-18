@@ -183,8 +183,4 @@ class CourseDetailsCubit extends Cubit<CourseDetailsState> {
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }

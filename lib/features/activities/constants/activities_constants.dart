@@ -10,6 +10,7 @@ class ActivitiesConstants {
       'image': 'assets/images/IEEE.png',
       'svg': 'assets/svg/IEEE.svg',
       'color': Color(0xFF1A237E),
+      'link': 'https://www.facebook.com/IEEE.org',
     },
     {
       'name': 'Microsoft Student Club',
@@ -19,6 +20,7 @@ class ActivitiesConstants {
       'image': 'assets/images/Microsoft_student_Club.png',
       'svg': 'assets/svg/Microsoft_student_Club.svg',
       'color': Color(0xFF0078D4),
+      'link': 'https://www.facebook.com/aoumsc',
     },
     {
       'name': 'Google Developer Groups',
@@ -28,6 +30,7 @@ class ActivitiesConstants {
       'image': 'assets/images/Google_Developer_Groups.png',
       'svg': 'assets/svg/google-developers.svg',
       'color': Color(0xFF1B5E20),
+      'link': 'https://www.facebook.com/GDGCairo',
     },
     {
       'name': 'Oi HUB',
@@ -37,6 +40,7 @@ class ActivitiesConstants {
       'image': 'assets/images/Oi_HUB.png',
       'svg': 'assets/svg/Oi_HUB.svg',
       'color': Color(0xFF212121),
+      'link': 'https://www.facebook.com/OIHUB',
     },
     {
       'name': 'Oi ROV',
@@ -46,6 +50,7 @@ class ActivitiesConstants {
       'image': 'assets/images/Oi_ROV.png',
       'svg': 'assets/svg/Oi_ROV.svg',
       'color': Color(0xFF263238),
+      'link': 'https://www.facebook.com/OIROV',
     },
     {
       'name': 'ICPC OBOUR',
@@ -54,8 +59,8 @@ class ActivitiesConstants {
       'tag': 'Problem solving & competitive programming',
       'image': 'assets/images/ICPC_OBOUR.png',
       'svg': 'assets/svg/ICPC_OBOUR.svg',
-
       'color': Color(0xFF4A148C),
+      'link': 'https://www.facebook.com/OI.CPC1',
     },
     {
       'name': 'ROBOTICS',
@@ -64,7 +69,8 @@ class ActivitiesConstants {
       'tag': 'Hands-on engineering & innovation projects',
       'image': 'assets/images/ROBOTICS.png',
       'svg': 'assets/svg/ROBOTICS.svg',
-      'color': Color(0xFF1A1A1A),
+      'color': Color.fromARGB(255, 132, 128, 128),
+      'link': 'https://www.facebook.com/oi.robotics', 
     },
   ];
 }
