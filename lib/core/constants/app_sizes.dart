@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppSizes {
   /// Font Sizes
   static final double sp8 = 8.sp;
+  static final double sp10 = 10.sp;
   static final double sp14 = 14.sp;
   static final double sp13 = 13.sp;
   static final double sp12 = 12.sp;
@@ -33,6 +34,7 @@ class AppSizes {
   static final double h28 = 28.h;
   static final double h30 = 30.h;
   static final double h35 = 35.h;
+  static final double h36 = 36.h;
   static final double h38 = 38.h;
   static final double h40 = 40.h;
   static final double h42 = 42.h;
@@ -66,10 +68,12 @@ class AppSizes {
   static final double w4 = 4.w;
   static final double w8 = 8.w;
   static final double w10 = 10.w;
+  static final double w12 = 12.w;
   static final double w16 = 16.w;
   static final double w18 = 18.w;
   static final double w24 = 24.w;
   static final double w28 = 28.w;
+  static final double w36 = 36.w;
   static final double w40 = 40.w;
   static final double w42 = 42.w;
   static final double w45 = 45.w;
@@ -77,6 +81,7 @@ class AppSizes {
   static final double w70 = 70.w;
   static final double w80 = 80.w;
   static final double w90 = 90.w;
+  static final double w100 = 100.w;
   static final double w130 = 130.w;
   static final double w150 = 150.w;
   static final double w160 = 160.w;

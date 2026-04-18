@@ -14,7 +14,7 @@ ThemeData lightTheme = ThemeData(
     titleTextStyle: TextStyle(
       color: Color(0xFF0F172A),
       fontSize: AppSizes.sp20,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.bold,
       fontFamily: 'PlusJakartaSans',
     ),
 
@@ -29,21 +29,20 @@ ThemeData lightTheme = ThemeData(
   // textButtonTheme: TextButtonThemeData(
   //   style: TextButton.styleFrom(foregroundColor: Colors.black),
   // ),
-
-  // elevatedButtonTheme: ElevatedButtonThemeData(
-  //   style: ElevatedButton.styleFrom(
-  //     minimumSize: Size.fromHeight(AppSizes.h40),
-  //     backgroundColor: Color(0xFF15B86C),
-  //     foregroundColor: Color(0xFFFFFCFC),
-  //     textStyle: TextStyle(
-  //       fontSize: AppSizes.sp16,
-  //       fontWeight: FontWeight.w500,
-  //     ),
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(AppSizes.r30),
-  //     ),
-  //   ),
-  // ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      minimumSize: Size.fromHeight(AppSizes.h48),
+      backgroundColor: Color(0xFF354155),
+      foregroundColor: Color(0xFFFFFCFC),
+      textStyle: TextStyle(
+        fontSize: AppSizes.sp16,
+        fontWeight: FontWeight.w600,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.r12),
+      ),
+    ),
+  ),
 
   // floatingActionButtonTheme: FloatingActionButtonThemeData(
   //   backgroundColor: Color(0xFF15B86C),
@@ -159,7 +158,7 @@ ThemeData lightTheme = ThemeData(
   ),
 
   // iconTheme: IconThemeData(color: Color(0xFF161F1B), size: AppSizes.sp24),
-  // dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
+  dividerTheme: DividerThemeData(color: Color(0xFF647C9E), thickness: 1),
 
   // listTileTheme: ListTileThemeData(
   //   titleTextStyle: TextStyle(
