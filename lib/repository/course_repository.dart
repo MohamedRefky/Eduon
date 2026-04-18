@@ -2,7 +2,7 @@ import 'package:eduon/core/constants/api_constants.dart';
 import 'package:eduon/core/models/category_model.dart';
 import 'package:eduon/core/models/playlist_model.dart';
 import 'package:eduon/core/models/video_model.dart';
-import 'package:eduon/data/services/youtube_api_service.dart';
+import 'package:eduon/core/service/youtube_api_service.dart';
 
 class CourseRepository {
   final YoutubeApiService _apiService = YoutubeApiService();

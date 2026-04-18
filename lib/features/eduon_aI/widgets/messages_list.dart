@@ -1,10 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/features/eduon_aI/model/message_model.dart';
+import 'package:eduon/core/models/message_ai_model.dart';
 import 'package:eduon/features/eduon_aI/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 
 class MessagesList extends StatefulWidget {
-  final List<MessageModel> messages;
+  final List<MessageAiModel> messages;
   final bool isTyping;
 
   const MessagesList({

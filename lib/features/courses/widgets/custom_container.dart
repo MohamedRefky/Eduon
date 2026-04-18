@@ -11,7 +11,7 @@ class CustomContainer extends StatelessWidget {
     required this.onTap,
     this.svgSize,
     required this.svgColor,
-    this.isSelected = false, // ✅ أضيف ده
+    this.isSelected = false, 
   });
 
   final String text;
@@ -19,7 +19,7 @@ class CustomContainer extends StatelessWidget {
   final double? svgSize;
   final Function() onTap;
   final Color svgColor;
-  final bool isSelected; // ✅ أضيف ده
+  final bool isSelected; 
 
   @override
   Widget build(BuildContext context) {

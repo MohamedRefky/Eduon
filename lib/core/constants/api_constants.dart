@@ -37,11 +37,24 @@ class ApiConstants {
       "PLb2l66-lkbaGLF0krEfIsHxkdqptgOLBD", // Business Strategy
     ],
     'Soft Skills': [
-      'PLiY-jf8J2Mplc6151KJnXdzFYT9LO5Drs',
+      'PLiY-jf8J2Mplc6151KJnXdzFYT9LO5Drs', // Communication Skills
       'PLH-H0QRd3fYdIQD_jz9WJSkEBNZfoYFSz', // Communication Skills
-      'PLqGEgt_8f5gTvVdZK6zIiQ6xCA_2RkQlM'
-          'PLkYwapokNFE-h-QVVM8sSaUz3ouGxUqgH',
-      'PLWPirh4EWFpFIElSxplDlEhRDZHkBD-0n',
+      'PLqGEgt_8f5gTvVdZK6zIiQ6xCA_2RkQlM', // Communication Skills
+      'PLkYwapokNFE-h-QVVM8sSaUz3ouGxUqgH', // Communication Skills
+      'PLWPirh4EWFpFIElSxplDlEhRDZHkBD-0n', // Communication Skills
+    ],
+    'Video Editing': [
+      'PLKViTwi8SnsUb1E-V-51y5U8u9kfaEGz7',
+      'PLZ5zEGbaMXXXAr0Kz16KjinCUT7gvSqHY',
+      'PLOIkdFwJZ8dFs1MeoH94VgOXRoB3TlO2g',
+      'PLOIkdFwJZ8dEm-UMmfghC12cohmZf7vY6',
+      'PLOG-O0RWwRH6N-hXcpAjqrizUg8gxloll',
+      'PL_1XAjannEMuymvxpTEuphHaqnitsAQe2',
+      'PLs-hceiryD_hjBCEDQMdCRPAhaR8Xemye',
+      'PLg9ps5Gu0MiDSuyZDiQycCJdjTiWNPjxI',
+      'PLg9ps5Gu0MiCKBUYPb7HO-t8Xqbg3CXHM',
+      'PLHuC_YapGnLzu_QEdHQqkiMwPwDtfC8pw',
+      'PLs-hceiryD_gHDl2B1zJNELvd32JZUxcw',
     ],
   };
 }

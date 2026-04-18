@@ -1,5 +1,5 @@
 import 'package:eduon/features/eduon_aI/cubit/ai_cubit.dart';
-import 'package:eduon/features/eduon_aI/services/ai_service.dart';
+import 'package:eduon/core/service/ai_service.dart';
 import 'package:eduon/features/eduon_aI/widgets/chat_input_field.dart';
 import 'package:eduon/features/eduon_aI/widgets/messages_list.dart';
 import 'package:eduon/features/main/main_screen.dart';

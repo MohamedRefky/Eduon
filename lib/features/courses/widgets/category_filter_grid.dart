@@ -48,12 +48,18 @@ class CategoryFilterGrid extends StatelessWidget {
       'color': Color(0xFF346178),
     },
     {
+      'name': 'Video Editing',
+      'svg': 'assets/svg/video-editing.svg',
+      'color': Color(0xFF366695),
+    },
+
+    {
       'name': 'Business',
       'svg': 'assets/svg/business.svg',
       'color': Color(0xFF00647B),
     },
   ];
-  Widget _buildCategoryItem(String name, String svgPath, Color svgColor ) {
+  Widget _buildCategoryItem(String name, String svgPath, Color svgColor) {
     final isSelected = selectedCategory == name;
     return AnimatedScale(
       scale: isSelected ? 1.1 : 1.0,

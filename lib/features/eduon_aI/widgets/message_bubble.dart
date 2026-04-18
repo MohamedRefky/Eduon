@@ -1,16 +1,13 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/features/eduon_aI/model/message_model.dart';
+import 'package:eduon/core/models/message_ai_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 class MessageBubble extends StatelessWidget {
-  final MessageModel message;
+  final MessageAiModel message;
 
-  const MessageBubble({
-    super.key,
-    required this.message,
-  });
+  const MessageBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +18,9 @@ class MessageBubble extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment:
-            message.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: message.isMe
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: [
           if (!message.isMe) ...[
             SvgPicture.asset('assets/svg/Ai.svg'),

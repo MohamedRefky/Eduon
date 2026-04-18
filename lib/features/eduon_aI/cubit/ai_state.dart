@@ -16,7 +16,7 @@ class AiLoading extends AiState {
 }
 
 class AiSuccess extends AiState {
-  final List<MessageModel> messages;
+  final List<MessageAiModel> messages;
 
   const AiSuccess(this.messages);
 
