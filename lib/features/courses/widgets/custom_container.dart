@@ -11,7 +11,8 @@ class CustomContainer extends StatelessWidget {
     required this.onTap,
     this.svgSize,
     required this.svgColor,
-    this.isSelected = false, 
+    this.isSelected = false,
+    required this.colorFliter,
   });
 
   final String text;
@@ -19,7 +20,8 @@ class CustomContainer extends StatelessWidget {
   final double? svgSize;
   final Function() onTap;
   final Color svgColor;
-  final bool isSelected; 
+  final bool isSelected;
+  final bool colorFliter;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,7 @@ class CustomContainer extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.all(AppSizes.h8),
         decoration: BoxDecoration(
-          // ✅ لو selected يبقى بلون الـ svg، لو لأ يبقى أبيض
-          color: isSelected ? svgColor : Colors.white,
+          color: isSelected ? Color(0xFF475569) : Colors.white,
           borderRadius: BorderRadius.circular(AppSizes.r12),
           boxShadow: [
             BoxShadow(
@@ -46,16 +47,17 @@ class CustomContainer extends StatelessWidget {
           children: [
             ClipRRect(
               child: SizedBox(
-                height: AppSizes.h16,
-                width: AppSizes.h16,
+                height: AppSizes.h17,
+                width: AppSizes.h17,
                 child: SvgPicture.asset(
                   svgPath,
-                  fit: BoxFit.contain,
-                  colorFilter: ColorFilter.mode(
-                    // ✅ لو selected الأيقونة تبقى بيضاء
-                    isSelected ? Colors.white : svgColor,
-                    BlendMode.srcIn,
-                  ),
+                  fit: BoxFit.cover,
+                  colorFilter: colorFliter
+                      ? ColorFilter.mode(
+                          isSelected ? Colors.white : svgColor,
+                          BlendMode.srcIn,
+                        )
+                      : null,
                 ),
               ),
             ),

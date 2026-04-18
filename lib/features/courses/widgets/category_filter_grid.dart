@@ -27,6 +27,7 @@ class CategoryFilterGrid extends StatelessWidget {
             _categories[index]['name']!,
             _categories[index]['svg']!,
             _categories[index]['color']!,
+            _categories[index]['colorFilter']!,
           );
         },
       ),
@@ -34,32 +35,51 @@ class CategoryFilterGrid extends StatelessWidget {
   }
 
   static const List<Map<String, dynamic>> _categories = [
-    {'name': 'All', 'svg': 'assets/svg/all_courses.svg', 'color': Colors.black},
+    {
+      'name': 'All',
+      'svg': 'assets/svg/all_courses.svg',
+      'color': Colors.black,
+      'colorFilter': true,
+    },
     {
       'name': 'Design',
       'svg': 'assets/svg/design.svg',
       'color': Color(0xFF702AE1),
+      'colorFilter': true,
     },
-    {'name': 'Tech', 'svg': 'assets/svg/tech.svg', 'color': Color(0xFF00675C)},
+    {
+      'name': 'Tech',
+      'svg': 'assets/svg/tech.svg',
+      'color': Color(0xFF00675C),
+      'colorFilter': true,
+    },
 
     {
       'name': 'Soft Skills',
       'svg': 'assets/svg/soft_skills.svg',
       'color': Color(0xFF346178),
+      'colorFilter': true,
     },
     {
       'name': 'Video Editing',
-      'svg': 'assets/svg/video-editing.svg',
-      'color': Color(0xFF366695),
+      'svg': 'assets/svg/video_editing.svg',
+      'color': Color(0xFFA0A0A0),
+      'colorFilter': false,
     },
 
     {
       'name': 'Business',
       'svg': 'assets/svg/business.svg',
       'color': Color(0xFF00647B),
+      'colorFilter': true,
     },
   ];
-  Widget _buildCategoryItem(String name, String svgPath, Color svgColor) {
+  Widget _buildCategoryItem(
+    String name,
+    String svgPath,
+    Color svgColor,
+    bool colorFilter,
+  ) {
     final isSelected = selectedCategory == name;
     return AnimatedScale(
       scale: isSelected ? 1.1 : 1.0,
@@ -71,6 +91,7 @@ class CategoryFilterGrid extends StatelessWidget {
         svgPath: svgPath,
         onTap: () => onCategoryTap(name),
         isSelected: isSelected,
+        colorFliter: colorFilter,
       ),
     );
   }

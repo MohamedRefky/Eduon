@@ -10,19 +10,17 @@ class HeaderSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Gap(AppSizes.h8),
         Text(
           'LEVEL UP YOUR FUTURE',
           style: TextTheme.of(context).displayMedium?.copyWith(
-                color: const Color(0xFF0F172A),
-                fontWeight: FontWeight.w500,
-                letterSpacing: -1.5,
-              ),
+            color: const Color(0xFF0F172A),
+            fontWeight: FontWeight.w500,
+            letterSpacing: -1.5,
+          ),
         ),
         Gap(AppSizes.h8),
-        Text(
-          'Explore\nCourses',
-          style: TextTheme.of(context).bodyLarge,
-        ),
+        Text('Explore\nCourses', style: TextTheme.of(context).bodyLarge),
       ],
     );
   }
