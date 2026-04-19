@@ -10,6 +10,7 @@ final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   await PrefrancesManeger().init();
   ThemesController.init();
   runApp(const MyApp());
