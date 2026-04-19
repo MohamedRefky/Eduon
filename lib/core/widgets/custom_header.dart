@@ -15,7 +15,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       flexibleSpace: Container(
-        height: AppSizes.h120,
+        height: AppSizes.h100,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -26,8 +26,8 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(AppSizes.r26),
-            bottomRight: Radius.circular(AppSizes.r26),
+            bottomLeft: Radius.circular(AppSizes.r20),
+            bottomRight: Radius.circular(AppSizes.r20),
           ),
         ),
       ),

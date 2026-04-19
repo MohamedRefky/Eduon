@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
+
   brightness: Brightness.light,
   scaffoldBackgroundColor: Color(0xFFd2dae3),
   fontFamily: "PlusJakartaSans",
@@ -63,6 +64,7 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.bold,
     ),
     displayMedium: TextStyle(
+      decoration: TextDecoration.none,
       color: Colors.black,
       fontSize: AppSizes.sp16,
       fontFamily: "PlusJakartaSans",
@@ -122,31 +124,48 @@ ThemeData lightTheme = ThemeData(
       height: 0.875,
       letterSpacing: -0.5,
     ),
+    bodyMedium: TextStyle(
+      color: const Color(0xFF64748B),
+      fontSize: AppSizes.sp24,
+      fontWeight: FontWeight.w700,
+      fontFamily: "PlusJakartaSans",
+    ),
+    bodySmall: TextStyle(
+      color: Color(0xFF94A3B8),
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w500,
+      fontFamily: "PlusJakartaSans",
+    ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSizes.r16),
-      borderSide: BorderSide(color: Color(0xFF51565F), width: AppSizes.w1),
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide(color: Color(0xFF94A3B8), width: AppSizes.w1),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSizes.r16),
-      borderSide: BorderSide(color: Color(0xFF51565F), width: AppSizes.w1),
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide(color: Color(0xFF94A3B8), width: AppSizes.w1),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderRadius: BorderRadius.circular(AppSizes.r15),
       borderSide: BorderSide(color: Colors.red, width: AppSizes.w1),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSizes.r16),
+      borderRadius: BorderRadius.circular(AppSizes.r15),
       borderSide: BorderSide.none,
     ),
 
     filled: true,
-    fillColor: Color(0xFF9bacc1),
-    prefixIconColor: Color(0xFF51565F),
+    fillColor: Color(0xFFF8FAFC),
+    prefixIconColor: Color(0xFF94A3B8),
+    suffixIconColor: Color(0xFF94A3B8),
+    //isDense: true,
+    // prefixIconConstraints: const BoxConstraints(),
+    // suffixIconConstraints: const BoxConstraints(),
     hintStyle: TextStyle(
-      color: Color(0xFF6B7280),
+      color: Color(0xFF94A3B8),
       fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w500,
       fontFamily: "PlusJakartaSans",
     ),
   ),

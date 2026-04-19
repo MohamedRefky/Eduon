@@ -1,3 +1,5 @@
+import 'package:eduon/core/widgets/custom_header.dart';
+import 'package:eduon/features/courses/widgets/header_section.dart';
 import 'package:eduon/features/eduon_aI/cubit/ai_cubit.dart';
 import 'package:eduon/core/service/ai_service.dart';
 import 'package:eduon/features/eduon_aI/widgets/chat_input_field.dart';
@@ -51,19 +53,7 @@ class _EdoneAiScreenContentState extends State<_EdoneAiScreenContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const MainScreen()),
-              (route) => false,
-            );
-          },
-          child: const Icon(Icons.arrow_back),
-        ),
-        title: const Text('Eduon AI'),
-      ),
+ 
       body: BlocBuilder<AiCubit, AiState>(
         builder: (context, state) {
           final cubit = context.read<AiCubit>();
@@ -74,6 +64,7 @@ class _EdoneAiScreenContentState extends State<_EdoneAiScreenContent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              CustomHeader(),
               MessagesList(messages: messages, isTyping: isLoading),
               ChatInputField(
                 controller: _inputController,

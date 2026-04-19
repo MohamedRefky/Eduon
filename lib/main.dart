@@ -1,7 +1,6 @@
 import 'package:eduon/core/Theme/light_theme.dart';
 import 'package:eduon/core/Theme/themes_controller.dart';
-import 'package:eduon/features/auth/login.dart';
-import 'package:eduon/features/main/main_screen.dart';
+import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               //darkTheme: darkTheme,
               themeMode: currentMode,
-              home: const Login(),
+              home: const LoginScreen(),
             );
           },
         );
