@@ -4,7 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   bool _initialized = false;
-
+  // ============================================
+  // Google Sign In
+  // ============================================
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
@@ -19,22 +21,14 @@ class AuthService {
       }
 
       // فتح نافذة اختيار الحساب
-      final GoogleSignInAccount googleSignInAccount =
-          await googleSignIn.authenticate(scopeHint: ['email']);
-
-      print('Google Sign In Account: $googleSignInAccount');
-
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn
+          .authenticate(scopeHint: ['email']);
       // الحصول على idToken
       final String? idToken = googleSignInAccount.authentication.idToken;
-      print('ID Token: $idToken');
 
       if (idToken == null) {
-        throw Exception(
-          'idToken is null — تأكد أن serverClientId في Firebase Console صح، '
-          'وأن SHA-1 و SHA-256 مضافين لـ Android app في Firebase.',
-        );
+        throw Exception();
       }
-
       // محاولة الحصول على accessToken (اختياري - بتحسين الأمان)
       String? accessToken;
       try {
@@ -45,28 +39,28 @@ class AuthService {
         // accessToken مش ضروري — نكمل بـ idToken بس
       }
 
-      print('Access Token: $accessToken');
-
       final credential = GoogleAuthProvider.credential(
         idToken: idToken,
         accessToken: accessToken,
       );
 
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
 
       if (userCredential.user == null) {
         throw Exception('Firebase sign-in succeeded but user is null');
       }
 
-      print('Firebase User: ${userCredential.user?.email}');
       return userCredential;
     } catch (e) {
-      print('Google Sign In Error: $e');
       return Future.error(e);
     }
   }
 
+  // ============================================
+  // Email Link - Create Account
+  // ============================================
   Future<void> sendEmailLink(String email) async {
     final acs = ActionCodeSettings(
       url: 'https://eduon-a2ec6.firebaseapp.com',
@@ -84,6 +78,9 @@ class AuthService {
     await PrefrancesManeger().setString('emailForSignIn', email);
   }
 
+  // ============================================
+  // Email Link - Sign In
+  // ============================================
   Future<void> signInWithEmailLink(String emailLink) async {
     final email = PrefrancesManeger().getString('emailForSignIn');
 
@@ -93,6 +90,58 @@ class AuthService {
         email: email,
         emailLink: emailLink,
       );
+    }
+  }
+
+  // ============================================
+  // Email & Password - Create Account
+  // ============================================
+  Future<UserCredential?> createUserWithEmailAndPassword(
+    String emailAddress,
+    String password,
+  ) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailAddress,
+            password: password,
+          );
+      print('Account created successfully!');
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+      return Future.error(e);
+    } catch (e) {
+      print('Create Account Error: $e');
+      return Future.error(e);
+    }
+  }
+
+  // ============================================
+  // Email & Password - Sign In
+  // ============================================
+  Future<UserCredential?> signInWithEmailAndPassword(
+    String emailAddress,
+    String password,
+  ) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+      print('Signed in successfully!');
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+      return Future.error(e);
     }
   }
 }
