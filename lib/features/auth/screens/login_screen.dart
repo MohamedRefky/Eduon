@@ -1,9 +1,11 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/auth_service.dart';
 import 'package:eduon/features/auth/screens/signup_screen.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/login_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
+import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -15,17 +17,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  final AuthService _authService = AuthService();
   bool _showPassword = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-   @override
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -91,7 +94,41 @@ class _LoginScreenState extends State<LoginScreen> {
             Gap(AppSizes.h40),
             ElevatedButton(onPressed: () {}, child: const Text('Login')),
             Gap(AppSizes.h35),
-            SocialAuthButton(),
+            SocialAuthButton(
+              onTap: () async {
+                try {
+                  final userCredential = await _authService.signInWithGoogle();
+
+                  if (userCredential == null) {
+                    debugPrint("Google sign-in was cancelled by user");
+                    return;
+                  }
+
+                  debugPrint("User logged in: ${userCredential.user?.email}");
+
+                  if (!context.mounted) return;
+
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const MainScreen()),
+                    (route) => false,
+                  );
+                } catch (e) {
+                  debugPrint("Google Sign-In Error: $e");
+
+                  if (!context.mounted) return;
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Failed to sign in with Google. Please try again.",
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+
             Gap(AppSizes.h28),
             AuthSwitchText(
               firstText: 'Don\'t have an account? ',

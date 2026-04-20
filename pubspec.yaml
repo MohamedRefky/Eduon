@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^2.2.4
   gap: ^3.0.1
   google_generative_ai: ^0.4.7
+  google_sign_in: ^7.2.0
   shared_preferences: ^2.5.5
   url_launcher: ^6.3.2
   youtube_player_flutter: ^9.1.3

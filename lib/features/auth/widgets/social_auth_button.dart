@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class SocialAuthButton extends StatelessWidget {
-  const SocialAuthButton({super.key});
-
+  const SocialAuthButton({super.key, required this.onTap});
+final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,21 +26,24 @@ class SocialAuthButton extends StatelessWidget {
           ],
         ),
         Gap(AppSizes.h20),
-        Container(
-          height: AppSizes.h40,
-          width: AppSizes.w100,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/svg/google.svg'),
-              Gap(AppSizes.w4),
-              Text("Google", style: TextTheme.of(context).bodySmall),
-            ],
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            height: AppSizes.h40,
+            width: AppSizes.w100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/svg/google.svg'),
+                Gap(AppSizes.w4),
+                Text("Google", style: TextTheme.of(context).bodySmall),
+              ],
+            ),
           ),
         ),
       ],
