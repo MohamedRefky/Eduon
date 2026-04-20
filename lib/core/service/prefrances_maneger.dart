@@ -1,11 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PrefrancesManeger {
-  static final PrefrancesManeger _instance = PrefrancesManeger._internal();
+class PreferencesManager {
+  static final PreferencesManager _instance = PreferencesManager._internal();
 
-  factory PrefrancesManeger() => _instance;
+  factory PreferencesManager() => _instance;
 
-  PrefrancesManeger._internal();
+  PreferencesManager._internal();
   late final SharedPreferences _preferences;
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();

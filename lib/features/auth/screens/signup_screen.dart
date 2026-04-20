@@ -1,8 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/auth_service.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/signup_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
+import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/year_selection/year_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -19,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
   @override
   void dispose() {
     fullNameController.dispose();
@@ -92,7 +95,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Gap(AppSizes.h40),
               ElevatedButton(onPressed: () {}, child: const Text('Sign Up')),
               Gap(AppSizes.h35),
-              SocialAuthButton(),
+              SocialAuthButton(
+                onTap: () async {
+                  final user = await _authService.signInWithGoogle();
+                  if (user != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const MainScreen()),
+                    );
+                  }
+                },
+              ),
               Gap(AppSizes.h28),
               AuthSwitchText(
                 firstText: 'Already have an account? ',
@@ -100,9 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ontap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) =>  YearSelectionScreen(),
-                    ),
+                    MaterialPageRoute(builder: (_) => YearSelectionScreen()),
                   );
                 },
               ),

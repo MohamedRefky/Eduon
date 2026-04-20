@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'prefrances_maneger.dart';
 
 class VideoProgressService {
-  final PrefrancesManeger _prefs = PrefrancesManeger();
+  final PreferencesManager _prefs = PreferencesManager();
 
   static const String _watchedVideosKey = 'watched_videos';
   static const String _videoProgressKey = 'video_progress';
