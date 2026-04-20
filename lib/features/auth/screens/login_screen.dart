@@ -1,4 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/auth_service.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/signup_screen.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
@@ -10,31 +11,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AuthCubit(AuthService()),
+      child: const _LoginView(),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _showPassword = false;
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class _LoginView extends StatefulWidget {
+  const _LoginView();
 
   @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  State<_LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<_LoginView> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cubit = context.read<AuthCubit>();
 
-    return BlocListener<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
           Navigator.pushAndRemoveUntil(
@@ -44,144 +48,149 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
           );
         } else if (state is AuthCanceled) {
-           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Sign in canceled"),
-            ),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("Sign in canceled")));
         }
       },
-      child: Scaffold(
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.w24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const LoginHeader(),
-                Gap(AppSizes.h30),
-                Text(
-                  'Email',
-                  style: theme.textTheme.displayMedium?.copyWith(
-                    fontSize: AppSizes.sp15,
+      builder: (context, state) {
+        final isLoading = state is AuthLoading;
+        return Scaffold(
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.w24),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const LoginHeader(),
+                  Gap(AppSizes.h30),
+                  Text(
+                    'Email',
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      fontSize: AppSizes.sp15,
+                    ),
                   ),
-                ),
-                Gap(AppSizes.h8),
-                CustomTextFormField(
-                  hintText: 'Enter your email',
-                  prefixIcon: Icons.email_outlined,
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter an email address';
-                    }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
-                ),
-                Gap(AppSizes.h20),
-                Text(
-                  'Password',
-                  style: theme.textTheme.displayMedium?.copyWith(
-                    fontSize: AppSizes.sp15,
+                  Gap(AppSizes.h8),
+                  CustomTextFormField(
+                    hintText: 'Enter your email',
+                    prefixIcon: Icons.email_outlined,
+                    controller: cubit.emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please Enter Email';
+                      }
+                      final email = value.trim();
+                      if (!email.contains('@')) {
+                        return "Mast contain @ in email address";
+                      }
+                      if (!RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(email)) {
+                        return 'Enter valid email (name@email.com)';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                Gap(AppSizes.h8),
-                CustomTextFormField(
-                  hintText: 'Enter your password',
-                  prefixIcon: Icons.lock_outline_rounded,
-                  suffixIcon: _showPassword
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  onSuffixPressed: () {
-                    setState(() {
-                      _showPassword = !_showPassword;
-                    });
-                  },
-                  controller: passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters long';
-                    }
-                    return null;
-                  },
-                ),
-                Gap(AppSizes.h8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Forgot?',
-                      style: theme.textTheme.displayMedium?.copyWith(
-                        fontSize: AppSizes.sp13,
+
+                  Gap(AppSizes.h20),
+                  Text(
+                    'Password',
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      fontSize: AppSizes.sp15,
+                    ),
+                  ),
+                  Gap(AppSizes.h8),
+                  BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      return CustomTextFormField(
+                        hintText: 'Enter your password',
+                        prefixIcon: Icons.lock_outline_rounded,
+                        obscureText: !cubit.showPassword,
+                        suffixIcon: cubit.showPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        onSuffixPressed: cubit.togglePasswordVisibility,
+                        controller: cubit.passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please Enter Password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password at least 6 characters';
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  ),
+
+                  Gap(AppSizes.h8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Forgot?',
+                        style: theme.textTheme.displayMedium?.copyWith(
+                          fontSize: AppSizes.sp13,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Gap(AppSizes.h40),
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    final isLoading = state is AuthLoading;
-                    return ElevatedButton(
-                      onPressed: isLoading
-                          ? null
-                          : () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<AuthCubit>().login(
-                                      emailController.text.trim(),
-                                      passwordController.text.trim(),
-                                    );
-                              }
-                            },
-                      child: isLoading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Text("Login"),
-                    );
-                  },
-                ),
-                Gap(AppSizes.h35),
-                SocialAuthButton(
-                  onTap: () => context.read<AuthCubit>().signInWithGoogle(),
-                ),
-                Gap(AppSizes.h28),
-                AuthSwitchText(
-                  firstText: 'Don\'t have an account? ',
-                  secondText: 'Sign Up',
-                  ontap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const SignUpScreen()),
-                    );
-                  },
-                ),
-              ],
+
+                  Gap(AppSizes.h40),
+                  ElevatedButton(
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            if (!_formKey.currentState!.validate()) return;
+                            cubit.login();
+                          },
+                    child: isLoading
+                        ? SizedBox(
+                            height: AppSizes.h20,
+                            width: AppSizes.w20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text('Login'),
+                  ),
+                  Gap(AppSizes.h35),
+                  SocialAuthButton(
+                    onTap: isLoading ? null : () => cubit.signInWithGoogle(),
+                  ),
+                  Gap(AppSizes.h28),
+                  AuthSwitchText(
+                    firstText: 'Don\'t have an account? ',
+                    secondText: 'Sign Up',
+                    ontap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: cubit,
+                            child: const SignUpScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Gap(AppSizes.h30),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

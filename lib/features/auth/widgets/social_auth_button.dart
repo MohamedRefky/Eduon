@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 class SocialAuthButton extends StatelessWidget {
   const SocialAuthButton({super.key, required this.onTap});
-final Function() onTap;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return Column(

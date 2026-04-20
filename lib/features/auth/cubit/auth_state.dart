@@ -13,6 +13,7 @@ class AuthLoading extends AuthState {}
 
 class AuthSuccess extends AuthState {
   final User user;
+
   const AuthSuccess(this.user);
 
   @override
@@ -21,6 +22,7 @@ class AuthSuccess extends AuthState {
 
 class AuthError extends AuthState {
   final String message;
+
   const AuthError(this.message);
 
   @override
@@ -28,3 +30,10 @@ class AuthError extends AuthState {
 }
 
 class AuthCanceled extends AuthState {}
+
+class AuthFormUpdated extends AuthState {
+  final int timestamp = DateTime.now().millisecondsSinceEpoch;
+
+  @override
+  List<Object?> get props => [timestamp];
+}

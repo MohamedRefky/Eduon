@@ -11,7 +11,9 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.onSuffixPressed,
     required this.keyboardType,
+    this.obscureText,
   });
+  final bool? obscureText;
   final String hintText;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
@@ -19,10 +21,11 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Function()? onSuffixPressed;
   final TextInputType keyboardType;
- 
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText ?? false,
       cursorColor: const Color(0xFF94A3B8),
       autocorrect: false,
       enableSuggestions: false,

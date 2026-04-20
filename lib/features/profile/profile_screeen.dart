@@ -1,7 +1,11 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/features/auth/cubit/auth_cubit.dart';
+import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';
 
@@ -10,38 +14,45 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const MainScreen()),
-              (route) => false,
-            );
-          },
-          child: Icon(Icons.arrow_back),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthInitial) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+            (route) => false,
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const MainScreen()),
+                (route) => false,
+              );
+            },
+          ),
+          title: const Text('My Profile'),
         ),
-        title: const Text('My Profile'),
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(AppSizes.h16),
-        children: [
-          // Avatar Section
-          AvatarSection(),
-          Gap(AppSizes.h30),
+        body: ListView(
+          padding: EdgeInsets.all(AppSizes.h16),
+          children: [
+            const AvatarSection(),
+            Gap(AppSizes.h30),
 
-          // Active Learning Section
-          ActiveLearning(),
-          Gap(AppSizes.h24),
+            const ActiveLearning(),
+            Gap(AppSizes.h24),
 
-          // Settings Section
-          _buildSettingsSection(context),
-          Gap(AppSizes.h24),
+            _buildSettingsSection(context),
+            Gap(AppSizes.h24),
 
-          // Logout Button
-          _buildLogoutButton(context),
-        ],
+            _buildLogoutButton(context),
+          ],
+        ),
       ),
     );
   }
@@ -55,33 +66,30 @@ class ProfileScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF8A9BB0).withValues(alpha: 0.3),
+        color: const Color(0xFF8A9BB0).withOpacity(0.3),
         borderRadius: BorderRadius.circular(AppSizes.r15),
       ),
       child: Column(
         children: settings.asMap().entries.map((entry) {
           final index = entry.key;
           final item = entry.value;
+
           return Column(
             children: [
               ListTile(
                 leading: Icon(
-                  item['icon'] as IconData,
+                  item['icon'],
                   color: const Color(0xFF475569),
                   size: AppSizes.sp22,
                 ),
                 title: Text(
-                  item['title'] as String,
-                  style: TextTheme.of(context).displaySmall?.copyWith(
+                  item['title'],
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontSize: AppSizes.sp15,
                     color: const Color(0xFF1E293B),
                   ),
                 ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: Colors.grey,
-                  size: AppSizes.sp22,
-                ),
+                trailing: const Icon(Icons.chevron_right, color: Colors.grey),
                 onTap: () {},
               ),
               if (index < settings.length - 1)
@@ -107,13 +115,16 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.r15),
       ),
       child: TextButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          context.read<AuthCubit>().logout();
+        },
         icon: Icon(Icons.logout, color: Colors.red, size: AppSizes.sp22),
         label: Text(
           'Logout',
-          style: TextTheme.of(
-            context,
-          ).displayMedium?.copyWith(color: Colors.red, fontSize: AppSizes.sp16),
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+            color: Colors.red,
+            fontSize: AppSizes.sp16,
+          ),
         ),
       ),
     );
