@@ -1,5 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/constants/year_constant.dart';
+import 'package:eduon/core/service/prefrances_maneger.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -9,7 +10,7 @@ import 'widgets/custom_year_container.dart';
 class YearSelectionScreen extends StatelessWidget {
   YearSelectionScreen({super.key});
   final ValueNotifier<int?> selectedIndex = ValueNotifier(null);
-  
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -21,7 +22,6 @@ class YearSelectionScreen extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -46,7 +46,7 @@ class YearSelectionScreen extends StatelessWidget {
                       ),
                     ),
 
-                      Gap(AppSizes.h15),
+                    Gap(AppSizes.h15),
                     ValueListenableBuilder<int?>(
                       valueListenable: selectedIndex,
                       builder: (context, selected, _) {
@@ -81,13 +81,19 @@ class YearSelectionScreen extends StatelessWidget {
                 return ElevatedButton(
                   onPressed: selected == null
                       ? null
-                      : () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MainScreen(),
-                            ),
+                      : () async {
+                          await PrefrancesManeger().setSelectedYear(
+                            years[selected]["title"]!,
                           );
+
+                          if (context.mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const MainScreen(),
+                              ),
+                            );
+                          }
                         },
                   child: const Text("Continue"),
                 );

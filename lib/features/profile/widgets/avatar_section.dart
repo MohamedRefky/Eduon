@@ -1,4 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/prefrances_maneger.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -7,7 +8,9 @@ class AvatarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Column(
+    final String? selectedYear = PrefrancesManeger().getSelectedYear();
+    final String? fullName = PrefrancesManeger().getFullName();
+    return Column(
       children: [
         // Avatar
         Container(
@@ -32,7 +35,7 @@ class AvatarSection extends StatelessWidget {
 
         // Name
         Text(
-          'Tamer Nabil',
+          fullName ?? 'Tamer Nabil',
           style: TextTheme.of(
             context,
           ).displayLarge?.copyWith(fontSize: AppSizes.sp24),
@@ -40,19 +43,22 @@ class AvatarSection extends StatelessWidget {
         Gap(AppSizes.h12),
 
         // Year Badge
-        Container(
-          width: AppSizes.w215,
-          height: AppSizes.h38,
-          decoration: BoxDecoration(
-            color: const Color(0xFF8A9BB0),
-            borderRadius: BorderRadius.circular(AppSizes.r12),
-          ),
-          child: Center(
-            child: Text(
-              'Second Year Student',
-              style: TextTheme.of(context).displaySmall?.copyWith(
-                color: Colors.white,
-                fontSize: AppSizes.sp13,
+        IntrinsicWidth(
+          child: Container(
+            height: AppSizes.h38,
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.w48),
+            decoration: BoxDecoration(
+              color: const Color(0xFF8A9BB0),
+              borderRadius: BorderRadius.circular(AppSizes.r12),
+            ),
+            child: Center(
+              child: Text(
+                selectedYear ?? 'No year selected',
+                style: TextTheme.of(context).displaySmall?.copyWith(
+                  color: Colors.white,
+                  fontSize: AppSizes.sp14,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),

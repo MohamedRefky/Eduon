@@ -14,45 +14,34 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthInitial) {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-            (route) => false,
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => const MainScreen()),
-                (route) => false,
-              );
-            },
-          ),
-          title: const Text('My Profile'),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const MainScreen()),
+              (route) => false,
+            );
+          },
         ),
-        body: ListView(
-          padding: EdgeInsets.all(AppSizes.h16),
-          children: [
-            const AvatarSection(),
-            Gap(AppSizes.h30),
+        title: const Text('My Profile'),
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(AppSizes.h16),
+        children: [
+          const AvatarSection(),
+          Gap(AppSizes.h30),
 
-            const ActiveLearning(),
-            Gap(AppSizes.h24),
+          const ActiveLearning(),
+          Gap(AppSizes.h24),
 
-            _buildSettingsSection(context),
-            Gap(AppSizes.h24),
+          _buildSettingsSection(context),
+          Gap(AppSizes.h24),
 
-            _buildLogoutButton(context),
-          ],
-        ),
+          _buildLogoutButton(context),
+        ],
       ),
     );
   }
@@ -115,8 +104,17 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.r15),
       ),
       child: TextButton.icon(
-        onPressed: () {
-          context.read<AuthCubit>().logout();
+        onPressed: () async {
+          await context.read<AuthCubit>().logout(); // ✅ await
+
+          if (context.mounted) {
+            // ✅ تأكد إن الـ context لسه شغال
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              (route) => false,
+            );
+          }
         },
         icon: Icon(Icons.logout, color: Colors.red, size: AppSizes.sp22),
         label: Text(

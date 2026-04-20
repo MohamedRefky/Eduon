@@ -2,15 +2,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefrancesManeger {
   static final PrefrancesManeger _instance = PrefrancesManeger._internal();
-
+ 
   factory PrefrancesManeger() => _instance;
-
+static const String selectedYearKey = 'selected_year';
+ static const String fullNameKey = 'full_name';
   PrefrancesManeger._internal();
   late final SharedPreferences _preferences;
+
+  Future<bool> setFullName(String name) {
+  return _preferences.setString(fullNameKey, name);
+}
+
+String? getFullName() {
+  return _preferences.getString(fullNameKey);
+}
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
   }
+  Future<bool> setSelectedYear(String year) {
+    return _preferences.setString(selectedYearKey, year);
+  }
 
+  String? getSelectedYear() {
+    return _preferences.getString(selectedYearKey);
+  }
   String? getString(String key) {
     return _preferences.getString(key);
   }

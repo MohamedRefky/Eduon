@@ -78,6 +78,7 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w500,
     ),
     labelMedium: TextStyle(
+      
       color: Color(0xFFF2F5F8),
       fontSize: AppSizes.sp15,
       fontWeight: FontWeight.w500,

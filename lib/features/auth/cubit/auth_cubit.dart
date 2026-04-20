@@ -1,4 +1,5 @@
 import 'package:eduon/core/service/auth_service.dart';
+import 'package:eduon/core/service/prefrances_maneger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,44 +26,52 @@ class AuthCubit extends Cubit<AuthState> {
   // ============================================
   // Login with Email and Password
   // ============================================
-  Future<void> login() async {
-    emit(AuthLoading());
-    try {
-      final userCredential = await _authService.signInWithEmailAndPassword(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-      );
 
-      if (userCredential?.user != null) {
-        emit(AuthSuccess(userCredential!.user!));
-      } else {
-        emit(const AuthError("Login failed: User is null"));
-      }
-    } catch (e) {
-      emit(AuthError(_handleAuthError(e)));
+  Future<void> login() async {
+  emit(AuthLoading());
+
+  try {
+    final userCredential =
+        await _authService.signInWithEmailAndPassword(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
+
+    if (userCredential?.user != null) {
+      emit(AuthSuccess(userCredential!.user!));
+    } else {
+      emit(const AuthError("Login failed"));
     }
+  } catch (e) {
+    emit(AuthError(_handleAuthError(e)));
   }
+}
 
   // ============================================
   // Register with Email and Password
   // ============================================
-  Future<void> register() async {
-    emit(AuthLoading());
-    try {
-      final userCredential = await _authService.createUserWithEmailAndPassword(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-      );
+ Future<void> register() async {
+  emit(AuthLoading());
 
-      if (userCredential?.user != null) {
-        emit(AuthSuccess(userCredential!.user!));
-      } else {
-        emit(const AuthError("Registration failed: User is null"));
-      }
-    } catch (e) {
-      emit(AuthError(_handleAuthError(e)));
+  try {
+    final userCredential =
+        await _authService.createUserWithEmailAndPassword(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
+
+    if (userCredential?.user != null) {
+      await PrefrancesManeger()
+          .setFullName(fullNameController.text.trim());
+
+      emit(AuthSuccess(userCredential!.user!));
+    } else {
+      emit(const AuthError("Registration failed"));
     }
+  } catch (e) {
+    emit(AuthError(_handleAuthError(e)));
   }
+}
 
   // ============================================
   // Google Sign In
@@ -73,9 +82,11 @@ class AuthCubit extends Cubit<AuthState> {
       final userCredential = await _authService.signInWithGoogle();
 
       if (userCredential?.user != null) {
-        emit(AuthSuccess(userCredential!.user!));
+        final name = userCredential!.user!.displayName;
+        await PrefrancesManeger().setFullName(name ?? "");
+        emit(AuthSuccess(userCredential.user!));
       } else {
-        emit(AuthInitial());
+        emit(AuthCanceled()); // ✅ بدل AuthInitial
       }
     } catch (e) {
       if (e.toString().contains('canceled')) {
