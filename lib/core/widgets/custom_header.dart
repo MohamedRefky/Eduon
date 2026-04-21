@@ -15,7 +15,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       flexibleSpace: Container(
-        height: AppSizes.h100,
+        height: AppSizes.h110,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
