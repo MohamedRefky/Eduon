@@ -78,7 +78,6 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w500,
     ),
     labelMedium: TextStyle(
-      
       color: Color(0xFFF2F5F8),
       fontSize: AppSizes.sp15,
       fontWeight: FontWeight.w500,
@@ -155,11 +154,13 @@ ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(AppSizes.r15),
       borderSide: BorderSide.none,
     ),
-
+    errorMaxLines: 2,
+    errorStyle: TextStyle(fontSize: AppSizes.sp15, height: 0.8),
     filled: true,
     fillColor: Color(0xFFF8FAFC),
     prefixIconColor: Color(0xFF94A3B8),
     suffixIconColor: Color(0xFF94A3B8),
+
     //isDense: true,
     // prefixIconConstraints: const BoxConstraints(),
     // suffixIconConstraints: const BoxConstraints(),

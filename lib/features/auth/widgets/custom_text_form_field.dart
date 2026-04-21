@@ -33,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
       onTapUpOutside: (_) => FocusScope.of(context).unfocus(),
       controller: controller,
       validator: validator,
+      
       textAlignVertical: TextAlignVertical.center,
       style: Theme.of(context).textTheme.displayMedium,
       decoration: InputDecoration(

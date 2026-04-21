@@ -1,6 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/utils/auth_snackbar.dart';
+import 'package:eduon/features/auth/utils/auth_validator.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/signup_header.dart';
@@ -10,14 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({super.key});
 
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -70,28 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: 'Tamer Nabil',
                       controller: cubit.fullNameController,
                       keyboardType: TextInputType.name,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please Enter Full Name';
-                        }
-                        final trimmed = value.trim();
-                        if (trimmed.length < 3) {
-                          return 'Name is too short';
-                        }
-                        if (!RegExp(
-                          r"^[a-zA-Z\u0600-\u06FF\s]+$",
-                        ).hasMatch(trimmed)) {
-                          return 'Name must contain letters only';
-                        }
-                        if (trimmed
-                                .split(' ')
-                                .where((w) => w.isNotEmpty)
-                                .length <
-                            2) {
-                          return 'Enter your first name & last name';
-                        }
-                        return null;
-                      },
+                      validator: AuthValidator.fullName,
                     ),
 
                     Gap(AppSizes.h20),
@@ -107,21 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please Enter Email';
-                        }
-                        final email = value.trim();
-                        if (!email.contains('@')) {
-                          return "Mast contain @ in email address";
-                        }
-                        if (!RegExp(
-                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                        ).hasMatch(email)) {
-                          return 'Enter valid email (name@email.com)';
-                        }
-                        return null;
-                      },
+                      validator: AuthValidator.email,
                     ),
 
                     Gap(AppSizes.h20),
@@ -144,15 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please Enter Password';
-                            }
-                            if (value.length < 6) {
-                              return 'password at least 6 characters';
-                            }
-                            return null;
-                          },
+                          validator: AuthValidator.password,
                         );
                       },
                     ),
