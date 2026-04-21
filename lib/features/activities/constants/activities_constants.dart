@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 class ActivitiesConstants {
   static const List<Map<String, dynamic>> clubs = [
     {
+      'name': 'Fares Toson Academy',
+      'description':
+          'A professional platform for mastering 3D video editing and motion design, helping you turn creative skills into real income.',
+      'tag': '3D Video Editing & Monetization',
+      'image': 'assets/images/Fares_Toson_Academy.jpg',
+      'color': Color(0xFF000000),
+      'link': 'https://farestoson.com/',
+    },
+    {
       'name': 'IEEE Student Branch',
       'description':
           'Global technical organization for the advancement of technology and innovation.',
@@ -70,7 +79,7 @@ class ActivitiesConstants {
       'image': 'assets/images/ROBOTICS.png',
       'svg': 'assets/svg/ROBOTICS.svg',
       'color': Color.fromARGB(255, 132, 128, 128),
-      'link': 'https://www.facebook.com/oi.robotics', 
+      'link': 'https://www.facebook.com/oi.robotics',
     },
   ];
 }

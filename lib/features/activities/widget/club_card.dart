@@ -2,7 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:url_launcher/url_launcher.dart'; // استيراد المكتبة
+import 'package:url_launcher/url_launcher.dart';
 
 class ClubCardWidget extends StatelessWidget {
   const ClubCardWidget({super.key, required this.club});
@@ -11,14 +11,13 @@ class ClubCardWidget extends StatelessWidget {
   Future<void> _openLink(String link) async {
     final Uri url = Uri.parse(link);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $link');
+      debugPrint('Could not launch $link');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final String link = club['link'] as String? ?? '';
-
     return Container(
       margin: EdgeInsets.only(bottom: AppSizes.h16),
       decoration: BoxDecoration(
@@ -40,22 +39,25 @@ class ClubCardWidget extends StatelessWidget {
               topLeft: Radius.circular(AppSizes.r15),
               topRight: Radius.circular(AppSizes.r15),
             ),
-            child: Image.asset(
-              club['image'] as String,
-              height: AppSizes.h160,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: AppSizes.h160,
-                  width: double.infinity,
-                  color: club['color'] as Color,
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: Colors.white,
-                  ),
-                );
-              },
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.asset(
+                club['image'] as String? ?? '',
+                height: AppSizes.h160,
+                width: double.infinity,
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: AppSizes.h160,
+                    width: double.infinity,
+                    color: club['color'] as Color? ?? Colors.grey,
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Padding(
@@ -67,13 +69,15 @@ class ClubCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(
-                      club['svg'] as String,
-                      width: AppSizes.sp16,
-                      height: AppSizes.sp16,
-                      fit: BoxFit.contain,
-                    ),
-                    Gap(AppSizes.w8),
+                    if (club['svg'] != null) ...[
+                      SvgPicture.asset(
+                        club['svg'] as String,
+                        width: AppSizes.sp16,
+                        height: AppSizes.sp16,
+                        fit: BoxFit.contain,
+                      ),
+                      Gap(AppSizes.w8),
+                    ],
                     Expanded(
                       child: Text(
                         club['name'] as String,
