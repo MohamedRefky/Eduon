@@ -7,6 +7,7 @@ import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class PopularCoursesSection extends StatelessWidget {
   const PopularCoursesSection({super.key, required this.playlist});
@@ -21,9 +22,10 @@ class PopularCoursesSection extends StatelessWidget {
       builder: (context, state) {
         // Loading
         if (state.isPopularLoading) {
-          return const SizedBox(
-            height: 200,
-            child: Center(child: CircularProgressIndicator()),
+          return Lottie.asset(
+            height: AppSizes.h110,
+            'assets/gif/Trail_loading.json',
+            fit: BoxFit.contain,
           );
         }
         if (state.popularCourses.isEmpty) return const SizedBox();
@@ -96,8 +98,12 @@ class PopularCoursesSection extends StatelessWidget {
                                 height: AppSizes.h90,
                                 width: AppSizes.h120,
                                 fit: BoxFit.fill,
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
+                                placeholder: (context, url) => Center(
+                                  child: Lottie.asset(
+                                    height: AppSizes.h110,
+                                    'assets/gif/Trail_loading.json',
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
                                 errorWidget: (context, url, error) => Container(
                                   color: Colors.grey[300],

@@ -12,6 +12,7 @@ import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -161,13 +162,10 @@ class LoginScreen extends StatelessWidget {
                               cubit.login();
                             },
                       child: isLoading
-                          ? SizedBox(
-                              height: AppSizes.h20,
-                              width: AppSizes.w20,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
+                          ? Lottie.asset(
+                              height: AppSizes.h52,
+                              'assets/gif/Loading_animation_blue.json',
+                              fit: BoxFit.contain,
                             )
                           : const Text('Login'),
                     ),

@@ -10,6 +10,7 @@ import 'package:eduon/features/year_selection/year_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -120,13 +121,11 @@ class SignUpScreen extends StatelessWidget {
                               cubit.register();
                             },
                       child: isLoading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
+                          ? Lottie.asset(
+                              height: AppSizes.h52,
+                              'assets/gif/Loading_animation_blue.json',
+
+                              fit: BoxFit.contain,
                             )
                           : const Text('Sign Up'),
                     ),

@@ -1,5 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../cubit/course_details_state.dart';
 import 'player_overlay_controls.dart';
@@ -21,9 +22,15 @@ class VideoPlayerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!state.hasVideos) {
-      return  SizedBox(
+      return SizedBox(
         height: AppSizes.h220,
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(
+          child: Lottie.asset(
+            height: AppSizes.h110,
+            'assets/gif/Trail_loading.json',
+            fit: BoxFit.contain,
+          ),
+        ),
       );
     }
 

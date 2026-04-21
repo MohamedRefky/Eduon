@@ -3,6 +3,7 @@ import 'package:eduon/core/service/video_progress_service.dart';
 import 'package:eduon/main.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class ActiveLearning extends StatefulWidget {
   const ActiveLearning({super.key});
@@ -85,10 +86,11 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
         Gap(AppSizes.h12),
 
         if (_isLoading)
-          SizedBox(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(color: const Color(0xFF3B82F6)),
+          Center(
+            child: Lottie.asset(
+              height: AppSizes.h110,
+              'assets/gif/Trail_loading.json',
+              fit: BoxFit.contain,
             ),
           )
         else

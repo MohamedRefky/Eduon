@@ -31,6 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
 
     try {
+      await Future.delayed(const Duration(seconds: 1));
       final userCredential = await _authService.signInWithEmailAndPassword(
         emailController.text.trim(),
         passwordController.text.trim(),
@@ -51,15 +52,24 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
 
     try {
-      final userCredential = await _authService.createUserWithEmailAndPassword(
+      final registerFuture = _authService.createUserWithEmailAndPassword(
         emailController.text.trim(),
         passwordController.text.trim(),
       );
+
+      await Future.wait([
+        registerFuture,
+        Future.delayed(const Duration(seconds: 1)),
+      ]);
+
+      final userCredential = await registerFuture;
 
       if (userCredential?.user != null) {
         emit(AuthSuccess(userCredential!.user!));
       }
     } on FirebaseAuthException catch (e) {
+      await Future.delayed(const Duration(seconds: 1));
+
       if (e.code == 'email-already-in-use') {
         emit(AuthEmailAlreadyExists());
       } else {
@@ -92,21 +102,19 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-Future<void> forgotPasswordWithEmail(String email) async {
-  emit(AuthLoading());
+  Future<void> forgotPasswordWithEmail(String email) async {
+    emit(AuthLoading());
 
-  try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(
-      email: email.trim(),
-    );
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
 
-    emit(AuthPasswordResetSent());
-  } on FirebaseAuthException catch (e) {
-    emit(AuthError(_handleAuthError(e)));
-  } catch (e) {
-    emit(const AuthError("Failed to send reset email."));
+      emit(AuthPasswordResetSent());
+    } on FirebaseAuthException catch (e) {
+      emit(AuthError(_handleAuthError(e)));
+    } catch (e) {
+      emit(const AuthError("Failed to send reset email."));
+    }
   }
-}
 
   // ============================================
   // Logout

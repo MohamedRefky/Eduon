@@ -1,6 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class CourseDetailsLoading extends StatelessWidget {
   const CourseDetailsLoading({super.key});
@@ -11,7 +12,11 @@ class CourseDetailsLoading extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          Lottie.asset(
+            height: AppSizes.h110,
+            'assets/gif/Trail_loading.json',
+            fit: BoxFit.contain,
+          ),
           Gap(AppSizes.h16),
           Text(
             'Loading course...',

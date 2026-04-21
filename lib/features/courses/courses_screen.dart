@@ -5,6 +5,7 @@ import 'package:eduon/core/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
@@ -35,8 +36,12 @@ class _CoursesScreenState extends State<CoursesScreen> {
       body: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           if (state.isCategoriesLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
+            return Center(
+              child: Lottie.asset(
+                height: AppSizes.h110,
+                'assets/gif/Trail_loading.json',
+                fit: BoxFit.contain,
+              ),
             );
           }
 
