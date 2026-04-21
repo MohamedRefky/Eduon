@@ -1,5 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
+import 'package:eduon/features/auth/utils/auth_snackbar.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/signup_header.dart';
@@ -23,76 +24,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cubit = context.read<AuthCubit>();
-
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        switch (state) {
-          case AuthSuccess():
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => YearSelectionScreen()),
-              (route) => false,
-            );
-            break;
+        if (state is AuthSuccess) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => YearSelectionScreen()),
+            (route) => false,
+          );
+        }
 
-          case AuthError():
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Center(
-                  child: Text(
-                   'An account already exists with this email. Please log in.',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                ),
-                backgroundColor: Colors.red.shade600,
-                behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.symmetric(
-                  horizontal: AppSizes.w16,
-                  vertical: AppSizes.h12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.r12),
-                ),
-                duration: const Duration(seconds: 3),
-              ),
-            );
-            break;
+        if (state is AuthEmailAlreadyExists) {
+          context.showAuthSnackBar(
+            'Email already registered. Please login',
+            isError: true,
+          );
+        }
 
-          case AuthCanceled():
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Center(
-                  child: Text(
-                    "Sign in canceled",
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                ),
-                behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.symmetric(
-                  horizontal: AppSizes.w16,
-                  vertical: AppSizes.h12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.r12),
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-            break;
-
-          default:
-            break;
+        if (state is AuthCanceled) {
+          context.showAuthSnackBar('Sign in canceled', durationSeconds: 2);
         }
       },
       builder: (context, state) {
         final isLoading = state is AuthLoading;
-
         return Scaffold(
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.w20),
               child: Form(
                 key: _formKey,
                 child: Column(

@@ -2,17 +2,18 @@ part of 'auth_cubit.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
-
   @override
   List<Object?> get props => [];
 }
+class AuthInitial extends AuthState {}
+
 class AuthUserNotFound extends AuthState {}
 
 class AuthEmailAlreadyExists extends AuthState {}
 
-class AuthInitial extends AuthState {}
-
 class AuthLoading extends AuthState {}
+
+class AuthCanceled extends AuthState {}
 
 class AuthSuccess extends AuthState {
   final User user;
@@ -32,7 +33,7 @@ class AuthError extends AuthState {
   List<Object?> get props => [message];
 }
 
-class AuthCanceled extends AuthState {}
+
 
 class AuthFormUpdated extends AuthState {
   final int timestamp = DateTime.now().millisecondsSinceEpoch;

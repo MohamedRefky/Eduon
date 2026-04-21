@@ -28,50 +28,45 @@ class AuthCubit extends Cubit<AuthState> {
   // ============================================
 
   Future<void> login() async {
-  emit(AuthLoading());
+    emit(AuthLoading());
 
-  try {
-    final userCredential =
-        await _authService.signInWithEmailAndPassword(
-      emailController.text.trim(),
-      passwordController.text.trim(),
-    );
+    try {
+      final userCredential = await _authService.signInWithEmailAndPassword(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
 
-    if (userCredential?.user != null) {
-      emit(AuthSuccess(userCredential!.user!));
-    } else {
-      emit(const AuthError("Login failed"));
+      if (userCredential?.user != null) {
+        emit(AuthSuccess(userCredential!.user!));
+      }
+    } on FirebaseAuthException {
+      emit(AuthUserNotFound());
     }
-  } catch (e) {
-    emit(AuthError(_handleAuthError(e)));
   }
-}
 
   // ============================================
   // Register with Email and Password
   // ============================================
- Future<void> register() async {
-  emit(AuthLoading());
+  Future<void> register() async {
+    emit(AuthLoading());
 
-  try {
-    final userCredential =
-        await _authService.createUserWithEmailAndPassword(
-      emailController.text.trim(),
-      passwordController.text.trim(),
-    );
+    try {
+      final userCredential = await _authService.createUserWithEmailAndPassword(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
 
-    if (userCredential?.user != null) {
-      await PrefrancesManeger()
-          .setFullName(fullNameController.text.trim());
-
-      emit(AuthSuccess(userCredential!.user!));
-    } else {
-      emit(const AuthError("Registration failed"));
+      if (userCredential?.user != null) {
+        emit(AuthSuccess(userCredential!.user!));
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        emit(AuthEmailAlreadyExists());
+      } else {
+        emit(const AuthError("Registration failed"));
+      }
     }
-  } catch (e) {
-    emit(AuthError(_handleAuthError(e)));
   }
-}
 
   // ============================================
   // Google Sign In
