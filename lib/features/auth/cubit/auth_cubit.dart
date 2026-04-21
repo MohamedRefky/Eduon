@@ -92,6 +92,22 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+Future<void> forgotPasswordWithEmail(String email) async {
+  emit(AuthLoading());
+
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(
+      email: email.trim(),
+    );
+
+    emit(AuthPasswordResetSent());
+  } on FirebaseAuthException catch (e) {
+    emit(AuthError(_handleAuthError(e)));
+  } catch (e) {
+    emit(const AuthError("Failed to send reset email."));
+  }
+}
+
   // ============================================
   // Logout
   // ============================================
@@ -116,6 +132,8 @@ class AuthCubit extends Cubit<AuthState> {
           return "This email is already in use.";
         case 'weak-password':
           return "The password is too weak.";
+        case 'too-many-requests':
+          return "Too many tries. Please wait and try again.";
         default:
           return e.message ?? "Authentication failed.";
       }

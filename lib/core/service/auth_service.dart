@@ -57,7 +57,14 @@ class AuthService {
       return Future.error(e);
     }
   }
-
+    // ============================================
+  // Forgot Password
+  // ============================================
+Future<void> sendPasswordResetEmail(String email) async {
+  await FirebaseAuth.instance.sendPasswordResetEmail(
+    email: email.trim(),
+  );
+}
   // ============================================
   // Email Link - Create Account
   // ============================================

@@ -14,7 +14,7 @@ class AuthEmailAlreadyExists extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthCanceled extends AuthState {}
-
+class AuthPasswordResetSent extends AuthState {}
 class AuthSuccess extends AuthState {
   final User user;
 

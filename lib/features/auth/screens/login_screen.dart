@@ -38,7 +38,13 @@ class LoginScreen extends StatelessWidget {
               isError: true,
             );
           }
+          if (state is AuthPasswordResetSent) {
+            context.showAuthSnackBar('Password reset link sent to your email');
+          }
 
+          if (state is AuthError) {
+            context.showAuthSnackBar(state.message, isError: true);
+          }
           if (state is AuthCanceled) {
             context.showAuthSnackBar('Sign in canceled', durationSeconds: 2);
           }
@@ -103,7 +109,41 @@ class LoginScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: isLoading
+                            ? null
+                            : () {
+                                final email = cubit.emailController.text.trim();
+
+                                if (email.isEmpty) {
+                                  context.showAuthSnackBar(
+                                    "Enter your email first",
+                                    isError: true,
+                                  );
+                                  return;
+                                }
+
+                                cubit.forgotPasswordWithEmail(email);
+                                if (state is AuthPasswordResetSent) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: const Text("Check your email"),
+                                        content: const Text(
+                                          "We sent a password reset link to your email address.",
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              },
                         child: Text(
                           'Forgot?',
                           style: theme.textTheme.displayMedium?.copyWith(
