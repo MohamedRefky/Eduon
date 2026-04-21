@@ -1,6 +1,6 @@
 
 import 'package:eduon/core/service/video_progress_service.dart';
-import 'package:eduon/repository/course_repository.dart';
+import 'package:eduon/features/courses/repository/course_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'course_details_state.dart';
