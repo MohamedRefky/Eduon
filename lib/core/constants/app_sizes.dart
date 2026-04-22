@@ -88,6 +88,7 @@ class AppSizes {
   static final double w60 = 60.w;
   static final double w65 = 65.w;
   static final double w70 = 70.w;
+  static final double w75 = 75.w;
   static final double w80 = 80.w;
   static final double w90 = 90.w;
   static final double w100 = 100.w;

@@ -1,4 +1,4 @@
-class AuthValidator {
+class AppValidator {
   // ================= EMAIL =================
   static String? email(String? value) {
     if (value == null || value.trim().isEmpty) {

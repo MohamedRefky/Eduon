@@ -6,6 +6,7 @@ import 'package:eduon/core/service/auth_service.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/onboarding/onboarding_screen.dart';
+import 'package:eduon/features/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,9 +47,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               //darkTheme: darkTheme,
               themeMode: currentMode,
-              home: PrefrancesManeger().getOnboardingSeen()
-                  ? MainScreen()
-                  : const OnboardingScreen(),
+            home: const SplashScreen(),
             );
           },
         );

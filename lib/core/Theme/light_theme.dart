@@ -161,9 +161,12 @@ ThemeData lightTheme = ThemeData(
     prefixIconColor: Color(0xFF94A3B8),
     suffixIconColor: Color(0xFF94A3B8),
 
-    //isDense: true,
-    // prefixIconConstraints: const BoxConstraints(),
-    // suffixIconConstraints: const BoxConstraints(),
+    labelStyle: TextStyle(
+      color: Colors.black,
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w600,
+      fontFamily: "PlusJakartaSans",
+    ),
     hintStyle: TextStyle(
       color: Color(0xFF94A3B8),
       fontSize: AppSizes.sp16,

@@ -1,11 +1,11 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/service/auth_service.dart';
+import 'package:eduon/core/utils/app_validator.dart';
+import 'package:eduon/core/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/signup_screen.dart';
 import 'package:eduon/features/auth/utils/auth_snackbar.dart';
-import 'package:eduon/features/auth/utils/auth_validator.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
-import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/login_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
 import 'package:eduon/features/main/main_screen.dart';
@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: AuthValidator.email,
+                      validator: AppValidator.email,
                     ),
                     Gap(AppSizes.h20),
                     Text(
@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: AuthValidator.password,
+                          validator: AppValidator.password,
                         );
                       },
                     ),

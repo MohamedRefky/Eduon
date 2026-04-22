@@ -4,12 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class AvatarSection extends StatelessWidget {
+import 'edit_profile_dialog.dart';
+
+class AvatarSection extends StatefulWidget {
   const AvatarSection({super.key});
 
   @override
+  State<AvatarSection> createState() => _AvatarSectionState();
+}
+
+class _AvatarSectionState extends State<AvatarSection> {
+  @override
   Widget build(BuildContext context) {
-     final uid = FirebaseAuth.instance.currentUser?.uid;
+    final uid = FirebaseAuth.instance.currentUser?.uid;
     final selectedYear = PrefrancesManeger().getUserSelectedYear(
       FirebaseAuth.instance.currentUser!.uid,
     );
@@ -72,7 +79,7 @@ class AvatarSection extends StatelessWidget {
         // Edit Profile Button
         Container(
           width: AppSizes.w130,
-          height: AppSizes.h48,
+          height: AppSizes.h50,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -93,11 +100,19 @@ class AvatarSection extends StatelessWidget {
           ),
           child: Material(
             color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                // Your action
+            child: GestureDetector(
+              onTap: () async {
+                final result = await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  builder: (_) => const EditProfileDialog(),
+                );
+
+                if (result == true && mounted) {
+                  setState(() {});
+                }
               },
-              borderRadius: BorderRadius.circular(AppSizes.r20),
               child: Container(
                 alignment: Alignment.center,
                 child: Text(

@@ -1,9 +1,9 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/utils/app_validator.dart';
+import 'package:eduon/core/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/utils/auth_snackbar.dart';
-import 'package:eduon/features/auth/utils/auth_validator.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
-import 'package:eduon/features/auth/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/widgets/signup_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
 import 'package:eduon/features/year_selection/year_selection_screen.dart';
@@ -67,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                       hintText: 'Tamer Nabil',
                       controller: cubit.fullNameController,
                       keyboardType: TextInputType.name,
-                      validator: AuthValidator.fullName,
+                      validator: AppValidator.fullName,
                     ),
 
                     Gap(AppSizes.h20),
@@ -83,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: AuthValidator.email,
+                      validator: AppValidator.email,
                     ),
 
                     Gap(AppSizes.h20),
@@ -106,7 +106,7 @@ class SignUpScreen extends StatelessWidget {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: AuthValidator.password,
+                          validator: AppValidator.password,
                         );
                       },
                     ),

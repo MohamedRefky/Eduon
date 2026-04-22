@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    required this.hintText,
+    this.hintText,
     required this.controller,
     this.prefixIcon,
     this.suffixIcon,
@@ -12,15 +12,17 @@ class CustomTextFormField extends StatelessWidget {
     this.onSuffixPressed,
     required this.keyboardType,
     this.obscureText,
+    this.labelText,
   });
   final bool? obscureText;
-  final String hintText;
+  final String? hintText;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final Function()? onSuffixPressed;
   final TextInputType keyboardType;
+  final String? labelText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
       cursorColor: const Color(0xFF94A3B8),
       autocorrect: false,
       enableSuggestions: false,
+
       keyboardType: keyboardType,
       onTapUpOutside: (_) => FocusScope.of(context).unfocus(),
       controller: controller,
@@ -37,6 +40,7 @@ class CustomTextFormField extends StatelessWidget {
       style: Theme.of(context).textTheme.displayMedium,
       decoration: InputDecoration(
         hintText: hintText,
+        labelText: labelText,
         contentPadding: EdgeInsets.symmetric(
           vertical: AppSizes.h18,
           horizontal: AppSizes.w8,
