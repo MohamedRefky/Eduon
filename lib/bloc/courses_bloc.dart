@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:eduon/features/courses/repository/course_repository.dart';
+import 'package:eduon/repository/course_repository.dart';
 
 import 'courses_event.dart';
 import 'courses_state.dart';

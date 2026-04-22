@@ -22,32 +22,25 @@ class VideoModel {
   });
 
   factory VideoModel.fromPlaylistItem(Map<String, dynamic> json) {
-final snippet = json['snippet'] ?? {};
-final thumbnails = snippet['thumbnails'] ?? {};
-    String thumbnail = '';
-    if (thumbnails['maxres'] != null) {
-      thumbnail = thumbnails['maxres']['url'];
-    } else if (thumbnails['high'] != null) {
-      thumbnail = thumbnails['high']['url'];
-    } else if (thumbnails['medium'] != null) {
-      thumbnail = thumbnails['medium']['url'];
-    } else {
-      thumbnail = thumbnails['default']['url'];
-    }
+    final snippet = json['snippet'] as Map<String, dynamic>? ?? {};
+    final thumbnails = snippet['thumbnails'] as Map<String, dynamic>? ?? {};
+    final resourceId = snippet['resourceId'] as Map<String, dynamic>? ?? {};
+
+    final thumbnail = _extractThumbnailUrl(thumbnails);
 
     return VideoModel(
-     videoId: snippet['resourceId']?['videoId'] ?? '',
-      title: snippet['title'] ?? '',
-      description: snippet['description'] ?? '',
+      videoId: (resourceId['videoId'] ?? '').toString(),
+      title: (snippet['title'] ?? '').toString(),
+      description: (snippet['description'] ?? '').toString(),
       thumbnailUrl: thumbnail,
-      channelTitle: snippet['videoOwnerChannelTitle'] ?? '',
+      channelTitle:
+          (snippet['videoOwnerChannelTitle'] ?? snippet['channelTitle'] ?? '')
+              .toString(),
       position: snippet['position'] ?? 0,
-      
-
     );
   }
 
-  VideoModel copyWith({int? viewCount, String? duration , int? likeCount}) {
+  VideoModel copyWith({int? viewCount, String? duration, int? likeCount}) {
     return VideoModel(
       videoId: videoId,
       title: title,
@@ -59,5 +52,16 @@ final thumbnails = snippet['thumbnails'] ?? {};
       duration: duration ?? this.duration,
       likeCount: likeCount ?? this.likeCount,
     );
+  }
+
+  static String _extractThumbnailUrl(Map<String, dynamic>? thumbnails) {
+    if (thumbnails == null) return '';
+
+    return (thumbnails['maxres']?['url'] ??
+            thumbnails['high']?['url'] ??
+            thumbnails['medium']?['url'] ??
+            thumbnails['default']?['url'] ??
+            '')
+        .toString();
   }
 }

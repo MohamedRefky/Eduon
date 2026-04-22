@@ -1,8 +1,8 @@
-import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
 import 'cubit/course_details_cubit.dart';
 import 'cubit/course_details_state.dart';
 import 'widgets/course_details_loading.dart';
@@ -176,21 +176,11 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
       case CourseDetailsStatus.initial:
       case CourseDetailsStatus.loading:
         return const CourseDetailsLoading();
-
       case CourseDetailsStatus.error:
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: AppSizes.sp48, color: Colors.red),
-              Gap(AppSizes.h16),
-              Text(state.errorMessage ?? 'Something went wrong'),
-              Gap(AppSizes.h16),
-              ElevatedButton(
-                onPressed: _cubit.loadPlaylistVideos,
-                child: const Text('Retry'),
-              ),
-            ],
+            children: [Lottie.asset('assets/gif/error404.json')],
           ),
         );
 

@@ -5,7 +5,7 @@ import 'package:eduon/features/courses/courses_screen.dart';
 import 'package:eduon/features/eduon_aI/screen/edone_ai_screeen.dart';
 import 'package:eduon/features/home/home_screen.dart';
 import 'package:eduon/features/profile/profile_screeen.dart';
-import 'package:eduon/features/courses/repository/course_repository.dart';
+import 'package:eduon/repository/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

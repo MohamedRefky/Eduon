@@ -22,26 +22,19 @@ class PlaylistModel {
   });
 
   factory PlaylistModel.fromJson(Map<String, dynamic> json, String category) {
-    final snippet = json['snippet'] ?? {};
-    final thumbnails = snippet['thumbnails'] ?? {};
+    final snippet = json['snippet'] as Map<String, dynamic>? ?? {};
+    final thumbnails = snippet['thumbnails'] as Map<String, dynamic>? ?? {};
 
-    String thumbnail =
-        (thumbnails['maxres'] ??
-            thumbnails['high'] ??
-            thumbnails['medium'] ??
-            thumbnails['default'] ??
-            {})['url'] ??
-        '';
+    final thumbnail = _extractThumbnailUrl(thumbnails);
 
     return PlaylistModel(
       playlistId: json['id'] is String
-          ? json['id']
-          : json['id']?['playlistId'] ?? '',
-
-      title: snippet['title'] ?? 'No Title',
-      description: snippet['description'] ?? '',
+          ? json['id'] as String
+          : (json['id']?['playlistId'] ?? '').toString(),
+      title: (snippet['title'] ?? 'No Title').toString(),
+      description: (snippet['description'] ?? '').toString(),
       thumbnailUrl: thumbnail,
-      channelTitle: snippet['channelTitle'] ?? '',
+      channelTitle: (snippet['channelTitle'] ?? '').toString(),
       videoCount: json['contentDetails']?['itemCount'] ?? 0,
       category: category,
     );
@@ -58,5 +51,16 @@ class PlaylistModel {
       category: category,
       videos: videos ?? this.videos,
     );
+  }
+
+  static String _extractThumbnailUrl(Map<String, dynamic>? thumbnails) {
+    if (thumbnails == null) return '';
+
+    return (thumbnails['maxres']?['url'] ??
+            thumbnails['high']?['url'] ??
+            thumbnails['medium']?['url'] ??
+            thumbnails['default']?['url'] ??
+            '')
+        .toString();
   }
 }

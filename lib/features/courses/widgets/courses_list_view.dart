@@ -19,7 +19,7 @@ class CourseItem extends StatelessWidget {
         ),
       ),
       child: Container(
-        // height: 350,
+ 
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,

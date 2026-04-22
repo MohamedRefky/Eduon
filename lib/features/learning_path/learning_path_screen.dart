@@ -2,7 +2,7 @@ import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_event.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/models/learning_path_model.dart';
-import 'package:eduon/features/courses/repository/course_repository.dart';
+import 'package:eduon/repository/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
