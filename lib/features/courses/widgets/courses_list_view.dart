@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/models/playlist_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
@@ -19,7 +20,6 @@ class CourseItem extends StatelessWidget {
         ),
       ),
       child: Container(
- 
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -39,11 +39,21 @@ class CourseItem extends StatelessWidget {
                 topLeft: Radius.circular(AppSizes.r12),
                 topRight: Radius.circular(AppSizes.r12),
               ),
-              child: Image.network(
-                playlist.thumbnailUrl,
+              child: CachedNetworkImage(
+                imageUrl: playlist.thumbnailUrl,
                 height: AppSizes.h180,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: Colors.grey.shade300,
+                  height: AppSizes.h180,
+                  width: double.infinity,
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.grey.shade300,
+                  height: AppSizes.h180,
+                  width: double.infinity,
+                ),
               ),
             ),
             Gap(AppSizes.w10),

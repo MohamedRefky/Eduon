@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -78,12 +79,12 @@ class LearningPathStepItem extends StatelessWidget {
                           topLeft: Radius.circular(AppSizes.r12),
                           bottomLeft: Radius.circular(AppSizes.r12),
                         ),
-                        child: Image.network(
-                          thumbnail,
+                        child: CachedNetworkImage(
+                          imageUrl: thumbnail,
                           width: AppSizes.w100,
                           height: AppSizes.h80,
                           fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
+                          errorWidget: (context, error, stackTrace) {
                             return Container(
                               width: AppSizes.w100,
                               height: AppSizes.h80,
@@ -91,6 +92,11 @@ class LearningPathStepItem extends StatelessWidget {
                               child: const Icon(Icons.image_not_supported),
                             );
                           },
+                          placeholder: (context, url) => Container(
+                            width: AppSizes.w100,
+                            height: AppSizes.h80,
+                            color: Colors.grey[200],
+                          ),
                         ),
                       ),
                     Gap(AppSizes.w8),

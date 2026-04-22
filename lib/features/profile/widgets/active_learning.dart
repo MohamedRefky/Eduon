@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/service/video_progress_service.dart';
 import 'package:eduon/main.dart';
@@ -149,12 +150,12 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
           ClipRRect(
             borderRadius: BorderRadius.circular(AppSizes.r12),
             child: thumbnailUrl != null && thumbnailUrl.isNotEmpty
-                ? Image.network(
-                    thumbnailUrl,
+                ? CachedNetworkImage(
+                    imageUrl: thumbnailUrl,
                     width: AppSizes.w65,
                     height: AppSizes.h60,
                     fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) {
+                    errorWidget: (context, error, stackTrace) {
                       return _buildDefaultIcon();
                     },
                   )
