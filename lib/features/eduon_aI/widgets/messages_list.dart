@@ -2,6 +2,8 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/models/message_ai_model.dart';
 import 'package:eduon/features/eduon_aI/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class MessagesList extends StatefulWidget {
   final List<MessageAiModel> messages;
@@ -65,7 +67,24 @@ class _MessagesListState extends State<MessagesList> {
           } else {
             return Padding(
               padding: EdgeInsets.all(AppSizes.h12),
-              child: const Text("AI is typing..."),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "AI is typing",
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  Gap(AppSizes.h4),
+                  Transform.translate(
+                    offset: const Offset(0, 3.5),
+                    child: Lottie.asset(
+                      'assets/gif/typing_dots.json',
+                      height: AppSizes.h8,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
+              ),
             );
           }
         },

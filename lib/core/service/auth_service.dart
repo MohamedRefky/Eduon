@@ -1,4 +1,3 @@
-import 'package:eduon/core/service/prefrances_maneger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -57,47 +56,12 @@ class AuthService {
       return Future.error(e);
     }
   }
-    // ============================================
+
+  // ============================================
   // Forgot Password
   // ============================================
-Future<void> sendPasswordResetEmail(String email) async {
-  await FirebaseAuth.instance.sendPasswordResetEmail(
-    email: email.trim(),
-  );
-}
-  // ============================================
-  // Email Link - Create Account
-  // ============================================
-  Future<void> sendEmailLink(String email) async {
-    final acs = ActionCodeSettings(
-      url: 'https://eduon-a2ec6.firebaseapp.com',
-      handleCodeInApp: true,
-      androidPackageName: 'com.example.eduon',
-      androidInstallApp: true,
-      androidMinimumVersion: '1',
-    );
-
-    await FirebaseAuth.instance.sendSignInLinkToEmail(
-      email: email,
-      actionCodeSettings: acs,
-    );
-
-    await PrefrancesManeger().setString('emailForSignIn', email);
-  }
-
-  // ============================================
-  // Email Link - Sign In
-  // ============================================
-  Future<void> signInWithEmailLink(String emailLink) async {
-    final email = PrefrancesManeger().getString('emailForSignIn');
-
-    if (email != null &&
-        FirebaseAuth.instance.isSignInWithEmailLink(emailLink)) {
-      await FirebaseAuth.instance.signInWithEmailLink(
-        email: email,
-        emailLink: emailLink,
-      );
-    }
+  Future<void> sendPasswordResetEmail(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
   }
 
   // ============================================
@@ -113,17 +77,13 @@ Future<void> sendPasswordResetEmail(String email) async {
             email: emailAddress,
             password: password,
           );
-      print('Account created successfully!');
+
       return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      } else if (e.code == 'email-already-in-use') {}
       return Future.error(e);
     } catch (e) {
-      print('Create Account Error: $e');
       return Future.error(e);
     }
   }
@@ -140,14 +100,11 @@ Future<void> sendPasswordResetEmail(String email) async {
         email: emailAddress,
         password: password,
       );
-      print('Signed in successfully!');
+
       return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      } else if (e.code == 'wrong-password') {}
       return Future.error(e);
     }
   }

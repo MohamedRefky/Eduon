@@ -2,12 +2,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefrancesManeger {
   static final PrefrancesManeger _instance = PrefrancesManeger._internal();
-  static const String onboardingKey = 'onboarding_seen';
   factory PrefrancesManeger() => _instance;
-  static const String selectedYearKey = 'selected_year';
-  static const String fullNameKey = 'full_name';
   PrefrancesManeger._internal();
   late final SharedPreferences _preferences;
+  static const String onboardingKey = 'onboarding_seen';
+  static const String selectedYearKey = 'selected_year';
+  static const String fullNameKey = 'full_name';
 
   Future<bool> setOnboardingSeen(bool value) {
     return _preferences.setBool(onboardingKey, value);
@@ -17,24 +17,24 @@ class PrefrancesManeger {
     return _preferences.getBool(onboardingKey) ?? false;
   }
 
-  Future<bool> setFullName(String name) {
-    return _preferences.setString(fullNameKey, name);
+  Future<bool> setUserFullName(String uid, String name) {
+    return _preferences.setString('full_name_$uid', name);
   }
 
-  String? getFullName() {
-    return _preferences.getString(fullNameKey);
+  String? getUserFullName(String uid) {
+    return _preferences.getString('full_name_$uid');
   }
 
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> setSelectedYear(String year) {
-    return _preferences.setString(selectedYearKey, year);
+  Future<bool> setUserSelectedYear(String uid, String year) {
+    return _preferences.setString('selected_year_$uid', year);
   }
 
-  String? getSelectedYear() {
-    return _preferences.getString(selectedYearKey);
+  String? getUserSelectedYear(String uid) {
+    return _preferences.getString('selected_year_$uid');
   }
 
   String? getString(String key) {

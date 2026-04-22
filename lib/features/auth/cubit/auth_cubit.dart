@@ -65,11 +65,14 @@ class AuthCubit extends Cubit<AuthState> {
       final userCredential = await registerFuture;
 
       if (userCredential?.user != null) {
-        emit(AuthSuccess(userCredential!.user!));
+        await PrefrancesManeger().setUserFullName(
+          userCredential!.user!.uid,
+          fullNameController.text.trim(),
+        );
+        emit(AuthSuccess(userCredential.user!));
       }
     } on FirebaseAuthException catch (e) {
       await Future.delayed(const Duration(seconds: 1));
-
       if (e.code == 'email-already-in-use') {
         emit(AuthEmailAlreadyExists());
       } else {
@@ -87,8 +90,15 @@ class AuthCubit extends Cubit<AuthState> {
       final userCredential = await _authService.signInWithGoogle();
 
       if (userCredential?.user != null) {
-        final name = userCredential!.user!.displayName;
-        await PrefrancesManeger().setFullName(name ?? "");
+        final user = userCredential!.user!;
+        final uid = user.uid;
+        final name = user.displayName ?? "User";
+
+        final savedName = PrefrancesManeger().getUserFullName(uid);
+
+        if (savedName == null) {
+          await PrefrancesManeger().setUserFullName(uid, name);
+        }
         emit(AuthSuccess(userCredential.user!));
       } else {
         emit(AuthCanceled()); // ✅ بدل AuthInitial

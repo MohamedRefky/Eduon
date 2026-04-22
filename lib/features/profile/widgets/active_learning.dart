@@ -62,8 +62,23 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Course removed'),
+        SnackBar(
+          margin: EdgeInsets.symmetric(
+            horizontal: AppSizes.w16,
+            vertical: AppSizes.h12,
+          ),
+          content: Center(
+            child: Text(
+              'Course removed successfully',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.r12),
+          ),
           duration: Duration(seconds: 2),
         ),
       );
@@ -136,8 +151,8 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
             child: thumbnailUrl != null && thumbnailUrl.isNotEmpty
                 ? Image.network(
                     thumbnailUrl,
-                    width: AppSizes.h56,
-                    height: AppSizes.h56,
+                    width: AppSizes.w65,
+                    height: AppSizes.h60,
                     fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) {
                       return _buildDefaultIcon();
@@ -182,7 +197,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
             icon: Icon(
               Icons.close,
               size: AppSizes.sp18,
-              color: Colors.grey[400],
+              color: Colors.grey[600],
             ),
             onPressed: () {
               if (playlistId != null) {

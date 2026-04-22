@@ -55,8 +55,9 @@ class ProfileScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF8A9BB0).withOpacity(0.3),
+        color:  Color(0xFF8A9BB0).withValues(alpha: (0.3),),
         borderRadius: BorderRadius.circular(AppSizes.r15),
+      
       ),
       child: Column(
         children: settings.asMap().entries.map((entry) {
@@ -92,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
           );
         }).toList(),
       ),
-    );
+    ); 
   }
 
   Widget _buildLogoutButton(BuildContext context) {

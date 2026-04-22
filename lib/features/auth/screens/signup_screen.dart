@@ -124,7 +124,6 @@ class SignUpScreen extends StatelessWidget {
                           ? Lottie.asset(
                               height: AppSizes.h52,
                               'assets/gif/Loading_animation_blue.json',
-
                               fit: BoxFit.contain,
                             )
                           : const Text('Sign Up'),

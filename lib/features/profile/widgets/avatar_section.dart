@@ -1,5 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -8,8 +9,11 @@ class AvatarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? selectedYear = PrefrancesManeger().getSelectedYear();
-    final String? fullName = PrefrancesManeger().getFullName();
+     final uid = FirebaseAuth.instance.currentUser?.uid;
+    final selectedYear = PrefrancesManeger().getUserSelectedYear(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    final name = uid != null ? PrefrancesManeger().getUserFullName(uid) : null;
     return Column(
       children: [
         // Avatar
@@ -35,7 +39,7 @@ class AvatarSection extends StatelessWidget {
 
         // Name
         Text(
-          fullName ?? 'Tamer Nabil',
+          name ?? 'Tamer Nabil',
           style: TextTheme.of(
             context,
           ).displayLarge?.copyWith(fontSize: AppSizes.sp24),
