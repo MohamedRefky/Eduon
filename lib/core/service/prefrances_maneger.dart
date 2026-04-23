@@ -8,6 +8,7 @@ class PrefrancesManeger {
   static const String onboardingKey = 'onboarding_seen';
   static const String selectedYearKey = 'selected_year';
   static const String fullNameKey = 'full_name';
+  static const String userImageKey = 'user_image';
 
   Future<bool> setOnboardingSeen(bool value) {
     return _preferences.setBool(onboardingKey, value);
@@ -16,7 +17,13 @@ class PrefrancesManeger {
   bool getOnboardingSeen() {
     return _preferences.getBool(onboardingKey) ?? false;
   }
+Future<bool> setUserImage(String uid, String path) {
+  return _preferences.setString('user_image_$uid', path);
+}
 
+String? getUserImage(String uid) {
+  return _preferences.getString('user_image_$uid');
+}
   Future<bool> setUserFullName(String uid, String name) {
     return _preferences.setString('full_name_$uid', name);
   }

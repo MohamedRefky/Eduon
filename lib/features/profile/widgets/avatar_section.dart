@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/service/prefrances_maneger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,9 @@ class _AvatarSectionState extends State<AvatarSection> {
       FirebaseAuth.instance.currentUser!.uid,
     );
     final name = uid != null ? PrefrancesManeger().getUserFullName(uid) : null;
+    final imagePath = uid != null
+        ? PrefrancesManeger().getUserImage(uid)
+        : null;
     return Column(
       children: [
         // Avatar
@@ -39,7 +44,19 @@ class _AvatarSectionState extends State<AvatarSection> {
             ],
           ),
           child: ClipOval(
-            child: Image.asset('assets/images/Avatar.png', fit: BoxFit.cover),
+            child: (imagePath != null && File(imagePath).existsSync())
+                ? Image.file(
+                    File(imagePath),
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  )
+                : Image.asset(
+                    'assets/images/Avatar.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
           ),
         ),
         Gap(AppSizes.h16),

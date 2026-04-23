@@ -1,11 +1,10 @@
+
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:eduon/core/Theme/light_theme.dart';
 import 'package:eduon/core/Theme/themes_controller.dart';
 import 'package:eduon/core/service/auth_service.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
-import 'package:eduon/features/main/main_screen.dart';
-import 'package:eduon/features/onboarding/onboarding_screen.dart';
 import 'package:eduon/features/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               //darkTheme: darkTheme,
               themeMode: currentMode,
-            home: const SplashScreen(),
+              home: const SplashScreen(),
             );
           },
         );

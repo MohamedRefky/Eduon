@@ -37,64 +37,63 @@ class ProfileScreen extends StatelessWidget {
           const ActiveLearning(),
           Gap(AppSizes.h24),
 
-          _buildSettingsSection(context),
-          Gap(AppSizes.h24),
-
+          //_buildSettingsSection(context),
+          //Gap(AppSizes.h24),
           _buildLogoutButton(context),
         ],
       ),
     );
   }
 
-  Widget _buildSettingsSection(BuildContext context) {
-    final List<Map<String, dynamic>> settings = [
-      {'icon': Icons.language_outlined, 'title': 'Language'},
-      {'icon': Icons.lock_outline, 'title': 'Privacy & Security'},
-      {'icon': Icons.help_outline, 'title': 'About App'},
-    ];
+  // Widget _buildSettingsSection(BuildContext context) {
+  //   final List<Map<String, dynamic>> settings = [
+  //     {'icon': Icons.language_outlined, 'title': 'Language'},
+  //     {'icon': Icons.lock_outline, 'title': 'Privacy & Security'},
+  //     {'icon': Icons.help_outline, 'title': 'About App'},
+  //   ];
 
-    return Container(
-      decoration: BoxDecoration(
-        color:  Color(0xFF8A9BB0).withValues(alpha: (0.3),),
-        borderRadius: BorderRadius.circular(AppSizes.r15),
-      
-      ),
-      child: Column(
-        children: settings.asMap().entries.map((entry) {
-          final index = entry.key;
-          final item = entry.value;
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color:  Color(0xFF8A9BB0).withValues(alpha: (0.3),),
+  //       borderRadius: BorderRadius.circular(AppSizes.r15),
 
-          return Column(
-            children: [
-              ListTile(
-                leading: Icon(
-                  item['icon'],
-                  color: const Color(0xFF475569),
-                  size: AppSizes.sp22,
-                ),
-                title: Text(
-                  item['title'],
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    fontSize: AppSizes.sp15,
-                    color: const Color(0xFF1E293B),
-                  ),
-                ),
-                trailing: const Icon(Icons.chevron_right, color: Colors.grey),
-                onTap: () {},
-              ),
-              if (index < settings.length - 1)
-                Divider(
-                  height: 1,
-                  color: Colors.grey.withValues(alpha: 0.2),
-                  indent: AppSizes.w16,
-                  endIndent: AppSizes.w16,
-                ),
-            ],
-          );
-        }).toList(),
-      ),
-    ); 
-  }
+  //     ),
+  //     child: Column(
+  //       children: settings.asMap().entries.map((entry) {
+  //         final index = entry.key;
+  //         final item = entry.value;
+
+  //         return Column(
+  //           children: [
+  //             ListTile(
+  //               leading: Icon(
+  //                 item['icon'],
+  //                 color: const Color(0xFF475569),
+  //                 size: AppSizes.sp22,
+  //               ),
+  //               title: Text(
+  //                 item['title'],
+  //                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
+  //                   fontSize: AppSizes.sp15,
+  //                   color: const Color(0xFF1E293B),
+  //                 ),
+  //               ),
+  //               trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+  //               onTap: () {},
+  //             ),
+  //             if (index < settings.length - 1)
+  //               Divider(
+  //                 height: 1,
+  //                 color: Colors.grey.withValues(alpha: 0.2),
+  //                 indent: AppSizes.w16,
+  //                 endIndent: AppSizes.w16,
+  //               ),
+  //           ],
+  //         );
+  //       }).toList(),
+  //     ),
+  //   );
+  // }
 
   Widget _buildLogoutButton(BuildContext context) {
     return Container(
@@ -112,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
             // ✅ تأكد إن الـ context لسه شغال
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) =>  LoginScreen()),
+              MaterialPageRoute(builder: (_) => LoginScreen()),
               (route) => false,
             );
           }

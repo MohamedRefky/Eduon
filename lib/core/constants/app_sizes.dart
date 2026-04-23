@@ -22,8 +22,10 @@ class AppSizes {
   /// Heights
   static final double h2 = 2.h;
   static final double h4 = 4.h;
-  static final double h8 = 8.h;
+  static final double h5 = 5.h;
   static final double h6 = 6.h;
+  static final double h7 = 7.h;
+  static final double h8 = 8.h;
   static final double h10 = 10.h;
   static final double h12 = 12.h;
   static final double h14 = 14.h;
