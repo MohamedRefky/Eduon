@@ -1,9 +1,36 @@
+import 'dart:io';
+
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
+
+  @override
+  State<HomeHeader> createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  String? _name;
+  String? _imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+    setState(() {
+      _name = PrefrancesManeger().getUserFullName(uid);
+      _imagePath = PrefrancesManeger().getUserImage(uid);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +64,15 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: AppSizes.r30,
-                    backgroundImage: AssetImage("assets/images/Avatar.png"),
+                    backgroundImage:
+                        _imagePath != null && File(_imagePath!).existsSync()
+                        ? FileImage(File(_imagePath!))
+                        : const AssetImage("assets/images/Avatar.png")
+                              as ImageProvider,
                   ),
                   Gap(AppSizes.h10),
                   Text(
-                    "Hello, \nTamer",
+                    "Hello,\n${_name ?? 'User'}",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Spacer(),
@@ -49,7 +80,10 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
               Gap(AppSizes.h16),
-              Text("Hi, Tamer!", style: TextTheme.of(context).titleLarge),
+              Text(
+                "Hi, ${_name ?? 'User'}!",
+                style: TextTheme.of(context).titleLarge,
+              ),
               Gap(AppSizes.h8),
               Text(
                 "Ready to turn \nlearning on?",

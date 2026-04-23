@@ -1,12 +1,40 @@
+import 'dart:io';
+
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
+class CustomHeader extends StatefulWidget implements PreferredSizeWidget {
   const CustomHeader({super.key});
 
   @override
   Size get preferredSize => Size.fromHeight(AppSizes.h100);
+
+  @override
+  State<CustomHeader> createState() => _CustomHeaderState();
+}
+
+class _CustomHeaderState extends State<CustomHeader> {
+  String? _name;
+  String? _imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    setState(() {
+      _name = PrefrancesManeger().getUserFullName(uid);
+      _imagePath = PrefrancesManeger().getUserImage(uid);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +43,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       flexibleSpace: Container(
-        height: AppSizes.h110,
+        height: AppSizes.h100,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -39,11 +67,17 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           children: [
             CircleAvatar(
               radius: AppSizes.r27,
-              backgroundImage: const AssetImage("assets/images/Avatar.png"),
+              // ✅ لو في صورة محفوظة يعرضها، لو لأ يعرض الـ default
+              backgroundImage:
+                  _imagePath != null && File(_imagePath!).existsSync()
+                  ? FileImage(File(_imagePath!))
+                  : const AssetImage("assets/images/Avatar.png")
+                        as ImageProvider,
             ),
             Gap(AppSizes.h10),
             Text(
-              "Hello,\nTamer",
+              // ✅ لو في اسم يعرضه، لو لأ يعرض Hello
+              "Hello,\n${_name ?? 'User'}",
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const Spacer(),

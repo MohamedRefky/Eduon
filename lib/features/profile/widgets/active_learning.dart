@@ -1,8 +1,13 @@
+// lib/features/profile/widgets/active_learning.dart
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/video_progress_service.dart';
+import 'package:eduon/features/profile/cubit/profile_cubit.dart';
+import 'package:eduon/features/profile/cubit/profile_state.dart';
+import 'package:eduon/features/profile/widgets/profile_snack_bar.dart';
 import 'package:eduon/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,16 +19,6 @@ class ActiveLearning extends StatefulWidget {
 }
 
 class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
-  final VideoProgressService _progressService = VideoProgressService();
-  List<Map<String, dynamic>> _courses = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCourses();
-  }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -41,82 +36,61 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
 
   @override
   void didPopNext() {
-    _loadCourses();
-  }
-
-  Future<void> _loadCourses() async {
-    if (!mounted) return;
-
-    if (_courses.isEmpty) {
-      setState(() => _isLoading = true);
-    }
-
-    _courses = await _progressService.getActiveCourses();
-
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-  }
-
-  Future<void> _removeCourse(String playlistId) async {
-    await _progressService.clearCourseProgress(playlistId);
-    _loadCourses();
-
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          margin: EdgeInsets.symmetric(
-            horizontal: AppSizes.w16,
-            vertical: AppSizes.h12,
-          ),
-          content: Center(
-            child: Text(
-              'Course removed successfully',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.r12),
-          ),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
+    // لما يرجع من شاشه تانيه، أعد تحميل الكورسات
+    context.read<ProfileCubit>().loadActiveCourses();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isLoading && _courses.isEmpty) {
-      return const SizedBox();
-    }
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listenWhen: (prev, curr) =>
+          curr.snackBarMessage != null &&
+          prev.snackBarMessage != curr.snackBarMessage &&
+          !curr.isSaved, // الـ save بيتعامل معاه فى الـ EditProfileDialog
+      listener: (context, state) {
+        if (state.snackBarMessage != null && state.snackBarType != null) {
+          showProfileSnackBar(
+            context,
+            message: state.snackBarMessage!,
+            type: state.snackBarType!,
+          );
+          context.read<ProfileCubit>().clearSnackBar();
+        }
+      },
+      buildWhen: (prev, curr) =>
+          prev.activeCourses != curr.activeCourses ||
+          prev.isLoadingCourses != curr.isLoadingCourses,
+      builder: (context, state) {
+        if (!state.isLoadingCourses && state.activeCourses.isEmpty) {
+          return const SizedBox();
+        }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Active Learning',
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-        Gap(AppSizes.h12),
-
-        if (_isLoading)
-          Center(
-            child: Lottie.asset(
-              height: AppSizes.h110,
-              'assets/gif/Trail_loading.json',
-              fit: BoxFit.contain,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Active Learning',
+              style: Theme.of(context).textTheme.displayLarge,
             ),
-          )
-        else
-          ..._courses.take(5).map((course) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: AppSizes.h12),
-              child: _buildCourseItem(context, course: course),
-            );
-          }),
-      ],
+            Gap(AppSizes.h12),
+            if (state.isLoadingCourses)
+              Center(
+                child: Lottie.asset(
+                  height: AppSizes.h110,
+                  'assets/gif/Trail_loading.json',
+                  fit: BoxFit.contain,
+                ),
+              )
+            else
+              ...state.activeCourses.take(5).map((course) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: AppSizes.h12),
+                  child: _buildCourseItem(context, course: course),
+                );
+              }),
+          ],
+        );
+      },
     );
   }
 
@@ -135,7 +109,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
     return Container(
       padding: EdgeInsets.all(AppSizes.h12),
       decoration: BoxDecoration(
-        color: Color(0xFFd2dae3),
+        color: const Color(0xFFd2dae3),
         borderRadius: BorderRadius.circular(AppSizes.r12),
         boxShadow: [
           BoxShadow(
@@ -170,16 +144,18 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp13),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayMedium
+                      ?.copyWith(fontSize: AppSizes.sp13),
                 ),
                 Gap(AppSizes.h4),
                 Text(
                   '$watchedVideos/$totalVideos videos • $percentage% completed',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.displaySmall?.copyWith(fontSize: AppSizes.sp12),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall
+                      ?.copyWith(fontSize: AppSizes.sp12),
                 ),
                 Gap(AppSizes.h8),
                 ClipRRect(
@@ -202,7 +178,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
             ),
             onPressed: () {
               if (playlistId != null) {
-                _removeCourse(playlistId);
+                context.read<ProfileCubit>().removeCourse(playlistId);
               }
             },
             padding: EdgeInsets.zero,
