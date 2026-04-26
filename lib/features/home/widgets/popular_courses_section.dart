@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/bloc/courses_bloc.dart';
 import 'package:eduon/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
@@ -14,6 +15,9 @@ class PopularCoursesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CoursesBloc, CoursesState>(
+      buildWhen: (prev, curr) =>
+          prev.isPopularLoading != curr.isPopularLoading ||
+          prev.popularCourses != curr.popularCourses,
       builder: (context, state) {
         // Loading
         if (state.isPopularLoading) {
@@ -84,25 +88,21 @@ class PopularCoursesSection extends StatelessWidget {
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(AppSizes.r12),
-                              child: Image.network(
-                                playlist.thumbnailUrl,
+                              child: CachedNetworkImage(
+                                imageUrl: playlist.thumbnailUrl,
                                 height: AppSizes.h90,
                                 width: AppSizes.h120,
                                 fit: BoxFit.fill,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    height: AppSizes.h90,
-                                    width: AppSizes.h120,
-                                    color: Colors.grey[300],
-                                    child: const Icon(
-                                      Icons.image_not_supported,
-                                    ),
-                                  );
-                                },
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: Colors.grey[300],
+                                  child: const Icon(Icons.image_not_supported),
+                                ),
                               ),
                             ),
                             Gap(AppSizes.w8),
@@ -119,7 +119,6 @@ class PopularCoursesSection extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
-
                                     children: [
                                       Text(
                                         playlist.title,
