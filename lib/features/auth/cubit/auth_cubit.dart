@@ -150,7 +150,7 @@ class AuthCubit extends Cubit<AuthState> {
         case 'wrong-password':
           return "Incorrect password.";
         case 'invalid-credential':
-          return "Invalid email or password.";
+          return "Invalid Email or Password. Sign Up First";
         case 'email-already-in-use':
           return "This email is already in use.";
         case 'weak-password':

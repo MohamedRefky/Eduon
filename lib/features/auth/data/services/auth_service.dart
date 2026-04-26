@@ -16,12 +16,23 @@ class AuthService {
         );
         _initialized = true;
       }
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth = await googleSignInAccount!.authentication;
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn
+          .authenticate(scopeHint: ['email']);
+      final String? idToken = googleSignInAccount.authentication.idToken;
+
+      if (idToken == null) {
+        throw Exception();
+      }
+      String? accessToken;
+      try {
+        final clientAuth = await googleSignInAccount.authorizationClient
+            .authorizationForScopes(['email']);
+        accessToken = clientAuth?.accessToken;
+      } catch (_) {}
 
       final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
+        idToken: idToken,
+        accessToken: accessToken,
       );
 
       final userCredential = await FirebaseAuth.instance.signInWithCredential(
