@@ -1,9 +1,16 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
+  extensions: [
+    ShimmerTheme(
+      baseColor: Colors.grey[800]!,
+      highlightColor: Colors.grey[700]!,
+    ),
+  ],
   
   // Background color for the whole app
   scaffoldBackgroundColor: const Color(0xFF0F172A), // Deep Slate

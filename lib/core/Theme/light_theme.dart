@@ -1,9 +1,16 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
+  extensions: [
+    ShimmerTheme(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+    ),
+  ],
   scaffoldBackgroundColor: Color(0xFFd2dae3),
   cardColor: Colors.white,
   colorScheme: const ColorScheme.light(

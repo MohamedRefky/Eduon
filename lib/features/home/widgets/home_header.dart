@@ -39,9 +39,11 @@ class HomeHeader extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.w16,
-              vertical: AppSizes.h20,
+            padding: EdgeInsets.only(
+              left: AppSizes.w16,
+              right: AppSizes.w16,
+              bottom: AppSizes.h16,
+              top: AppSizes.h35,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
