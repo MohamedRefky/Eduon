@@ -1,5 +1,5 @@
-import 'package:eduon/core/service/video_progress_service.dart';
-import 'package:eduon/repository/course_repository.dart';
+﻿import 'package:eduon/core/service/video_progress_service.dart';
+import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,8 +19,6 @@ class CourseDetailsCubit extends Cubit<CourseDetailsState> {
   }) : _repository = repository ?? CourseRepository(),
        _progressService = progressService ?? VideoProgressService(),
        super(const CourseDetailsState());
-
-  /// ✅ الحل الحقيقي - try catch على emit نفسه
   void _safeEmit(CourseDetailsState newState) {
     try {
       if (!isClosed) {
@@ -30,8 +28,6 @@ class CourseDetailsCubit extends Cubit<CourseDetailsState> {
       debugPrint('SafeEmit caught: $e');
     }
   }
-
-  /// تحميل الفيديوهات
   Future<void> loadPlaylistVideos() async {
     emit(
       state.copyWith(
@@ -96,8 +92,6 @@ class CourseDetailsCubit extends Cubit<CourseDetailsState> {
 
     await _progressService.addToActiveCourses(state.playlistId);
   }
-
-  /// تشغيل فيديو معين
   void playVideo(int index) {
     if (index < 0 || index >= state.videos.length) return;
     _lastSavedSecond = -1;

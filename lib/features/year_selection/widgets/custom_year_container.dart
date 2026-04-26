@@ -26,7 +26,7 @@ class CustomYearContainer extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(AppSizes.w16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppSizes.r20),
           border: isSelected
               ? Border.all(color: const Color(0xFF3B82F6), width: 2)
@@ -43,14 +43,14 @@ class CustomYearContainer extends StatelessWidget {
                     title,
                     style: textTheme.titleLarge?.copyWith(
                       fontSize: AppSizes.sp22,
-                      color: const Color(0xFF0F172A),
+                      color: textTheme.titleLarge?.color,
                     ),
                   ),
                   SizedBox(height: AppSizes.h8),
                   Text(
                     description,
                     style: textTheme.bodySmall?.copyWith(
-                      color: const Color(0xFF64748B),
+                      color: textTheme.bodySmall?.color,
                       fontSize: AppSizes.sp15,
                     ),
                   ),
@@ -61,13 +61,13 @@ class CustomYearContainer extends StatelessWidget {
                       vertical: AppSizes.h8,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEFF6FF),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(AppSizes.r20),
                     ),
                     child: Text(
                       "Select",
                       style: TextStyle(
-                        color: const Color(0xFF3B82F6),
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: AppSizes.sp16,
                         fontWeight: FontWeight.w700,
                         fontFamily: "PlusJakartaSans",

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:eduon/core/constants/api_constants.dart';
-import 'package:eduon/core/models/playlist_model.dart';
-import 'package:eduon/core/models/video_model.dart';
+import 'package:eduon/features/courses/data/models/playlist_model.dart';
+import 'package:eduon/features/courses/data/models/video_model.dart';
 
 class YoutubeApiService {
   final Dio _dio = Dio(
@@ -39,6 +39,50 @@ class YoutubeApiService {
     } on DioException catch (e) {
       throw Exception('API Error: ${e.message}');
     }
+  }
+
+  // =========================
+  // GET MULTIPLE PLAYLISTS DETAILS
+  // =========================
+  Future<List<PlaylistModel>> getMultiplePlaylistsDetails(
+    List<String> playlistIds,
+  ) async {
+    if (playlistIds.isEmpty) return [];
+
+    List<PlaylistModel> allPlaylists = [];
+
+    for (var i = 0; i < playlistIds.length; i += 50) {
+      final end = (i + 50 < playlistIds.length) ? i + 50 : playlistIds.length;
+      final batch = playlistIds.sublist(i, end);
+
+      try {
+        final response = await _dio.get(
+          '/playlists',
+          queryParameters: {
+            'part': 'snippet,contentDetails',
+            'id': batch.join(','),
+            'key': ApiConstants.apiKey,
+          },
+        );
+
+        final items = response.data['items'] as List;
+
+        allPlaylists.addAll(items.map((item) {
+          String category = '';
+          for (final entry in ApiConstants.categoryPlaylists.entries) {
+            if (entry.value.contains(item['id'])) {
+              category = entry.key;
+              break;
+            }
+          }
+          return PlaylistModel.fromJson(item, category);
+        }).toList());
+      } on DioException catch (e) {
+        throw Exception('API Error: ${e.message}');
+      }
+    }
+
+    return allPlaylists;
   }
 
   // =========================

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'prefrances_maneger.dart';
+import 'preferences_manager.dart';
 
 class VideoProgressService {
-  final PrefrancesManeger _prefs = PrefrancesManeger();
+  final PreferencesManager _prefs = PreferencesManager();
 
   static const String _watchedVideosKey = 'watched_videos';
   static const String _videoProgressKey = 'video_progress';

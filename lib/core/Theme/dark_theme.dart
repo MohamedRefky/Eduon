@@ -1,173 +1,189 @@
+import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
-  // useMaterial3: true,
-  // brightness: Brightness.dark,
-  // scaffoldBackgroundColor: Color(0xFF181818),
-  // appBarTheme: AppBarTheme(
-  //   backgroundColor: Color(0xFF181818),
-  //   centerTitle: true,
-  //   titleTextStyle: TextStyle(
-  //     color: Color(0xFFFFFCFC),
-  //     fontSize: AppSizes.sp20,
-  //   ),
-  //   iconTheme: IconThemeData(color: Color(0xFFFFFCFC)),
-  // ),
-  // colorScheme: ColorScheme.dark(
-  //   primaryContainer: Color(0xFF282828),
-  //   secondary: Color(0xFFC6C6C6),
-  // ),
-  // checkboxTheme: CheckboxThemeData(
-  //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-  //   side: BorderSide(color: Color(0xFF6E6E6E), width: AppSizes.w2),
-  // ),
-  // switchTheme: SwitchThemeData(
-  //   trackColor: WidgetStateProperty.resolveWith((states) {
-  //     if (states.contains(WidgetState.selected)) {
-  //       return Color(0xFF15B86C);
-  //     }
-  //     return Colors.white;
-  //   }),
-  //   thumbColor: WidgetStateProperty.resolveWith((states) {
-  //     if (states.contains(WidgetState.selected)) {
-  //       return Colors.white;
-  //     }
-  //     return Color(0xFF9E9E9E);
-  //   }),
-  //   trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-  //     if (states.contains(WidgetState.selected)) {
-  //       return Colors.transparent;
-  //     }
-  //     return Color(0xFF9E9E9E);
-  //   }),
-  //   trackOutlineWidth: WidgetStateProperty.resolveWith((states) {
-  //     if (states.contains(WidgetState.selected)) {
-  //       return 0;
-  //     }
-  //     return 2;
-  //   }),
-  // ),
-  // textButtonTheme: TextButtonThemeData(
-  //   style: TextButton.styleFrom(
-  //     foregroundColor: Color(0xFFFFFCFC),
-  //   ),
-  // ),
-  // elevatedButtonTheme: ElevatedButtonThemeData(
-  //   style: ElevatedButton.styleFrom(
-  //     minimumSize: Size.fromHeight(AppSizes.h40),
-  //     backgroundColor: Color(0xFF15B86C),
-  //     foregroundColor: Color(0xFFFFFCFC),
-  //     textStyle: TextStyle(
-  //       fontSize: AppSizes.sp16,
-  //       fontWeight: FontWeight.w500,
-  //     ),
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(AppSizes.r30),
-  //     ),
-  //   ),
-  // ),
-  // floatingActionButtonTheme: FloatingActionButtonThemeData(
-  //   backgroundColor: Color(0xFF15B86C),
-  //   foregroundColor: Color(0xFFFFFCFC),
-  //   shape: RoundedRectangleBorder(
-  //     borderRadius: BorderRadius.circular(AppSizes.r30),
-  //   ),
-  //   extendedTextStyle: TextStyle(
-  //     fontSize: AppSizes.sp16,
-  //     fontWeight: FontWeight.w500,
-  //   ),
-  // ),
-  // textTheme: TextTheme(
-  //   displayLarge: TextStyle(
-  //     color: Color(0xFFFFFCFC),
-  //     fontWeight: FontWeight.w400,
-  //     fontSize: AppSizes.sp32,
-  //   ),
-  //   displayMedium: TextStyle(
-  //     color: Color(0xFFFFFFFF),
-  //     fontSize: AppSizes.sp28,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  //   displaySmall: TextStyle(
-  //     color: Color(0xFFFFFFFF),
-  //     fontSize: AppSizes.sp24,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  //   labelMedium: TextStyle(color: Colors.white, fontSize: AppSizes.sp16),
-  //   labelLarge: TextStyle(color: Colors.white, fontSize: AppSizes.sp24),
-  //   labelSmall: TextStyle(
-  //     color: Color(0xFFFFFCFC),
-  //     fontSize: AppSizes.sp20,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  //   titleSmall: TextStyle(
-  //     color: Color(0xFFC6C6C6),
-  //     fontSize: AppSizes.sp14,
-  //     overflow: TextOverflow.ellipsis,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  //   titleMedium: TextStyle(
-  //     color: Color(0xFFFFFCFC),
-  //     fontSize: AppSizes.sp16,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  //   titleLarge: TextStyle(
-  //     color: Color(0xFFA0A0A0),
-  //     fontSize: AppSizes.sp16,
-  //     decorationColor: Color(0xFFA0A0A0),
-  //     decoration: TextDecoration.lineThrough,
-  //     overflow: TextOverflow.ellipsis,
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  // ),
-  // inputDecorationTheme: InputDecorationTheme(
-  //   border: OutlineInputBorder(
-  //     borderRadius: BorderRadius.circular(AppSizes.r16),
-  //     borderSide: BorderSide.none,
-  //   ),
-  //   errorBorder: OutlineInputBorder(
-  //     borderRadius: BorderRadius.circular(AppSizes.r16),
-  //     borderSide: BorderSide(color: Colors.red, width: .75),
-  //   ),
-  //   filled: true,
-  //   fillColor: Color(0xFF282828),
-  //   hintStyle: TextStyle(color: Color(0xFF6D6D6D)),
-  // ),
-  // iconTheme: IconThemeData(color: Color(0xFFFFFCFC), size: AppSizes.sp24),
-  // dividerTheme: DividerThemeData(color: Color(0xFFC6C6C6), thickness: 1),
-  // listTileTheme: ListTileThemeData(
-  //   titleTextStyle: TextStyle(
-  //     fontSize: AppSizes.sp16,
-  //     color: Color(0xFFFFFCFC),
-  //     fontWeight: FontWeight.w400,
-  //   ),
-  // ),
-  // textSelectionTheme: TextSelectionThemeData(
-  //   cursorColor: Colors.white,
-  //   selectionColor: Colors.black,
-  //   selectionHandleColor: Colors.white,
-  // ),
-  // bottomNavigationBarTheme: BottomNavigationBarThemeData(
-  //   backgroundColor: Color(0xFF181818),
-  //   selectedItemColor: Color(0xFF15B86C),
-  //   unselectedItemColor: Color(0xFFC6C6C6),
-  //   type: BottomNavigationBarType.fixed,
-  // ),
-  // splashFactory: NoSplash.splashFactory,
-  // popupMenuTheme: PopupMenuThemeData(
-  //   color: Color(0xFF181818),
-  //   shape: RoundedRectangleBorder(
-  //     borderRadius: BorderRadius.circular(16),
-  //     side: BorderSide(color: Color(0xFF15B86C), width: AppSizes.w1),
-  //   ),
-  //   shadowColor: Color(0xFF15B86C),
-  //   elevation: AppSizes.r2,
-  //   labelTextStyle: WidgetStateProperty.all(
-  //     TextStyle(
-  //       color: Colors.white,
-  //       fontSize: AppSizes.sp20,
-  //       fontWeight: FontWeight.w400,
-  //     ),
-  //   ),
-  // ),
+  useMaterial3: true,
+  brightness: Brightness.dark,
+  
+  // Background color for the whole app
+  scaffoldBackgroundColor: const Color(0xFF0F172A), // Deep Slate
+  cardColor: const Color(0xFF1E293B), // Dark Container
+  colorScheme: const ColorScheme.dark(
+    surface: Color(0xFF1E293B),
+    primary: Color(0xFF3B82F6),
+  ),
+  fontFamily: "PlusJakartaSans",
+
+  appBarTheme: AppBarTheme(
+    backgroundColor: const Color(0xFF0F172A),
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp20,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'PlusJakartaSans',
+    ),
+    iconTheme: const IconThemeData(color: Colors.white),
+  ),
+
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      minimumSize: Size.fromHeight(AppSizes.h48),
+      backgroundColor: const Color(0xFF3B82F6), // A vibrant blue for dark mode buttons
+      foregroundColor: const Color(0xFFFFFCFC),
+      textStyle: TextStyle(
+        fontSize: AppSizes.sp16,
+        fontWeight: FontWeight.w600,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.r12),
+      ),
+    ),
+  ),
+
+  textTheme: TextTheme(
+    displayLarge: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp20,
+      fontFamily: "PlusJakartaSans",
+      fontWeight: FontWeight.bold,
+    ),
+    displayMedium: TextStyle(
+      decoration: TextDecoration.none,
+      color: Colors.white,
+      fontSize: AppSizes.sp16,
+      fontFamily: "PlusJakartaSans",
+      fontWeight: FontWeight.bold,
+      overflow: TextOverflow.ellipsis,
+    ),
+    displaySmall: TextStyle(
+      fontFamily: "PlusJakartaSans",
+      color: const Color(0xFFCBD5E1), // Light Slate
+      fontSize: AppSizes.sp12,
+      fontWeight: FontWeight.w500,
+    ),
+    labelMedium: TextStyle(
+      color: const Color(0xFFE2E8F0),
+      fontSize: AppSizes.sp15,
+      fontWeight: FontWeight.w500,
+      fontFamily: "PlusJakartaSans",
+    ),
+    labelLarge: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp20,
+      fontFamily: "PlusJakartaSans",
+      fontWeight: FontWeight.w700,
+    ),
+    labelSmall: TextStyle(
+      fontSize: AppSizes.sp14,
+      fontFamily: "PlusJakartaSans",
+      fontWeight: FontWeight.bold,
+      color: const Color(0xFF94A3B8),
+    ),
+
+    titleSmall: TextStyle(
+      color: const Color(0xFFCBD5E1),
+      fontSize: AppSizes.sp16,
+      fontFamily: "PlusJakartaSans",
+    ),
+
+    titleMedium: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp22,
+      fontWeight: FontWeight.w800,
+      fontFamily: "PlusJakartaSans",
+    ),
+
+    titleLarge: TextStyle(
+      fontSize: AppSizes.sp34,
+      fontWeight: FontWeight.w800,
+      fontFamily: "PlusJakartaSans",
+      color: const Color(0xFFF1F5F9),
+    ),
+
+    bodyLarge: TextStyle(
+      color: const Color(0xFFF8FAFC),
+      fontSize: AppSizes.sp32,
+      fontWeight: FontWeight.w800,
+      fontFamily: "PlusJakartaSans",
+      height: 0.875,
+      letterSpacing: -0.5,
+    ),
+    bodyMedium: TextStyle(
+      color: const Color(0xFFCBD5E1),
+      fontSize: AppSizes.sp24,
+      fontWeight: FontWeight.w700,
+      fontFamily: "PlusJakartaSans",
+    ),
+    bodySmall: TextStyle(
+      color: const Color(0xFF64748B),
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w500,
+      fontFamily: "PlusJakartaSans",
+    ),
+  ),
+  
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide(color: const Color(0xFF475569), width: AppSizes.w1),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide(color: const Color(0xFF3B82F6), width: AppSizes.w1), // Blue focus
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide(color: Colors.redAccent, width: AppSizes.w1),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+      borderSide: BorderSide.none,
+    ),
+    errorMaxLines: 2,
+    errorStyle: TextStyle(fontSize: AppSizes.sp15, height: 0.8),
+    filled: true,
+    fillColor: const Color(0xFF1E293B), // Dark input background
+    prefixIconColor: const Color(0xFF64748B),
+    suffixIconColor: const Color(0xFF64748B),
+
+    labelStyle: TextStyle(
+      color: Colors.white,
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w600,
+      fontFamily: "PlusJakartaSans",
+    ),
+    hintStyle: TextStyle(
+      color: const Color(0xFF64748B),
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w500,
+      fontFamily: "PlusJakartaSans",
+    ),
+  ),
+  
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
+      splashFactory: NoSplash.splashFactory,
+    ),
+  ),
+
+  dividerTheme: const DividerThemeData(color: Color(0xFF334155), thickness: 1),
+
+  popupMenuTheme: PopupMenuThemeData(
+    color: const Color(0xFF1E293B),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppSizes.r15),
+    ),
+    shadowColor: Colors.black54,
+    elevation: AppSizes.r2,
+    labelTextStyle: WidgetStateProperty.all(
+      TextStyle(
+        color: Colors.white,
+        fontSize: AppSizes.sp20,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+  ),
 );

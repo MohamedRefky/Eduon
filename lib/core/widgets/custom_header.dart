@@ -1,7 +1,7 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -31,8 +31,8 @@ class _CustomHeaderState extends State<CustomHeader> {
     if (uid == null) return;
 
     setState(() {
-      _name = PrefrancesManeger().getUserFullName(uid);
-      _imagePath = PrefrancesManeger().getUserImage(uid);
+      _name = PreferencesManager().getUserFullName(uid);
+      _imagePath = PreferencesManager().getUserImage(uid);
     });
   }
 
@@ -67,7 +67,6 @@ class _CustomHeaderState extends State<CustomHeader> {
           children: [
             CircleAvatar(
               radius: AppSizes.r27,
-              // ✅ لو في صورة محفوظة يعرضها، لو لأ يعرض الـ default
               backgroundImage:
                   _imagePath != null && File(_imagePath!).existsSync()
                   ? FileImage(File(_imagePath!))
@@ -76,7 +75,6 @@ class _CustomHeaderState extends State<CustomHeader> {
             ),
             Gap(AppSizes.h10),
             Text(
-              // ✅ لو في اسم يعرضه، لو لأ يعرض Hello
               "Hello,\n${_name ?? 'User'}",
               style: Theme.of(context).textTheme.titleSmall,
             ),

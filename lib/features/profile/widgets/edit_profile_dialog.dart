@@ -1,11 +1,11 @@
-// lib/features/profile/widgets/edit_profile_dialog.dart
+﻿// lib/features/profile/widgets/edit_profile_dialog.dart
 
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/utils/app_validator.dart';
 import 'package:eduon/core/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
 import 'package:eduon/features/profile/cubit/profile_state.dart';
-import 'package:eduon/features/profile/widgets/profile_snack_bar.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -27,7 +27,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   @override
   void initState() {
     super.initState();
-    // خد القيم من الـ Cubit
     final cubit = context.read<ProfileCubit>();
     nameController.text = cubit.state.name ?? '';
   }
@@ -56,7 +55,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       listenWhen: (prev, curr) => curr.snackBarMessage != null && curr.isSaved,
       listener: (context, state) {
         if (state.snackBarMessage != null && state.snackBarType != null) {
-          showProfileSnackBar(
+          showCustomSnackBar(
             context,
             message: state.snackBarMessage!,
             type: state.snackBarType!,

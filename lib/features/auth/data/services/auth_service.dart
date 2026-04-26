@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+﻿import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -9,8 +9,6 @@ class AuthService {
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
-
-      // initialize يجب يتنادى مرة واحدة بس
       if (!_initialized) {
         await googleSignIn.initialize(
           serverClientId:
@@ -18,24 +16,19 @@ class AuthService {
         );
         _initialized = true;
       }
-
-      // فتح نافذة اختيار الحساب
       final GoogleSignInAccount googleSignInAccount = await googleSignIn
           .authenticate(scopeHint: ['email']);
-      // الحصول على idToken
       final String? idToken = googleSignInAccount.authentication.idToken;
 
       if (idToken == null) {
         throw Exception();
       }
-      // محاولة الحصول على accessToken (اختياري - بتحسين الأمان)
       String? accessToken;
       try {
         final clientAuth = await googleSignInAccount.authorizationClient
             .authorizationForScopes(['email']);
         accessToken = clientAuth?.accessToken;
       } catch (_) {
-        // accessToken مش ضروري — نكمل بـ idToken بس
       }
 
       final credential = GoogleAuthProvider.credential(

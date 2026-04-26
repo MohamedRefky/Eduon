@@ -1,6 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/message_ai_model.dart';
-import 'package:eduon/features/eduon_aI/widgets/message_bubble.dart';
+import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
+import 'package:eduon/features/eduon_ai/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';

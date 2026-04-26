@@ -1,5 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -39,7 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ];
 
   void finishOnboarding() async {
-    await PrefrancesManeger().setOnboardingSeen(true);
+    await PreferencesManager().setOnboardingSeen(true);
 
     Navigator.pushReplacement(
       context,

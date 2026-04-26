@@ -1,5 +1,5 @@
-import 'package:eduon/core/models/category_model.dart';
-import 'package:eduon/core/models/playlist_model.dart';
+import 'package:eduon/features/courses/data/models/category_model.dart';
+import 'package:eduon/features/courses/data/models/playlist_model.dart';
 
 class CoursesState {
   final List<CategoryModel> categories;

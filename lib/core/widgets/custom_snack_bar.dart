@@ -1,13 +1,13 @@
-// lib/features/profile/widgets/profile_snack_bar.dart
-
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/features/profile/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
 
-void showProfileSnackBar(
+enum SnackBarType { success, error, info }
+
+void showCustomSnackBar(
   BuildContext context, {
   required String message,
   required SnackBarType type,
+  Duration duration = const Duration(seconds: 2),
 }) {
   Color backgroundColor;
   switch (type) {
@@ -21,6 +21,8 @@ void showProfileSnackBar(
       backgroundColor = const Color(0xFF323232);
       break;
   }
+
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -41,7 +43,7 @@ void showProfileSnackBar(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.r12),
       ),
-      duration: const Duration(seconds: 2),
+      duration: duration,
     ),
   );
 }

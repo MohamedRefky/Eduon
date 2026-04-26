@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
 import 'package:eduon/features/profile/cubit/profile_state.dart';
@@ -125,8 +125,6 @@ class AvatarSection extends StatelessWidget {
                     );
 
                     if (result == true) {
-                      // الـ Cubit هيكون عمل reload لوحده
-                      // بس لو عايز تضمن:
                       if (context.mounted) {
                         context.read<ProfileCubit>().loadProfile();
                       }

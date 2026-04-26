@@ -1,12 +1,11 @@
-import 'package:eduon/bloc/courses_bloc.dart';
-import 'package:eduon/bloc/courses_state.dart';
+﻿import 'package:eduon/features/courses/bloc/courses_bloc.dart';
+import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
@@ -44,13 +43,9 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
             );
           }
-
-          // ✅ لو في سيرش استخدم filteredPlaylists، لو لأ استخدم allPlaylists
           final sourceCourses = state.searchQuery.isNotEmpty
               ? state.filteredPlaylists
               : state.allPlaylists;
-
-          // ✅ بعد كده فلتر بالـ Category
           final filteredCourses = _selectedCategory == 'All'
               ? sourceCourses
               : sourceCourses
@@ -86,8 +81,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   onClear: () => setState(() => _selectedCategory = 'All'),
                 ),
               ),
-
-              // ✅ لو السيرش مفيش نتايج
               if (filteredCourses.isEmpty && state.searchQuery.isNotEmpty)
                 const SliverFillRemaining(
                   hasScrollBody: false,
@@ -105,7 +98,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     ),
                   ),
                 )
-              // ✅ لو الفلتر مفيش نتايج
               else if (filteredCourses.isEmpty)
                 const SliverFillRemaining(
                   hasScrollBody: false,
@@ -127,7 +119,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     ),
                   ),
                 )
-              // ✅ عرض الكورسات
               else
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),

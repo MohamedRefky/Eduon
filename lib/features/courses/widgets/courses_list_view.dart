@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/playlist_model.dart';
+import 'package:eduon/features/courses/data/models/playlist_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -22,7 +22,7 @@ class CourseItem extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppSizes.r12),
           boxShadow: [
             BoxShadow(
@@ -74,7 +74,7 @@ class CourseItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: const Color(0xFF003346),
+                      color: Theme.of(context).textTheme.titleLarge?.color,
                     ),
                   ),
                   Gap(AppSizes.h4),
@@ -89,7 +89,7 @@ class CourseItem extends StatelessWidget {
                               ?.copyWith(
                                 fontSize: AppSizes.sp14,
 
-                                color: const Color(0xFF346178),
+                                color: Theme.of(context).textTheme.bodyMedium?.color,
                               ),
                         ),
 
@@ -106,14 +106,14 @@ class CourseItem extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF99ecfe),
+                            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(AppSizes.r8),
                           ),
                           child: Text(
                             playlist.category.toUpperCase(),
                             style: Theme.of(context).textTheme.displaySmall
                                 ?.copyWith(
-                                  color: const Color(0xFF005C52),
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontWeight: FontWeight.w700,
                                 ),
                           ),
@@ -125,7 +125,7 @@ class CourseItem extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.menu_book,
-                            color: const Color(0xFF334155),
+                            color: Theme.of(context).iconTheme.color,
                             size: AppSizes.sp16,
                           ),
                           Gap(AppSizes.w4),
@@ -155,7 +155,7 @@ class CourseItem extends StatelessWidget {
                         height: AppSizes.h30,
                         width: AppSizes.w70,
                         decoration: BoxDecoration(
-                          color: Color(0xFF2D3854),
+                          color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(AppSizes.r12),
                         ),
                         child: Center(

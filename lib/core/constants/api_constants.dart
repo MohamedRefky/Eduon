@@ -31,6 +31,10 @@ class ApiConstants {
       'PLRApDqMC8bRlgBpMZd-8AJeDo_G5CafwD', // UI/UX Design
     ],
     'Business': [
+      'PLhmMQxtiTR7yTugJVpLr9Mr5PXmJEv0g2',
+      'PLWYMWPWOXibhek4YPo1m3ASwp9NYIODrU',
+      'PLhmMQxtiTR7zWMJ8moVwPR9nD6CD-moeo',
+      'PLhmMQxtiTR7yhXF2w_LzqKcFD7AKLKtSD',
       'PL1O57nCUQ-e-OVRFdIB-Gu1U91yH7egmm',
       'PLrwW6euLXbSPNlIgR0u80pIu4nMvSGPrm', // Marketing
       'PLUl4u3cNGP63UUkfL0onkxF6MYgVa04Fn', // MIT Entrepreneurship

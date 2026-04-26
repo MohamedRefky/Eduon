@@ -1,5 +1,5 @@
-import 'package:eduon/core/service/auth_service.dart';
-import 'package:eduon/core/service/prefrances_maneger.dart';
+﻿import 'package:eduon/features/auth/data/services/auth_service.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class AuthCubit extends Cubit<AuthState> {
       final userCredential = await registerFuture;
 
       if (userCredential?.user != null) {
-        await PrefrancesManeger().setUserFullName(
+        await PreferencesManager().setUserFullName(
           userCredential!.user!.uid,
           fullNameController.text.trim(),
         );
@@ -94,14 +94,14 @@ class AuthCubit extends Cubit<AuthState> {
         final uid = user.uid;
         final name = user.displayName ?? "User";
 
-        final savedName = PrefrancesManeger().getUserFullName(uid);
+        final savedName = PreferencesManager().getUserFullName(uid);
 
         if (savedName == null) {
-          await PrefrancesManeger().setUserFullName(uid, name);
+          await PreferencesManager().setUserFullName(uid, name);
         }
         emit(AuthSuccess(userCredential.user!));
       } else {
-        emit(AuthCanceled()); // ✅ بدل AuthInitial
+        emit(AuthCanceled());
       }
     } catch (e) {
       if (e.toString().contains('canceled')) {

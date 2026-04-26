@@ -1,5 +1,5 @@
-import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/prefrances_maneger.dart';
+﻿import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/onboarding/onboarding_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,8 +15,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  double _logoOffset = -1; // من الشمال
-  double _textOffset = 1; // من اليمين
+  double _logoOffset = -1;
+  double _textOffset = 1;
   double _opacity = 0;
 
   @override
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    final prefs = PrefrancesManeger();
+    final prefs = PreferencesManager();
     final seenOnboarding = prefs.getOnboardingSeen();
     final uid = FirebaseAuth.instance.currentUser?.uid;
 
@@ -82,7 +82,6 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /// LOGO من الشمال
                 AnimatedSlide(
                   offset: Offset(_logoOffset, 0),
                   duration: const Duration(milliseconds: 900),
@@ -94,8 +93,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
 
                 Gap(AppSizes.w10),
-
-                /// TEXT من اليمين
                 AnimatedSlide(
                   offset: Offset(_textOffset, 0),
                   duration: const Duration(milliseconds: 900),

@@ -27,12 +27,12 @@ class ChatInputField extends StatelessWidget {
               enabled: !isLoading,
               textAlignVertical: TextAlignVertical.center,
               style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                color: Colors.grey[600],
+                color: Theme.of(context).textTheme.bodyMedium?.color,
                 fontSize: AppSizes.sp16,
               ),
               decoration: InputDecoration(
                 hintText: "Ask AI anything...",
-                fillColor: const Color(0xffffffff),
+                fillColor: Theme.of(context).cardColor,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSizes.r30),
                   borderSide: BorderSide.none,

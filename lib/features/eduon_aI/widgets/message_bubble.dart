@@ -1,5 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/message_ai_model.dart';
+import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -33,7 +33,7 @@ class MessageBubble extends StatelessWidget {
               ),
               padding: EdgeInsets.all(AppSizes.h16),
               decoration: BoxDecoration(
-                color: message.isMe ? const Color(0xFF305073) : Colors.white,
+                color: message.isMe ? Theme.of(context).colorScheme.primary : Theme.of(context).cardColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(AppSizes.r24),
                   topRight: Radius.circular(AppSizes.r24),
@@ -57,7 +57,7 @@ class MessageBubble extends StatelessWidget {
                 style: TextStyle(
                   fontSize: AppSizes.h15,
                   height: 1.5,
-                  color: message.isMe ? Colors.white : Colors.black87,
+                  color: message.isMe ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
             ),

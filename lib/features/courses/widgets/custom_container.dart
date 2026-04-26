@@ -31,7 +31,7 @@ class CustomContainer extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.all(AppSizes.h8),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFF475569) : Colors.white,
+          color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppSizes.r12),
           boxShadow: [
             BoxShadow(
@@ -54,7 +54,7 @@ class CustomContainer extends StatelessWidget {
                   fit: BoxFit.cover,
                   colorFilter: colorFliter
                       ? ColorFilter.mode(
-                          isSelected ? Colors.white : svgColor,
+                          isSelected ? Theme.of(context).colorScheme.onPrimary : svgColor,
                           BlendMode.srcIn,
                         )
                       : null,
@@ -67,8 +67,7 @@ class CustomContainer extends StatelessWidget {
               maxLines: 1,
               style: Theme.of(context).textTheme.displayMedium?.copyWith(
                 fontSize: AppSizes.sp14,
-                // ✅ لو selected النص يبقى أبيض
-                color: isSelected ? Colors.white : null,
+                color: isSelected ? Theme.of(context).colorScheme.onPrimary : null,
               ),
             ),
           ],

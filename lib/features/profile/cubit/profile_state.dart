@@ -1,5 +1,6 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 
 class ProfileState extends Equatable {
   final String? name;
@@ -27,8 +28,6 @@ class ProfileState extends Equatable {
     this.snackBarMessage,
     this.snackBarType,
   });
-
-  /// الصوره اللى هتتعرض (الجديده أو القديمه)
   File? get displayImage => selectedImage ?? initialImage;
 
   ProfileState copyWith({
@@ -76,5 +75,3 @@ class ProfileState extends Equatable {
         snackBarType,
       ];
 }
-
-enum SnackBarType { success, error, info }

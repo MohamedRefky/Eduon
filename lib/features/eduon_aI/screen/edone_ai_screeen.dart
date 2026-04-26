@@ -1,8 +1,8 @@
 import 'package:eduon/core/widgets/custom_header.dart';
-import 'package:eduon/features/eduon_aI/cubit/ai_cubit.dart';
+import 'package:eduon/features/eduon_ai/cubit/ai_cubit.dart';
 import 'package:eduon/core/service/ai_service.dart';
-import 'package:eduon/features/eduon_aI/widgets/chat_input_field.dart';
-import 'package:eduon/features/eduon_aI/widgets/messages_list.dart';
+import 'package:eduon/features/eduon_ai/widgets/chat_input_field.dart';
+import 'package:eduon/features/eduon_ai/widgets/messages_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
 import 'package:eduon/features/profile/cubit/profile_state.dart';
-import 'package:eduon/features/profile/widgets/profile_snack_bar.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'package:eduon/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +36,6 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
 
   @override
   void didPopNext() {
-    // لما يرجع من شاشه تانيه، أعد تحميل الكورسات
     context.read<ProfileCubit>().loadActiveCourses();
   }
 
@@ -46,10 +45,10 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
       listenWhen: (prev, curr) =>
           curr.snackBarMessage != null &&
           prev.snackBarMessage != curr.snackBarMessage &&
-          !curr.isSaved, // الـ save بيتعامل معاه فى الـ EditProfileDialog
+          !curr.isSaved,
       listener: (context, state) {
         if (state.snackBarMessage != null && state.snackBarType != null) {
-          showProfileSnackBar(
+          showCustomSnackBar(
             context,
             message: state.snackBarMessage!,
             type: state.snackBarType!,
@@ -109,7 +108,7 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
     return Container(
       padding: EdgeInsets.all(AppSizes.h12),
       decoration: BoxDecoration(
-        color: const Color(0xFFd2dae3),
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppSizes.r12),
         boxShadow: [
           BoxShadow(
@@ -162,8 +161,8 @@ class _ActiveLearningState extends State<ActiveLearning> with RouteAware {
                   borderRadius: BorderRadius.circular(AppSizes.r4),
                   child: LinearProgressIndicator(
                     value: progress,
-                    backgroundColor: Colors.grey[200],
-                    color: const Color(0xFF3B82F6),
+                    backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).colorScheme.primary,
                     minHeight: AppSizes.h6,
                   ),
                 ),

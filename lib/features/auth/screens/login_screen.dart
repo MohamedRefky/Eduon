@@ -1,10 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/auth_service.dart';
+import 'package:eduon/features/auth/data/services/auth_service.dart';
 import 'package:eduon/core/utils/app_validator.dart';
 import 'package:eduon/core/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/signup_screen.dart';
-import 'package:eduon/features/auth/utils/auth_snackbar.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/login_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
@@ -34,20 +34,34 @@ class LoginScreen extends StatelessWidget {
           }
 
           if (state is AuthUserNotFound) {
-            context.showAuthSnackBar(
-              "User not found. Please sign up first.",
-              isError: true,
+            showCustomSnackBar(
+              context,
+              message: "User not found. Please sign up first.",
+              type: SnackBarType.error,
             );
           }
           if (state is AuthPasswordResetSent) {
-            context.showAuthSnackBar('Password reset link sent to your email');
+            showCustomSnackBar(
+              context,
+              message: 'Password reset link sent to your email',
+              type: SnackBarType.success,
+            );
           }
 
           if (state is AuthError) {
-            context.showAuthSnackBar(state.message, isError: true);
+            showCustomSnackBar(
+              context,
+              message: state.message,
+              type: SnackBarType.error,
+            );
           }
           if (state is AuthCanceled) {
-            context.showAuthSnackBar('Sign in canceled', durationSeconds: 2);
+            showCustomSnackBar(
+              context,
+              message: 'Sign in canceled',
+              type: SnackBarType.info,
+              duration: const Duration(seconds: 2),
+            );
           }
         },
         builder: (context, state) {
@@ -116,9 +130,10 @@ class LoginScreen extends StatelessWidget {
                                 final email = cubit.emailController.text.trim();
 
                                 if (email.isEmpty) {
-                                  context.showAuthSnackBar(
-                                    "Enter your email first",
-                                    isError: true,
+                                  showCustomSnackBar(
+                                    context,
+                                    message: "Enter your email first",
+                                    type: SnackBarType.error,
                                   );
                                   return;
                                 }

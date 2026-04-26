@@ -8,6 +8,7 @@ import 'cubit/course_details_state.dart';
 import 'widgets/course_details_loading.dart';
 import 'widgets/video_list_section.dart';
 import 'widgets/video_player_section.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
   final String playlistId;
@@ -105,18 +106,10 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
       listenWhen: (previous, current) =>
           !previous.hasMarkedAsWatched && current.hasMarkedAsWatched,
       listener: (context, state) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.check_circle, color: Colors.white),
-                SizedBox(width: 8),
-                Text('Video completed!'),
-              ],
-            ),
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.green,
-          ),
+        showCustomSnackBar(
+          context,
+          message: 'Video completed!',
+          type: SnackBarType.success,
         );
       },
       child: BlocConsumer<CourseDetailsCubit, CourseDetailsState>(

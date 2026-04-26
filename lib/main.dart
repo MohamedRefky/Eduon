@@ -1,23 +1,24 @@
 
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:eduon/core/Theme/light_theme.dart';
-import 'package:eduon/core/Theme/themes_controller.dart';
-import 'package:eduon/core/service/auth_service.dart';
+import 'package:eduon/core/theme/light_theme.dart';
+import 'package:eduon/core/theme/dark_theme.dart';
+import 'package:eduon/core/theme/themes_controller.dart';
+import 'package:eduon/features/auth/data/services/auth_service.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'core/service/prefrances_maneger.dart';
+import 'core/service/preferences_manager.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await PrefrancesManeger().init();
+  await PreferencesManager().init();
   ThemesController.init();
   runApp(
     BlocProvider(
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               navigatorObservers: [routeObserver],
               debugShowCheckedModeBanner: false,
               theme: lightTheme,
-              //darkTheme: darkTheme,
+              darkTheme: darkTheme,
               themeMode: currentMode,
               home: const SplashScreen(),
             );

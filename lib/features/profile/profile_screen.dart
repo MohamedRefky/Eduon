@@ -11,6 +11,7 @@ import 'package:gap/gap.dart';
 
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';
+import 'package:eduon/core/theme/themes_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -42,6 +43,20 @@ class _ProfileScreenBody extends StatelessWidget {
           },
         ),
         title: const Text('My Profile'),
+        actions: [
+          ValueListenableBuilder<ThemeMode>(
+            valueListenable: ThemesController.themeNotifier,
+            builder: (context, mode, child) {
+              final isDark = mode == ThemeMode.dark;
+              return IconButton(
+                icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                onPressed: () {
+                  ThemesController.toggleTheme();
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(AppSizes.h16),
@@ -61,8 +76,9 @@ class _ProfileScreenBody extends StatelessWidget {
       width: double.infinity,
       height: AppSizes.h56,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFCDD2).withValues(alpha: 0.5),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(AppSizes.r15),
+        border: Border.all(color: Colors.red.withValues(alpha: 0.5), width: 1.5),
       ),
       child: TextButton.icon(
         onPressed: () async {

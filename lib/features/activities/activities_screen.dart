@@ -31,7 +31,7 @@ class ActivitiesScreen extends StatelessWidget {
             'Featured Clubs',
             style: TextTheme.of(
               context,
-            ).titleMedium?.copyWith(color: Color(0xFF0F172A)),
+            ).titleMedium?.copyWith(color: Theme.of(context).textTheme.titleLarge?.color),
           ),
           Gap(AppSizes.h8),
           Text(
@@ -39,7 +39,7 @@ class ActivitiesScreen extends StatelessWidget {
             style: TextTheme.of(context).labelMedium?.copyWith(
               fontSize: AppSizes.sp18,
               height: 1.5,
-              color: Color(0xFF574C4C),
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
           ),
           Gap(AppSizes.h16),

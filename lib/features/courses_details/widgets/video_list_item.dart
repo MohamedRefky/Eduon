@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/video_model.dart';
+import 'package:eduon/features/courses/data/models/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -79,7 +79,7 @@ class VideoListItem extends StatelessWidget {
         maxLines: 3,
         style: TextTheme.of(context).displayMedium?.copyWith(
           fontSize: AppSizes.sp13,
-          color: isPlaying ? Colors.deepPurple : Colors.black,
+          color: isPlaying ? Colors.deepPurple : TextTheme.of(context).displayMedium?.color,
         ),
       ),
       subtitle: Row(

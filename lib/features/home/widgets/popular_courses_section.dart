@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eduon/bloc/courses_bloc.dart';
-import 'package:eduon/bloc/courses_state.dart';
+import 'package:eduon/features/courses/bloc/courses_bloc.dart';
+import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:eduon/features/main/main_screen.dart';

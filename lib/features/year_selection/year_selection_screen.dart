@@ -1,6 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/constants/year_constant.dart';
-import 'package:eduon/core/service/prefrances_maneger.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class YearSelectionScreen extends StatelessWidget {
                   onPressed: selected == null
                       ? null
                       : () async {
-                          await PrefrancesManeger().setUserSelectedYear(
+                          await PreferencesManager().setUserSelectedYear(
                             uid!,
                             years[selected]["title"]!,
                           );

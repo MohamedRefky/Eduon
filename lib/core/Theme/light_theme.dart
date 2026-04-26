@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-
   brightness: Brightness.light,
   scaffoldBackgroundColor: Color(0xFFd2dae3),
+  cardColor: Colors.white,
+  colorScheme: const ColorScheme.light(
+    surface: Colors.white,
+    primary: Color(0xFF354155),
+  ),
   fontFamily: "PlusJakartaSans",
 
   appBarTheme: AppBarTheme(

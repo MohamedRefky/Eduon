@@ -1,21 +1,22 @@
 import 'package:dio/dio.dart';
 
 class AiService {
-  final String _apiKey =
-      "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";
+  final String _apiKey = "";
   //final String _model = "arcee-ai/trinity-large-preview:free";
-  //final String _model = "nvidia/nemotron-3-super-120b-a12b:free";
-  final String _model = "inclusionai/ling-2.6-flash:free";
+  //final String _model = "nvidia/nemotron-3-super-120b-a12b:free"; // The best model
+  final String _model = "inclusionai/ling-2.6-flash:free"; // The fastest model
 
   late final Dio _dio;
 
-  AiService() {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: "https://openrouter.ai/api/v1",
-        headers: {"Content-Type": "application/json"},
-      ),
-    );
+  AiService({Dio? dio}) {
+    _dio =
+        dio ??
+        Dio(
+          BaseOptions(
+            baseUrl: "https://openrouter.ai/api/v1",
+            headers: {"Content-Type": "application/json"},
+          ),
+        );
   }
 
   Future<String> sendMessage(String message) async {

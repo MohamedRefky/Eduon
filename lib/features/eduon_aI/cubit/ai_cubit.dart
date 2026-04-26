@@ -1,5 +1,5 @@
 
-import 'package:eduon/core/models/message_ai_model.dart';
+import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
 import 'package:eduon/core/service/ai_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

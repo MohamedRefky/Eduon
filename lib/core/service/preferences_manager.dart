@@ -1,14 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PrefrancesManeger {
-  static final PrefrancesManeger _instance = PrefrancesManeger._internal();
-  factory PrefrancesManeger() => _instance;
-  PrefrancesManeger._internal();
+class PreferencesManager {
+  static final PreferencesManager _instance = PreferencesManager._internal();
+  factory PreferencesManager() => _instance;
+  PreferencesManager._internal();
   late final SharedPreferences _preferences;
   static const String onboardingKey = 'onboarding_seen';
   static const String selectedYearKey = 'selected_year';
   static const String fullNameKey = 'full_name';
   static const String userImageKey = 'user_image';
+
+  final ValueNotifier<int> profileUpdateNotifier = ValueNotifier(0);
+
+  void notifyProfileUpdated() {
+    profileUpdateNotifier.value++;
+  }
 
   Future<bool> setOnboardingSeen(bool value) {
     return _preferences.setBool(onboardingKey, value);

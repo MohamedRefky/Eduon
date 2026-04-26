@@ -1,5 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/learning_path_model.dart';
+import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

@@ -21,7 +21,7 @@ class ClubCardWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: AppSizes.h16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppSizes.r15),
         boxShadow: [
           BoxShadow(
@@ -113,7 +113,7 @@ class ClubCardWidget extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: link.isNotEmpty ? () => _openLink(link) : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF334155),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSizes.r8),

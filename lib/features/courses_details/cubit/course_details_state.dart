@@ -1,4 +1,4 @@
-import 'package:eduon/core/models/video_model.dart';
+import 'package:eduon/features/courses/data/models/video_model.dart';
 import 'package:equatable/equatable.dart';
 
 enum CourseDetailsStatus { initial, loading, loaded, error }

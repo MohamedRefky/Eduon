@@ -1,5 +1,5 @@
-import 'package:eduon/bloc/courses_bloc.dart';
-import 'package:eduon/bloc/courses_event.dart';
+import 'package:eduon/features/courses/bloc/courses_bloc.dart';
+import 'package:eduon/features/courses/bloc/courses_event.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

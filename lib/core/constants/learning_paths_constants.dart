@@ -1,4 +1,4 @@
-import 'package:eduon/core/models/learning_path_model.dart';
+import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 
 class LearningPathsConstants {
   static final List<LearningPathModel> learningPaths = [

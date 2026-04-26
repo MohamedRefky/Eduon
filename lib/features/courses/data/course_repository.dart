@@ -1,8 +1,8 @@
-import 'package:eduon/core/constants/api_constants.dart';
-import 'package:eduon/core/models/category_model.dart';
-import 'package:eduon/core/models/playlist_model.dart';
-import 'package:eduon/core/models/video_model.dart';
-import 'package:eduon/core/service/youtube_api_service.dart';
+﻿import 'package:eduon/core/constants/api_constants.dart';
+import 'package:eduon/features/courses/data/models/category_model.dart';
+import 'package:eduon/features/courses/data/models/playlist_model.dart';
+import 'package:eduon/features/courses/data/models/video_model.dart';
+import 'package:eduon/features/courses/data/services/youtube_api_service.dart';
 
 class CourseRepository {
   final YoutubeApiService _apiService = YoutubeApiService();
@@ -11,32 +11,44 @@ class CourseRepository {
   // GET ALL CATEGORIES
   // =========================
   Future<List<CategoryModel>> getAllCategories() async {
-    List<CategoryModel> categories = [];
+    Set<String> allPlaylistIds = {};
+    for (final entry in ApiConstants.categoryPlaylists.entries) {
+      allPlaylistIds.addAll(entry.value);
+    }
 
+    List<PlaylistModel> allPlaylists = [];
+    if (allPlaylistIds.isNotEmpty) {
+      try {
+        allPlaylists = await _apiService.getMultiplePlaylistsDetails(allPlaylistIds.toList());
+      } catch (e) {
+        // ignore error
+      }
+    }
+
+    List<CategoryModel> categories = [];
     for (final entry in ApiConstants.categoryPlaylists.entries) {
       final categoryName = entry.key;
-      final playlistIds = entry.value;
+      final categoryPlaylistIds = entry.value;
 
-      List<PlaylistModel> playlists = [];
+      final categoryPlaylists = allPlaylists
+          .where((p) => categoryPlaylistIds.contains(p.playlistId))
+          .toList();
 
-      for (final playlistId in playlistIds) {
-        try {
-          final playlist = await _apiService.getPlaylistDetails(
-            playlistId,
-            categoryName,
-          );
-          playlists.add(playlist);
-        } catch (e) {
-          continue;
-        }
+      if (categoryPlaylists.isNotEmpty) {
+        categories.add(
+          CategoryModel(
+            name: categoryName,
+            playlists: categoryPlaylists,
+          ),
+        );
+      } else {
+        categories.add(
+          CategoryModel(
+            name: categoryName,
+            playlists: [],
+          ),
+        );
       }
-
-      categories.add(
-        CategoryModel(
-          name: categoryName,
-          playlists: playlists,
-        ),
-      );
     }
 
     return categories;
@@ -89,26 +101,19 @@ class CourseRepository {
   // GET POPULAR COURSES
   // =========================
   Future<List<PlaylistModel>> getPopularCourses() async {
-    List<PlaylistModel> allPlaylists = [];
-
+    Set<String> allPlaylistIds = {};
     for (final entry in ApiConstants.categoryPlaylists.entries) {
-      final categoryName = entry.key;
-      final playlistIds = entry.value;
-
-      for (final playlistId in playlistIds) {
-        try {
-          final playlist = await _apiService.getPlaylistDetails(
-            playlistId,
-            categoryName,
-          );
-          allPlaylists.add(playlist);
-        } catch (e) {
-          continue;
-        }
-      }
+      allPlaylistIds.addAll(entry.value);
     }
 
-    // ترتيب حسب عدد الفيديوهات
+    List<PlaylistModel> allPlaylists = [];
+    if (allPlaylistIds.isNotEmpty) {
+      try {
+        allPlaylists = await _apiService.getMultiplePlaylistsDetails(allPlaylistIds.toList());
+      } catch (e) {
+        // ignore error
+      }
+    }
     allPlaylists.sort(
       (a, b) => b.videoCount.compareTo(a.videoCount),
     );

@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:eduon/repository/course_repository.dart';
+﻿import 'package:bloc/bloc.dart';
+import 'package:eduon/features/courses/data/course_repository.dart';
 
 import 'courses_event.dart';
 import 'courses_state.dart';
@@ -23,15 +23,13 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     try {
       emit(state.copyWith(isCategoriesLoading: true, errorMessage: null));
       final categories = await _repository.getAllCategories();
-
-      // ✅ استخرج كل الـ playlists من الـ categories
       final allPlaylists = categories.expand((cat) => cat.playlists).toList();
 
       emit(
         state.copyWith(
           categories: categories,
-          allPlaylists: allPlaylists, // ✅ ملّيها هنا
-          filteredPlaylists: allPlaylists, // ✅ الأول تبين كلها
+          allPlaylists: allPlaylists,
+          filteredPlaylists: allPlaylists,
           isCategoriesLoading: false,
         ),
       );
@@ -69,8 +67,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   ) async {
     try {
       emit(state.copyWith(isPopularLoading: true));
-
-      // لو الـ Categories محملة بالفعل، خد منها
       if (state.categories.isNotEmpty) {
         final allPlaylists = state.categories
             .expand((cat) => cat.playlists)
@@ -100,8 +96,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     Emitter<CoursesState> emit,
   ) async {
     final query = event.query.toLowerCase().trim();
-
-    // ✅ لو الـ query فاضي رجّع كل الـ playlists
     if (query.isEmpty) {
       emit(
         state.copyWith(searchQuery: '', filteredPlaylists: state.allPlaylists),

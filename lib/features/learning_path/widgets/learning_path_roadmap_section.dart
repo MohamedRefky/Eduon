@@ -1,6 +1,6 @@
-import 'package:eduon/bloc/courses_state.dart';
+import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/models/learning_path_model.dart';
+import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
 
