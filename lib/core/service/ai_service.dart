@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AiService {
-  final String _apiKey = "";
-  //final String _model = "arcee-ai/trinity-large-preview:free";
+  final String _apiKey = dotenv.env['OPENROUTER_API_KEY'] ?? '';
+
   //final String _model = "nvidia/nemotron-3-super-120b-a12b:free"; // The best model
+
   final String _model = "inclusionai/ling-2.6-flash:free"; // The fastest model
 
   late final Dio _dio;

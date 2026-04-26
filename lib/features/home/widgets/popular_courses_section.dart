@@ -7,7 +7,7 @@ import 'package:eduon/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PopularCoursesSection extends StatelessWidget {
   const PopularCoursesSection({super.key, required this.playlist});
@@ -22,11 +22,7 @@ class PopularCoursesSection extends StatelessWidget {
       builder: (context, state) {
         // Loading
         if (state.isPopularLoading) {
-          return Lottie.asset(
-            height: AppSizes.h110,
-            'assets/gif/Trail_loading.json',
-            fit: BoxFit.contain,
-          );
+          return _buildSkeleton(context);
         }
         if (state.popularCourses.isEmpty) return const SizedBox();
 
@@ -98,13 +94,24 @@ class PopularCoursesSection extends StatelessWidget {
                                 height: AppSizes.h90,
                                 width: AppSizes.h120,
                                 fit: BoxFit.fill,
-                                placeholder: (context, url) => Center(
-                                  child: Lottie.asset(
-                                    height: AppSizes.h110,
-                                    'assets/gif/Trail_loading.json',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
+                                placeholder: (context, url) {
+                                  final isDark =
+                                      Theme.of(context).brightness ==
+                                      Brightness.dark;
+                                  return Shimmer.fromColors(
+                                    baseColor: isDark
+                                        ? Colors.grey[800]!
+                                        : Colors.grey[300]!,
+                                    highlightColor: isDark
+                                        ? Colors.grey[700]!
+                                        : Colors.grey[100]!,
+                                    child: Container(
+                                      height: AppSizes.h90,
+                                      width: AppSizes.h120,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                },
                                 errorWidget: (context, url, error) => Container(
                                   color: Colors.grey[300],
                                   child: const Icon(Icons.image_not_supported),
@@ -182,6 +189,142 @@ class PopularCoursesSection extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSkeleton(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Shimmer.fromColors(
+                baseColor: baseColor,
+                highlightColor: highlightColor,
+                child: Container(
+                  width: AppSizes.w150,
+                  height: AppSizes.h24,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppSizes.r8),
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Shimmer.fromColors(
+                baseColor: baseColor,
+                highlightColor: highlightColor,
+                child: Container(
+                  width: AppSizes.w50,
+                  height: AppSizes.h24,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppSizes.r8),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Gap(AppSizes.h12),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => Gap(AppSizes.h12),
+            padding: EdgeInsets.zero,
+            scrollDirection: Axis.vertical,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppSizes.r12),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: baseColor,
+                        highlightColor: highlightColor,
+                        child: Container(
+                          height: AppSizes.h90,
+                          width: AppSizes.h120,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(AppSizes.r12),
+                          ),
+                        ),
+                      ),
+                      Gap(AppSizes.w8),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppSizes.h6,
+                            horizontal: AppSizes.h4,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: baseColor,
+                                highlightColor: highlightColor,
+                                child: Container(
+                                  height: AppSizes.h14,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Gap(AppSizes.h4),
+                              Shimmer.fromColors(
+                                baseColor: baseColor,
+                                highlightColor: highlightColor,
+                                child: Container(
+                                  height: AppSizes.h14,
+                                  width: AppSizes.w150,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Gap(AppSizes.h12),
+                              Shimmer.fromColors(
+                                baseColor: baseColor,
+                                highlightColor: highlightColor,
+                                child: Container(
+                                  height: AppSizes.h10,
+                                  width: AppSizes.w100,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Gap(AppSizes.h8),
+                              Shimmer.fromColors(
+                                baseColor: baseColor,
+                                highlightColor: highlightColor,
+                                child: Container(
+                                  height: AppSizes.h10,
+                                  width: AppSizes.w80,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Gap(AppSizes.w4),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

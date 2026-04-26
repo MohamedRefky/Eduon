@@ -57,7 +57,7 @@ class HomeHeader extends StatelessWidget {
                           : const AssetImage("assets/images/Avatar.png")
                                 as ImageProvider,
                     ),
-                    Gap(AppSizes.h10),
+                    Gap(AppSizes.w16),
                     Expanded(
                       child: Text(
                         "Hello,\n${name ?? 'User'}",
