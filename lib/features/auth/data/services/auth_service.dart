@@ -1,4 +1,4 @@
-﻿import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -16,24 +16,12 @@ class AuthService {
         );
         _initialized = true;
       }
-      final GoogleSignInAccount googleSignInAccount = await googleSignIn
-          .authenticate(scopeHint: ['email']);
-      final String? idToken = googleSignInAccount.authentication.idToken;
-
-      if (idToken == null) {
-        throw Exception();
-      }
-      String? accessToken;
-      try {
-        final clientAuth = await googleSignInAccount.authorizationClient
-            .authorizationForScopes(['email']);
-        accessToken = clientAuth?.accessToken;
-      } catch (_) {
-      }
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleSignInAccount!.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        idToken: idToken,
-        accessToken: accessToken,
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
       );
 
       final userCredential = await FirebaseAuth.instance.signInWithCredential(
@@ -72,10 +60,6 @@ class AuthService {
           );
 
       return credential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-      } else if (e.code == 'email-already-in-use') {}
-      return Future.error(e);
     } catch (e) {
       return Future.error(e);
     }
@@ -95,9 +79,7 @@ class AuthService {
       );
 
       return credential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-      } else if (e.code == 'wrong-password') {}
+    } catch (e) {
       return Future.error(e);
     }
   }

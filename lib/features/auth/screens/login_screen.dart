@@ -9,6 +9,7 @@ import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/login_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
 import 'package:eduon/features/main/main_screen.dart';
+import 'package:eduon/features/year_selection/year_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -26,11 +27,19 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const MainScreen()),
-              (route) => false,
-            );
+            if (state.isNewUser) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => YearSelectionScreen()),
+                (route) => false,
+              );
+            } else {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const MainScreen()),
+                (route) => false,
+              );
+            }
           }
 
           if (state is AuthUserNotFound) {

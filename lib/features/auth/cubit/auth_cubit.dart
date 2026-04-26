@@ -1,4 +1,4 @@
-﻿import 'package:eduon/features/auth/data/services/auth_service.dart';
+import 'package:eduon/features/auth/data/services/auth_service.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,8 +40,12 @@ class AuthCubit extends Cubit<AuthState> {
       if (userCredential?.user != null) {
         emit(AuthSuccess(userCredential!.user!));
       }
-    } on FirebaseAuthException {
-      emit(AuthUserNotFound());
+    } catch (e) {
+      if (e is FirebaseAuthException && e.code == 'user-not-found') {
+        emit(AuthUserNotFound());
+      } else {
+        emit(AuthError(_handleAuthError(e)));
+      }
     }
   }
 
@@ -69,7 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
           userCredential!.user!.uid,
           fullNameController.text.trim(),
         );
-        emit(AuthSuccess(userCredential.user!));
+        emit(AuthSuccess(userCredential.user!, isNewUser: true));
       }
     } on FirebaseAuthException catch (e) {
       await Future.delayed(const Duration(seconds: 1));
@@ -93,13 +97,14 @@ class AuthCubit extends Cubit<AuthState> {
         final user = userCredential!.user!;
         final uid = user.uid;
         final name = user.displayName ?? "User";
+        final isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
 
         final savedName = PreferencesManager().getUserFullName(uid);
 
         if (savedName == null) {
           await PreferencesManager().setUserFullName(uid, name);
         }
-        emit(AuthSuccess(userCredential.user!));
+        emit(AuthSuccess(userCredential.user!, isNewUser: isNewUser));
       } else {
         emit(AuthCanceled());
       }
@@ -152,11 +157,13 @@ class AuthCubit extends Cubit<AuthState> {
           return "The password is too weak.";
         case 'too-many-requests':
           return "Too many tries. Please wait and try again.";
+        case 'network-request-failed':
+          return "No internet connection. Please check your network.";
         default:
           return e.message ?? "Authentication failed.";
       }
     }
-    return e.toString();
+    return "Something went wrong. Please check your internet connection.";
   }
 
   @override

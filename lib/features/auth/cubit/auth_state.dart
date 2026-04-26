@@ -17,11 +17,12 @@ class AuthCanceled extends AuthState {}
 class AuthPasswordResetSent extends AuthState {}
 class AuthSuccess extends AuthState {
   final User user;
+  final bool isNewUser;
 
-  const AuthSuccess(this.user);
+  const AuthSuccess(this.user, {this.isNewUser = false});
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, isNewUser];
 }
 
 class AuthError extends AuthState {
