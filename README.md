@@ -84,4 +84,3 @@ Contributions and feature requests are welcome! Feel free to open an issue or su
 ## 📄 License
 © 2026 [Mohamed Refky](https://github.com/MohamedRefky). All rights reserved.
 
-![Alt text](image.png)
