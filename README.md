@@ -78,3 +78,8 @@ Contributions and feature requests are welcome! Feel free to open an issue or su
 
 ## 📄 License
 © 2026 [Mohamed Refky](https://github.com/MohamedRefky). All rights reserved.
+
+## 👤 Author
+**Mohamed Refky**
+* Coding Instructor at iSchool
+* [LinkedIn Profile](https://www.linkedin.com/in/mohamedrefky/)
