@@ -1,0 +1,224 @@
+import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
+import 'package:eduon/features/reminders/cubit/reminder_cubit.dart';
+import 'package:eduon/features/reminders/data/models/study_reminder.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+
+class EditReminderSheet extends StatefulWidget {
+  final StudyReminder reminder;
+  const EditReminderSheet({super.key, required this.reminder});
+
+  @override
+  State<EditReminderSheet> createState() => _EditReminderSheetState();
+}
+
+class _EditReminderSheetState extends State<EditReminderSheet> {
+  late final TextEditingController _labelController;
+  late TimeOfDay _time;
+  late Set<int> _selectedDays;
+
+  static const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  @override
+  void initState() {
+    super.initState();
+    _labelController = TextEditingController(text: widget.reminder.label);
+    _time = widget.reminder.time;
+    _selectedDays = Set.from(widget.reminder.weekdays);
+  }
+
+  @override
+  void dispose() {
+    _labelController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.fromLTRB(
+        AppSizes.w20,
+        AppSizes.h20,
+        AppSizes.w20,
+        AppSizes.h32,
+      ),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.r24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Handle ──
+          Center(
+            child: Container(
+              width: AppSizes.w40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(AppSizes.r4),
+              ),
+            ),
+          ),
+          Gap(AppSizes.h20),
+          Text('Edit Reminder', style: Theme.of(context).textTheme.displayLarge),
+          Gap(AppSizes.h20),
+
+          // ── Label ──
+          TextField(
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontSize: AppSizes.sp14,
+                  fontWeight: FontWeight.w600,
+                ),
+            controller: _labelController,
+            decoration: const InputDecoration(
+              labelText: 'Label (optional)',
+              hintText: 'e.g. Math revision',
+              prefixIcon: Icon(Icons.label_outline_rounded),
+            ),
+          ),
+          Gap(AppSizes.h16),
+
+          // ── Time Picker ──
+          GestureDetector(
+            onTap: _pickTime,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSizes.w16,
+                vertical: AppSizes.h14,
+              ),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                borderRadius: BorderRadius.circular(AppSizes.r12),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.access_time_rounded, color: scheme.primary),
+                  Gap(AppSizes.w12),
+                  Text('Time', style: Theme.of(context).textTheme.displaySmall),
+                  const Spacer(),
+                  Text(
+                    _timeLabel,
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      color: scheme.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Gap(AppSizes.h16),
+
+          // ── Day Selector ──
+          Text('Days', style: Theme.of(context).textTheme.displaySmall),
+          Gap(AppSizes.h10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(7, (i) {
+              final day = i + 1;
+              final selected = _selectedDays.contains(day);
+              return GestureDetector(
+                onTap: () => setState(() {
+                  if (selected) {
+                    if (_selectedDays.length > 1) _selectedDays.remove(day);
+                  } else {
+                    _selectedDays.add(day);
+                  }
+                }),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: AppSizes.h38,
+                  height: AppSizes.h38,
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? scheme.primary
+                        : (isDark ? const Color(0xFF1E293B) : Colors.white),
+                    shape: BoxShape.circle,
+                    boxShadow: selected
+                        ? [
+                            BoxShadow(
+                              color: scheme.primary.withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: Center(
+                    child: Text(
+                      _dayNames[i],
+                      style: TextStyle(
+                        fontSize: AppSizes.sp10,
+                        fontWeight: FontWeight.w600,
+                        color: selected ? Colors.white : Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+          Gap(AppSizes.h24),
+
+          // ── Save Button ──
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _save,
+              icon: const Icon(Icons.check_rounded),
+              label: const Text('Update Reminder'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String get _timeLabel {
+    final hour = _time.hourOfPeriod == 0 ? 12 : _time.hourOfPeriod;
+    final minute = _time.minute.toString().padLeft(2, '0');
+    final period = _time.period == DayPeriod.am ? 'AM' : 'PM';
+    return '$hour:$minute $period';
+  }
+
+  Future<void> _pickTime() async {
+    final picked = await showTimePicker(context: context, initialTime: _time);
+    if (picked != null) setState(() => _time = picked);
+  }
+
+  Future<void> _save() async {
+    if (_selectedDays.isEmpty) return;
+
+    final updated = widget.reminder.copyWith(
+      label: _labelController.text.trim(),
+      time: _time,
+      weekdays: _selectedDays.toList()..sort(),
+    );
+
+    // Cancel old scheduled notifications then reschedule
+    final cubit = context.read<ReminderCubit>();
+    await cubit.deleteReminder(widget.reminder);
+    await cubit.addReminder(
+      label: updated.label,
+      time: updated.time,
+      weekdays: updated.weekdays,
+    );
+
+    if (mounted) {
+      Navigator.pop(context);
+      showCustomSnackBar(
+        context,
+        message: 'Reminder updated successfully!',
+        type: SnackBarType.success,
+      );
+    }
+  }
+}

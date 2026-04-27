@@ -2,7 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
-ThemeData darkTheme = ThemeData(
+ThemeData get darkTheme => ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
   extensions: [

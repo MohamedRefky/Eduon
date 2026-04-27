@@ -66,5 +66,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>Eduon uses notifications to remind you of your scheduled study sessions.</string>
 </dict>
 </plist>

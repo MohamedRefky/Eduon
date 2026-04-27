@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'core/service/preferences_manager.dart';
+import 'package:eduon/core/service/preferences_manager.dart';
+import 'package:eduon/features/reminders/data/services/notification_service.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
@@ -21,6 +22,7 @@ void main() async {
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
   await PreferencesManager().init();
+  await NotificationService.instance.initialize();
   ThemesController.init();
   runApp(
     BlocProvider(

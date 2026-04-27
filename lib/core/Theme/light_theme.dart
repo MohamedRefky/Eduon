@@ -2,7 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
-ThemeData lightTheme = ThemeData(
+ThemeData get lightTheme => ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   extensions: [

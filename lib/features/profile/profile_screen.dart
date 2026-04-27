@@ -5,6 +5,7 @@ import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
+import 'package:eduon/features/reminders/screens/reminder_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -64,9 +65,66 @@ class _ProfileScreenBody extends StatelessWidget {
           const AvatarSection(),
           Gap(AppSizes.h30),
           const ActiveLearning(),
-          Gap(AppSizes.h24),
+          Gap(AppSizes.h12),
+          _buildRemindersButton(context),
+          Gap(AppSizes.h12),
           _buildLogoutButton(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRemindersButton(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ReminderScreen()),
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSizes.w16,
+          vertical: AppSizes.h14,
+        ),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF1E293B) : Colors.white,
+          borderRadius: BorderRadius.circular(AppSizes.r15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: AppSizes.h42,
+              height: AppSizes.h42,
+              decoration: BoxDecoration(
+                color: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppSizes.r10),
+              ),
+              child: Icon(
+                Icons.alarm_rounded,
+                color: Theme.of(context).colorScheme.primary,
+                size: AppSizes.sp22,
+              ),
+            ),
+            Gap(AppSizes.w14),
+            Expanded(
+              child: Text(
+                'Study Reminders',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded, color: Colors.grey[500]),
+          ],
+        ),
       ),
     );
   }
@@ -78,7 +136,10 @@ class _ProfileScreenBody extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(AppSizes.r15),
-        border: Border.all(color: Colors.red.withValues(alpha: 0.5), width: 1.5),
+        border: Border.all(
+          color: Colors.red.withValues(alpha: 0.5),
+          width: 1.5,
+        ),
       ),
       child: TextButton.icon(
         onPressed: () async {
@@ -96,9 +157,9 @@ class _ProfileScreenBody extends StatelessWidget {
         label: Text(
           'Logout',
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                color: Colors.red,
-                fontSize: AppSizes.sp16,
-              ),
+            color: Colors.red,
+            fontSize: AppSizes.sp16,
+          ),
         ),
       ),
     );
