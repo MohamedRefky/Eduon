@@ -42,8 +42,13 @@
   <tr>
     <td>
       🔍 Smart Course Search<br/>
-      🗂️ Category Browsing<br/>
-      🎬 Playlist Viewer<br/>
+      🗂️ <b>5 Categories:</b><br/>
+      &nbsp;&nbsp;💻 Tech (HTML, CSS, JS, React, Node.js, C++, TypeScript, Git)<br/>
+      &nbsp;&nbsp;🎨 Design (Figma, UI/UX)<br/>
+      &nbsp;&nbsp;💼 Business (Marketing, Strategy, Entrepreneurship)<br/>
+      &nbsp;&nbsp;🧠 Soft Skills (Communication)<br/>
+      &nbsp;&nbsp;🎬 Video Editing<br/>
+      🎥 Playlist Viewer<br/>
       📊 Progress Tracking
     </td>
     <td>
