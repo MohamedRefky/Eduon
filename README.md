@@ -35,14 +35,9 @@
 | 🎓 Courses | 🗺️ Learning Paths | 🎯 Activities | ⚙️ General |
 |---|---|---|---|
 | 🔍 Smart Course Search | 🛣️ Structured Roadmaps | 🌐 IEEE Student Branch | 🔐 Firebase Authentication |
-| 🗂️ **5 Categories:** | 🧩 Multi-Course Tracks | 🎓 Fares Toson Academy | 👤 Profile Management |
-| &nbsp;&nbsp;💻 Tech | 🏆 Career-Focused Paths | 💻 Microsoft Student Club | 🤖 AI (OpenRouter API) |
-| &nbsp;&nbsp;🎨 Design | | 🔵 Google Developer Groups | 🌙 Dark & Light Mode |
-| &nbsp;&nbsp;💼 Business | | 🤖 Robotics & ICPC OBOUR | 🔔 Local Notifications |
-| &nbsp;&nbsp;🧠 Soft Skills | | | 📱 Android & iOS |
-| &nbsp;&nbsp;🎬 Video Editing | | | |
-| 🎥 Playlist Viewer | | | |
-| 📊 Progress Tracking | | | |
+| 🗂️ 💻 Tech · 🎨 Design · 💼 Business · 🧠 Soft Skills · 🎬 Video Editing | 🧩 Multi-Course Tracks | 🎓 Fares Toson Academy | 👤 Profile Management |
+| 🎥 Playlist Viewer · 📊 Progress Tracking | 🏆 Career-Focused Paths | 💻 Microsoft Student Club · 🔵 Google Dev Groups | 🤖 AI (OpenRouter API) |
+| | | 🤖 Robotics & ICPC OBOUR | 🌙 Dark & Light Mode · 🔔 Local Notifications · 📱 Android & iOS |
 
 
 ---
