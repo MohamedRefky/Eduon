@@ -32,46 +32,36 @@
 
 ## ✨ Features Overview
 
-<table>
-  <tr>
-    <td align="center"><b>🎓 Courses</b></td>
-    <td align="center"><b>🗺️ Learning Paths</b></td>
-    <td align="center"><b>🎯 Activities</b></td>
-    <td align="center"><b>⚙️ General</b></td>
-  </tr>
-  <tr>
-    <td>
-      🔍 Smart Course Search<br/>
-      🗂️ <b>5 Categories:</b><br/>
-      &nbsp;&nbsp;💻 Tech (HTML, CSS, JS, React, Node.js, C++, TypeScript, Git)<br/>
-      &nbsp;&nbsp;🎨 Design (Figma, UI/UX)<br/>
-      &nbsp;&nbsp;💼 Business (Marketing, Strategy, Entrepreneurship)<br/>
-      &nbsp;&nbsp;🧠 Soft Skills (Communication)<br/>
-      &nbsp;&nbsp;🎬 Video Editing<br/>
-      🎥 Playlist Viewer<br/>
-      📊 Progress Tracking
-    </td>
-    <td>
-      🛣️ Structured Roadmaps<br/>
-      🧩 Multi-Course Tracks<br/>
-      🏆 Career-Focused Paths
-    </td>
-    <td>
-      🌐 IEEE Student Branch<br/>
-      🎓 Fares Toson Academy<br/>
-      💻 Microsoft Student Club<br/>
-      🔵 Google Dev Groups<br/>
-      🤖 Robotics & ICPC
-    </td>
-    <td>
-      🔐 Firebase Auth<br/>
-      👤 Profile Management<br/>
-      🤖 AI Integration<br/>
-      🌙 Dark & Light Mode<br/>
-      🔔 Local Notifications
-    </td>
-  </tr>
-</table>
+### 🎓 Courses
+- 🔍 **Smart Course Search** — Find any course instantly by name or topic
+- 🗂️ **5 Categories** — Organized content for every learning goal:
+  - 💻 **Tech** — HTML, CSS, JavaScript, React, Node.js, C++, TypeScript, Git
+  - 🎨 **Design** — Figma, UI/UX Design
+  - 💼 **Business** — Marketing, Strategy, Entrepreneurship
+  - 🧠 **Soft Skills** — Communication Skills
+  - 🎬 **Video Editing**
+- 🎥 **Playlist Viewer** — Watch any YouTube playlist with full video control
+- 📊 **Progress Tracking** — Track watch percentage & remaining content in real-time
+
+### 🗺️ Learning Paths
+- 🛣️ **Structured Roadmaps** — Multi-course tracks for complete skill development
+- 🧩 **Career-Focused Paths** — Curated routes for popular tech career tracks
+
+### 🎯 Activities
+Explore top Egyptian educational communities directly from the app:
+- 🌐 IEEE Student Branch
+- 🎓 Fares Toson Academy
+- 💻 Microsoft Student Club
+- 🔵 Google Developer Groups
+- 🤖 Robotics & ICPC OBOUR
+
+### ⚙️ General
+- 🔐 **Firebase Authentication** — Secure login & registration (Email + Google)
+- 👤 **Profile Management** — Image uploading & account settings
+- 🤖 **AI Assistant** — Powered by OpenRouter API (ready-to-use LLM models)
+- 🌙 **Dark & Light Mode** — Full theme support for better user experience
+- 🔔 **Local Notifications** — Scheduled study reminders via `flutter_local_notifications`
+- 📱 **Cross-Platform** — Fully supported on Android & iOS
 
 ---
 
