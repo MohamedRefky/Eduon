@@ -1,5 +1,4 @@
 // ignore_for_file: depend_on_referenced_packages
-
 import 'package:eduon/core/theme/light_theme.dart';
 import 'package:eduon/core/theme/dark_theme.dart';
 import 'package:eduon/core/theme/themes_controller.dart';
