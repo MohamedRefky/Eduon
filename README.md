@@ -89,21 +89,91 @@
 ```
 eduon/
 ├── lib/
-│   ├── core/                  # App-wide utilities, constants, themes
+│   ├── core/                        # App-wide shared code
+│   │   ├── constants/               # App-wide constants (colors, strings, etc.)
+│   │   ├── firebase/                # Firebase initialization & helpers
+│   │   ├── service/                 # API service layer (HTTP, YouTube API)
+│   │   ├── theme/                   # Light & Dark theme configuration
+│   │   ├── utils/                   # Utility functions & extensions
+│   │   └── widgets/                 # Reusable global widgets
+│   │
 │   ├── features/
-│   │   ├── auth/              # Login, Registration, Firebase Auth
-│   │   ├── courses/           # Course listing, search, categories
-│   │   ├── player/            # YouTube playlist viewer & progress
-│   │   ├── learning_paths/    # Structured learning roadmaps
-│   │   ├── activities/        # Community & organization links
-│   │   ├── ai/                # AI service integration
-│   │   ├── notifications/     # FCM push notifications
-│   │   └── profile/           # User profile & image upload
-│   └── main.dart
-├── assets/
-├── android/
-├── ios/
-└── pubspec.yaml
+│   │   ├── splash/                  # Splash screen (app entry point)
+│   │   │   └── splash_screen.dart
+│   │   │
+│   │   ├── onboarding/              # Onboarding flow for new users
+│   │   │   └── onboarding_screen.dart
+│   │   │
+│   │   ├── year_selection/          # Academic year selection screen
+│   │   │   ├── widgets/
+│   │   │   └── year_selection_screen.dart
+│   │   │
+│   │   ├── auth/                    # Authentication (Login & Registration)
+│   │   │   ├── cubit/               # Auth state management (Cubit)
+│   │   │   ├── data/                # Auth models & repository
+│   │   │   ├── screens/             # Login & Register screens
+│   │   │   └── widgets/             # Auth-specific UI components
+│   │   │
+│   │   ├── main/                    # Main screen with bottom navigation
+│   │   │   └── main_screen.dart
+│   │   │
+│   │   ├── home/                    # Home screen & popular courses
+│   │   │   ├── widgets/
+│   │   │   └── home_screen.dart
+│   │   │
+│   │   ├── courses/                 # Course listing, search & categories
+│   │   │   ├── bloc/                # Courses state management (BLoC)
+│   │   │   ├── data/                # Course models & data sources
+│   │   │   ├── widgets/             # Course card, filter, search UI
+│   │   │   └── courses_screen.dart
+│   │   │
+│   │   ├── courses_details/         # Course details & playlist info
+│   │   │   ├── cubit/               # Course details state management
+│   │   │   ├── widgets/
+│   │   │   └── courses_details_screen.dart
+│   │   │
+│   │   ├── video/                   # YouTube video player & progress
+│   │   │   ├── cubit/               # Video playback state management
+│   │   │   ├── widgets/
+│   │   │   └── video_screen.dart
+│   │   │
+│   │   ├── learning_path/           # Structured learning roadmaps
+│   │   │   ├── data/                # Learning path models & data
+│   │   │   ├── widgets/
+│   │   │   └── learning_path_screen.dart
+│   │   │
+│   │   ├── activities/              # Educational communities & orgs
+│   │   │   ├── constants/           # Activities links & data
+│   │   │   ├── cubit/               # Activities state management
+│   │   │   ├── widget/
+│   │   │   └── activities_screen.dart
+│   │   │
+│   │   ├── eduon_ai/                # Built-in AI assistant feature
+│   │   │   ├── cubit/               # AI state management
+│   │   │   ├── data/                # AI models & API integration
+│   │   │   ├── screen/
+│   │   │   └── widgets/
+│   │   │
+│   │   ├── reminders/               # Study reminders & local notifications
+│   │   │   ├── cubit/               # Reminders state management
+│   │   │   ├── data/                # Reminder models & scheduling
+│   │   │   ├── screens/
+│   │   │   └── widgets/
+│   │   │
+│   │   ├── student_guide/           # Student tips & guidance content
+│   │   │   └── student_guide_screen.dart
+│   │   │
+│   │   └── profile/                 # User profile & settings
+│   │       ├── cubit/               # Profile state management
+│   │       ├── widgets/
+│   │       └── profile_screen.dart
+│   │
+│   └── main.dart                    # App entry point & Firebase init
+│
+├── assets/                          # Images, fonts & static resources
+├── android/                         # Android-specific config
+├── ios/                             # iOS-specific config
+└── pubspec.yaml                     # Dependencies & project metadata
 ```
 
 ---
