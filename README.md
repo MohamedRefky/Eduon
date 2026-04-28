@@ -63,7 +63,7 @@
       👤 Profile Management<br/>
       🤖 AI Integration<br/>
       🌙 Dark & Light Mode<br/>
-      🔔 Push Notifications
+      🔔 Local Notifications
     </td>
   </tr>
 </table>
@@ -77,10 +77,9 @@
 | **UI Framework** | Flutter (Dart) |
 | **State Management** | BLoC / Cubit |
 | **Backend & Auth** | Firebase (Auth, Firestore) |
-| **Notifications** | Firebase Cloud Messaging (FCM) |
+| **Notifications** | flutter_local_notifications (Local Scheduling) |
 | **Video Content** | YouTube Data API v3 |
-| **AI Features** | Custom AI Model Integration |
-| **Storage** | Firebase Storage |
+| **AI Features** | OpenRouter API (Ready-to-use LLM models) |
 
 ---
 
