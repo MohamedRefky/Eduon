@@ -32,36 +32,18 @@
 
 ## ✨ Features Overview
 
-### 🎓 Courses
-- 🔍 **Smart Course Search** — Find any course instantly by name or topic
-- 🗂️ **5 Categories** — Organized content for every learning goal:
-  - 💻 **Tech** — HTML, CSS, JavaScript, React, Node.js, C++, TypeScript, Git
-  - 🎨 **Design** — Figma, UI/UX Design
-  - 💼 **Business** — Marketing, Strategy, Entrepreneurship
-  - 🧠 **Soft Skills** — Communication Skills
-  - 🎬 **Video Editing**
-- 🎥 **Playlist Viewer** — Watch any YouTube playlist with full video control
-- 📊 **Progress Tracking** — Track watch percentage & remaining content in real-time
+| 🎓 Courses | 🗺️ Learning Paths | 🎯 Activities | ⚙️ General |
+|---|---|---|---|
+| 🔍 Smart Course Search | 🛣️ Structured Roadmaps | 🌐 IEEE Student Branch | 🔐 Firebase Authentication |
+| 🗂️ **5 Categories:** | 🧩 Multi-Course Tracks | 🎓 Fares Toson Academy | 👤 Profile Management |
+| &nbsp;&nbsp;💻 Tech | 🏆 Career-Focused Paths | 💻 Microsoft Student Club | 🤖 AI (OpenRouter API) |
+| &nbsp;&nbsp;🎨 Design | | 🔵 Google Developer Groups | 🌙 Dark & Light Mode |
+| &nbsp;&nbsp;💼 Business | | 🤖 Robotics & ICPC OBOUR | 🔔 Local Notifications |
+| &nbsp;&nbsp;🧠 Soft Skills | | | 📱 Android & iOS |
+| &nbsp;&nbsp;🎬 Video Editing | | | |
+| 🎥 Playlist Viewer | | | |
+| 📊 Progress Tracking | | | |
 
-### 🗺️ Learning Paths
-- 🛣️ **Structured Roadmaps** — Multi-course tracks for complete skill development
-- 🧩 **Career-Focused Paths** — Curated routes for popular tech career tracks
-
-### 🎯 Activities
-Explore top Egyptian educational communities directly from the app:
-- 🌐 IEEE Student Branch
-- 🎓 Fares Toson Academy
-- 💻 Microsoft Student Club
-- 🔵 Google Developer Groups
-- 🤖 Robotics & ICPC OBOUR
-
-### ⚙️ General
-- 🔐 **Firebase Authentication** — Secure login & registration (Email + Google)
-- 👤 **Profile Management** — Image uploading & account settings
-- 🤖 **AI Assistant** — Powered by OpenRouter API (ready-to-use LLM models)
-- 🌙 **Dark & Light Mode** — Full theme support for better user experience
-- 🔔 **Local Notifications** — Scheduled study reminders via `flutter_local_notifications`
-- 📱 **Cross-Platform** — Fully supported on Android & iOS
 
 ---
 
