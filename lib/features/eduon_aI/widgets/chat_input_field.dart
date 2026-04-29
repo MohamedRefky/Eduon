@@ -5,12 +5,14 @@ import 'package:gap/gap.dart';
 class ChatInputField extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSend;
+  final VoidCallback? onPickImage;
   final bool isLoading;
 
   const ChatInputField({
     super.key,
     required this.controller,
     required this.onSend,
+    this.onPickImage,
     this.isLoading = false,
   });
 
@@ -33,6 +35,17 @@ class ChatInputField extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: "Ask AI anything...",
                 fillColor: Theme.of(context).cardColor,
+                prefixIcon: onPickImage != null
+                    ? Padding(
+                        padding: EdgeInsets.only(left: AppSizes.w8, right: AppSizes.w4),
+                        child: IconButton(
+                          icon: const Icon(Icons.add_photo_alternate_rounded),
+                          color: const Color(0xFF607290),
+                          splashRadius: AppSizes.r20,
+                          onPressed: isLoading ? null : onPickImage,
+                        ),
+                      )
+                    : null,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSizes.r30),
                   borderSide: BorderSide.none,
@@ -53,7 +66,7 @@ class ChatInputField extends StatelessWidget {
             onTap: isLoading ? null : onSend,
             child: Container(
               height: AppSizes.h45,
-              width: AppSizes.w45,
+              width: AppSizes.h45,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(

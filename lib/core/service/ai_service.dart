@@ -1,50 +1,39 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AiService {
-  final String _apiKey = dotenv.env['OPENROUTER_API_KEY'] ?? '';
+  late final GenerativeModel _model;
 
-  final String _model =
-      "nvidia/nemotron-3-super-120b-a12b:free"; // The best model
+  AiService() {
+    final apiKey = dotenv.env['GOOGLE_GENERATIVE_AI_API_KEY'] ?? '';
 
-  //final String _model = "inclusionai/ling-2.6-flash:free"; // The fastest model
-
-  late final Dio _dio;
-
-  AiService({Dio? dio}) {
-    _dio =
-        dio ??
-        Dio(
-          BaseOptions(
-            baseUrl: "https://openrouter.ai/api/v1",
-            headers: {"Content-Type": "application/json"},
-          ),
-        );
+    // Using the latest available model for your API Key
+    _model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: apiKey);
   }
 
-  Future<String> sendMessage(String message) async {
-    try {
-      final response = await _dio.post(
-        "/chat/completions",
-        data: {
-          "model": _model,
-          "max_tokens": 300,
-          "messages": [
-            {"role": "user", "content": message},
-          ],
-        },
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $_apiKey",
-            "HTTP-Referer": "https://eduon.app",
-            "X-Title": "Eduon AI",
-          },
-        ),
-      );
+  Future<String> sendMessage(String message, {File? image}) async {
+    if (message.isEmpty && image == null) return "Please enter a message or select an image";
 
-      return response.data["choices"][0]["message"]["content"] ?? "No response";
+    try {
+      final List<Content> content;
+      
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        content = [
+          Content.multi([
+            TextPart(message.isEmpty ? "What is in this image?" : message),
+            DataPart('image/jpeg', bytes),
+          ])
+        ];
+      } else {
+        content = [Content.text(message)];
+      }
+
+      final response = await _model.generateContent(content);
+      return response.text ?? "⚠️ No response generated";
     } catch (e) {
-      return "⚠️ Error occurred";
+      return "⚠️ Sorry, an error occurred while connecting to AI. Please check your internet connection or try again later.";
     }
   }
 }

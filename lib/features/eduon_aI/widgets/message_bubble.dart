@@ -59,13 +59,30 @@ class MessageBubble extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Text(
-                message.text,
-                style: TextStyle(
-                  fontSize: AppSizes.h15,
-                  height: 1.5,
-                  color: message.isMe ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (message.imagePath != null) ...[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppSizes.r12),
+                      child: Image.file(
+                        File(message.imagePath!),
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    if (message.text.isNotEmpty) Gap(AppSizes.h8),
+                  ],
+                  if (message.text.isNotEmpty)
+                    Text(
+                      message.text,
+                      style: TextStyle(
+                        fontSize: AppSizes.h15,
+                        height: 1.5,
+                        color: message.isMe ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

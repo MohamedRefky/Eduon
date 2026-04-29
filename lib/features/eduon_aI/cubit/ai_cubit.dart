@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
 import 'package:eduon/core/service/ai_service.dart';
@@ -14,11 +15,11 @@ class AiCubit extends Cubit<AiState> {
 
   List<MessageAiModel> get messages => _messages;
 
-  Future<void> sendMessage(String userMessage) async {
-    if (userMessage.trim().isEmpty) return;
+  Future<void> sendMessage(String userMessage, {File? image}) async {
+    if (userMessage.trim().isEmpty && image == null) return;
 
     // Add user message
-    _messages.add(MessageAiModel(text: userMessage, isMe: true));
+    _messages.add(MessageAiModel(text: userMessage, isMe: true, imagePath: image?.path));
     emit(AiSuccess(List.from(_messages)));
 
     // Start loading
@@ -26,7 +27,7 @@ class AiCubit extends Cubit<AiState> {
 
     try {
       // Get AI response
-      final aiResponse = await aiService.sendMessage(userMessage);
+      final aiResponse = await aiService.sendMessage(userMessage, image: image);
 
       // Add AI message
       _messages.add(MessageAiModel(text: aiResponse, isMe: false));
