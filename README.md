@@ -28,6 +28,15 @@
 
 > 💡 *"Learning is not a destination, it's a continuous journey."*
 
+
+---
+
+## 📱 App Screenshots
+
+<div align="center">
+  <img src="assets/screenshots/app_mockup.jpeg" alt="Eduon Screenshots" width="900">
+</div>
+
 ---
 
 ## ✨ Features Overview
