@@ -14,7 +14,7 @@ class StudentGuideSection extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: AppSizes.h16),
       padding: EdgeInsets.symmetric(
         horizontal: AppSizes.h16,
-        vertical: AppSizes.h8,
+        vertical: AppSizes.h12,
       ),
       width: double.infinity,
       decoration: BoxDecoration(

@@ -155,7 +155,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get courses => 'الكورسات';
 
   @override
-  String get ai => 'الذكاء الاصطناعي';
+  String get ai => 'ذكاء اصطناعي';
 
   @override
   String get activities => 'الأنشطة';

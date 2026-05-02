@@ -54,11 +54,13 @@ class MainScreenState extends State<MainScreen> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: changeTab,
-
+          selectedFontSize: 12,
+          unselectedFontSize: 11,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/Home.svg"),
+
               label: AppLocalizations.of(context)!.home,
             ),
             BottomNavigationBarItem(

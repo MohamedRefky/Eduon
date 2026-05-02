@@ -29,14 +29,14 @@ class HomeScreen extends StatelessWidget {
                 HomeHeader(),
 
                 // Student Guide
-                Gap(AppSizes.h20),
+                Gap(AppSizes.h16),
                 StudentGuideSection(),
 
                 // Learning Path
-                Gap(AppSizes.h20),
+                Gap(AppSizes.h16),
                 LearningPathSection(),
 
-                Gap(AppSizes.h20),
+                Gap(AppSizes.h10),
                 // Popular Courses
                 PopularCoursesSection(playlist: state.popularCourses),
                 Gap(AppSizes.h16),
