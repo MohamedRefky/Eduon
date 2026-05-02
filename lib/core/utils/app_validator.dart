@@ -1,64 +1,66 @@
+import 'package:eduon/l10n/app_localizations.dart';
+
 class AppValidator {
   // ================= EMAIL =================
-  static String? email(String? value) {
+  static String? email(String? value, AppLocalizations l10n) {
     if (value == null || value.trim().isEmpty) {
-      return 'Please Enter Email';
+      return l10n.please_enter_email;
     }
 
     final email = value.trim();
 
     if (!email.contains('@')) {
-      return "Mast contain @ in email address";
+      return l10n.email_must_contain_at;
     }
 
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-      return 'Enter valid email (name@email.com)';
+      return l10n.enter_valid_email;
     }
 
     return null;
   }
 
   // ================= PASSWORD =================
-  static String? password(String? value) {
+  static String? password(String? value, AppLocalizations l10n) {
     final v = value;
 
     if (v == null || v.trim().isEmpty) {
-      return 'Please enter password';
+      return l10n.please_enter_password;
     }
 
     if (v.contains(' ')) {
-      return 'Password must not contain spaces';
+      return l10n.password_no_spaces;
     }
 
     if (v.trim().length < 6) {
-      return 'Password at least 6 characters';
+      return l10n.password_at_least_6;
     }
 
     if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)').hasMatch(v)) {
-      return 'Weak password. Use letters & numbers.';
+      return l10n.weak_password;
     }
 
     return null;
   }
 
   // ================= FULL NAME =================
-  static String? fullName(String? value) {
+  static String? fullName(String? value, AppLocalizations l10n) {
     if (value == null || value.trim().isEmpty) {
-      return 'Please enter full name';
+      return l10n.please_enter_full_name;
     }
 
     final name = value.trim();
 
     if (name.length < 3) {
-      return 'Name is too short';
+      return l10n.name_too_short;
     }
 
     if (!RegExp(r"^[a-zA-Z\u0600-\u06FF\s]+$").hasMatch(name)) {
-      return 'Name must contain letters only';
+      return l10n.name_letters_only;
     }
 
     if (name.split(' ').where((e) => e.isNotEmpty).length < 2) {
-      return 'Enter first & last name';
+      return l10n.enter_first_last_name;
     }
 
     return null;

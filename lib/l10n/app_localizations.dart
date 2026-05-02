@@ -212,11 +212,161 @@ abstract class AppLocalizations {
   /// **'Enter your academic details to start your learning journey.'**
   String get signup_to_start;
 
+  /// No description provided for @email_already_registered.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already registered. Please login'**
+  String get email_already_registered;
+
+  /// No description provided for @user_not_found_signup.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found. Please sign up first.'**
+  String get user_not_found_signup;
+
+  /// No description provided for @password_reset_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent to your email'**
+  String get password_reset_sent;
+
+  /// No description provided for @signin_canceled.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in canceled'**
+  String get signin_canceled;
+
+  /// No description provided for @enter_email_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email first'**
+  String get enter_email_first;
+
+  /// No description provided for @check_your_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get check_your_email;
+
+  /// No description provided for @password_reset_link_sent_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a password reset link to your email address.'**
+  String get password_reset_link_sent_desc;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @wrong_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect password.'**
+  String get wrong_password;
+
+  /// No description provided for @invalid_credential.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password.'**
+  String get invalid_credential;
+
+  /// No description provided for @too_many_requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again later.'**
+  String get too_many_requests;
+
+  /// No description provided for @network_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your internet.'**
+  String get network_error;
+
+  /// No description provided for @auth_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed.'**
+  String get auth_failed;
+
+  /// No description provided for @registration_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed.'**
+  String get registration_failed;
+
   /// No description provided for @or_continue_with.
   ///
   /// In en, this message translates to:
   /// **'OR CONTINUE WITH'**
   String get or_continue_with;
+
+  /// No description provided for @please_enter_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get please_enter_email;
+
+  /// No description provided for @email_must_contain_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Email must contain @'**
+  String get email_must_contain_at;
+
+  /// No description provided for @enter_valid_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email (name@email.com)'**
+  String get enter_valid_email;
+
+  /// No description provided for @please_enter_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get please_enter_password;
+
+  /// No description provided for @password_no_spaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must not contain spaces'**
+  String get password_no_spaces;
+
+  /// No description provided for @password_at_least_6.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get password_at_least_6;
+
+  /// No description provided for @weak_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak password. Use letters & numbers.'**
+  String get weak_password;
+
+  /// No description provided for @please_enter_full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your full name'**
+  String get please_enter_full_name;
+
+  /// No description provided for @name_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is too short'**
+  String get name_too_short;
+
+  /// No description provided for @name_letters_only.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must contain letters only'**
+  String get name_letters_only;
+
+  /// No description provided for @enter_first_last_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter first & last name'**
+  String get enter_first_last_name;
 
   /// No description provided for @google.
   ///

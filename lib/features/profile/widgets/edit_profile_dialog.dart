@@ -49,11 +49,29 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   }
 
   String _getYearKey(String? year) {
-    if (year == null) return 'none';
-    if (year.contains('1') || year.contains('First') || year.contains('الأولى')) return 'year1';
-    if (year.contains('2') || year.contains('Second') || year.contains('الثانية')) return 'year2';
-    if (year.contains('3') || year.contains('Third') || year.contains('الثالثة')) return 'year3';
-    if (year.contains('4') || year.contains('Fourth') || year.contains('الرابعة')) return 'year4';
+    if (year == null) {
+      return 'none';
+    }
+    if (year.contains('1') ||
+        year.contains('First') ||
+        year.contains('الأولى')) {
+      return 'year1';
+    }
+    if (year.contains('2') ||
+        year.contains('Second') ||
+        year.contains('الثانية')) {
+      return 'year2';
+    }
+    if (year.contains('3') ||
+        year.contains('Third') ||
+        year.contains('الثالثة')) {
+      return 'year3';
+    }
+    if (year.contains('4') ||
+        year.contains('Fourth') ||
+        year.contains('الرابعة')) {
+      return 'year4';
+    }
     return 'none';
   }
 
@@ -64,7 +82,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       l10n.first_year,
       l10n.second_year,
       l10n.third_year,
-      l10n.fourth_year
+      l10n.fourth_year,
     ];
 
     return BlocListener<ProfileCubit, ProfileState>(
@@ -142,7 +160,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 controller: nameController,
                 labelText: l10n.full_name,
                 keyboardType: TextInputType.text,
-                validator: AppValidator.fullName,
+                validator: (value) => AppValidator.fullName(value, l10n),
               ),
 
               Gap(AppSizes.h30),
@@ -154,12 +172,12 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 builder: (context, state) {
                   return MenuAnchor(
                     style: MenuStyle(
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Colors.white),
+                      backgroundColor: const WidgetStatePropertyAll(
+                        Colors.white,
+                      ),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppSizes.r12),
+                          borderRadius: BorderRadius.circular(AppSizes.r12),
                         ),
                       ),
                     ),
@@ -179,15 +197,17 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFF8FAFC),
-                            borderRadius:
-                                BorderRadius.circular(AppSizes.r15),
+                            borderRadius: BorderRadius.circular(AppSizes.r15),
                           ),
                           child: Row(
                             children: [
                               Text(
-                                l10n.academic_year(_getYearKey(state.selectedYear)),
-                                style:
-                                    Theme.of(context).textTheme.displayMedium,
+                                l10n.academic_year(
+                                  _getYearKey(state.selectedYear),
+                                ),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.displayMedium,
                               ),
                               const Spacer(),
                               Icon(
@@ -202,8 +222,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                     },
                     menuChildren: years.map((e) {
                       return SizedBox(
-                        width: MediaQuery.of(context).size.width -
-                            AppSizes.w40,
+                        width: MediaQuery.of(context).size.width - AppSizes.w40,
                         child: MenuItemButton(
                           onPressed: () {
                             context.read<ProfileCubit>().updateYear(e);
@@ -251,9 +270,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                     child: Center(
                       child: Text(
                         l10n.save_changes,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium
+                        style: Theme.of(context).textTheme.displayMedium
                             ?.copyWith(
                               color: const Color(0xFFE2F6FF),
                               fontSize: AppSizes.sp16,
@@ -280,63 +297,63 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       child: state.isLoadingImage
           ? const Center(child: CircularProgressIndicator())
           : (file != null && file.existsSync())
-              ? Image.file(
-                  file,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                )
-              : Image.asset(
-                  'assets/images/Avatar.png',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
+          ? Image.file(
+              file,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            )
+          : Image.asset(
+              'assets/images/Avatar.png',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
     );
   }
 
   void _showImageSourceDialog(BuildContext parentContext) {
-  final l10n = AppLocalizations.of(parentContext)!;
-  showDialog(
-    context: parentContext,
-    builder: (dialogContext) {
-      return Dialog(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.photo),
-              title: Text(
-                l10n.gallery,
-                style: Theme.of(parentContext).textTheme
-                    .displayMedium
-                    ?.copyWith(fontSize: AppSizes.sp18),
+    final l10n = AppLocalizations.of(parentContext)!;
+    showDialog(
+      context: parentContext,
+      builder: (dialogContext) {
+        return Dialog(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo),
+                title: Text(
+                  l10n.gallery,
+                  style: Theme.of(
+                    parentContext,
+                  ).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp18),
+                ),
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  parentContext.read<ProfileCubit>().pickImage(
+                    ImageSource.gallery,
+                  );
+                },
               ),
-              onTap: () {
-                Navigator.pop(dialogContext);
-                parentContext
-                    .read<ProfileCubit>()
-                    .pickImage(ImageSource.gallery);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: Text(
-                l10n.camera,
-                style: Theme.of(parentContext).textTheme
-                    .displayMedium
-                    ?.copyWith(fontSize: AppSizes.sp18),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: Text(
+                  l10n.camera,
+                  style: Theme.of(
+                    parentContext,
+                  ).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp18),
+                ),
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  parentContext.read<ProfileCubit>().pickImage(
+                    ImageSource.camera,
+                  );
+                },
               ),
-              onTap: () {
-                Navigator.pop(dialogContext);
-                parentContext
-                    .read<ProfileCubit>()
-                    .pickImage(ImageSource.camera);
-              },
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

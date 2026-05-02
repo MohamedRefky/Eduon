@@ -13,12 +13,15 @@ class LoginHeader extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Gap(AppSizes.h80),
+          Gap(AppSizes.h40),
           SvgPicture.asset('assets/svg/logo_eduon.svg', height: AppSizes.h60),
           Gap(AppSizes.h10),
           Text('EDUON', style: theme.textTheme.bodyMedium),
           Gap(AppSizes.h15),
-          Text(AppLocalizations.of(context)!.welcome_back, style: theme.textTheme.titleLarge),
+          Text(
+            AppLocalizations.of(context)!.welcome_back,
+            style: theme.textTheme.titleLarge,
+          ),
           Gap(AppSizes.h8),
           Text(
             AppLocalizations.of(context)!.login_to_continue,

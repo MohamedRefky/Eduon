@@ -66,7 +66,89 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signup_to_start => 'أدخل بياناتك الأكاديمية لبدء رحلتك التعليمية.';
 
   @override
-  String get or_continue_with => 'أو استمر باستخدام';
+  String get email_already_registered =>
+      'البريد الإلكتروني مسجل بالفعل. يرجى تسجيل الدخول';
+
+  @override
+  String get user_not_found_signup =>
+      'المستخدم غير موجود. يرجى إنشاء حساب أولاً.';
+
+  @override
+  String get password_reset_sent =>
+      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+
+  @override
+  String get signin_canceled => 'تم إلغاء تسجيل الدخول';
+
+  @override
+  String get enter_email_first => 'أدخل بريدك الإلكتروني أولاً';
+
+  @override
+  String get check_your_email => 'تحقق من بريدك الإلكتروني';
+
+  @override
+  String get password_reset_link_sent_desc =>
+      'لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.';
+
+  @override
+  String get ok => 'حسناً';
+
+  @override
+  String get wrong_password => 'كلمة المرور غير صحيحة.';
+
+  @override
+  String get invalid_credential =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get too_many_requests => 'محاولات كثيرة جداً. يرجى المحاولة لاحقاً.';
+
+  @override
+  String get network_error =>
+      'خطأ في الشبكة. يرجى التحقق من الاتصال بالإنترنت.';
+
+  @override
+  String get auth_failed => 'فشل التحقق من الهوية.';
+
+  @override
+  String get registration_failed => 'فشل إنشاء الحساب.';
+
+  @override
+  String get or_continue_with => 'أو الاستمرار باستخدام';
+
+  @override
+  String get please_enter_email => 'يرجى إدخال البريد الإلكتروني';
+
+  @override
+  String get email_must_contain_at => 'يجب أن يحتوي البريد الإلكتروني على @';
+
+  @override
+  String get enter_valid_email =>
+      'أدخل بريداً إلكترونياً صالحاً (name@email.com)';
+
+  @override
+  String get please_enter_password => 'يرجى إدخال كلمة المرور';
+
+  @override
+  String get password_no_spaces => 'يجب ألا تحتوي كلمة المرور على مسافات';
+
+  @override
+  String get password_at_least_6 => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get weak_password => 'كلمة مرور ضعيفة. استخدم حروفاً وأرقاماً.';
+
+  @override
+  String get please_enter_full_name => 'يرجى إدخال الاسم بالكامل';
+
+  @override
+  String get name_too_short => 'الاسم قصير جداً';
+
+  @override
+  String get name_letters_only => 'يجب أن يحتوي الاسم على حروف فقط';
+
+  @override
+  String get enter_first_last_name => 'يرجى إدخال الاسم الأول والأخير';
 
   @override
   String get google => 'جوجل';

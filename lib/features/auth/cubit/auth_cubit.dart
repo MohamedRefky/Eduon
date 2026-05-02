@@ -41,11 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthSuccess(userCredential!.user!));
       }
     } catch (e) {
-      if (e is FirebaseAuthException && e.code == 'user-not-found') {
-        emit(AuthUserNotFound());
-      } else {
-        emit(AuthError(_handleAuthError(e)));
-      }
+      emit(AuthError(_handleAuthError(e)));
     }
   }
 
@@ -77,11 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
     } on FirebaseAuthException catch (e) {
       await Future.delayed(const Duration(seconds: 1));
-      if (e.code == 'email-already-in-use') {
-        emit(AuthEmailAlreadyExists());
-      } else {
-        emit(const AuthError("Registration failed"));
-      }
+      emit(AuthError(_handleAuthError(e)));
     }
   }
 
@@ -127,7 +119,7 @@ class AuthCubit extends Cubit<AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(AuthError(_handleAuthError(e)));
     } catch (e) {
-      emit(const AuthError("Failed to send reset email."));
+      emit(const AuthError("something_went_wrong"));
     }
   }
 
@@ -146,24 +138,24 @@ class AuthCubit extends Cubit<AuthState> {
     if (e is FirebaseAuthException) {
       switch (e.code) {
         case 'user-not-found':
-          return "No account found with this email.";
+          return "user_not_found_signup";
         case 'wrong-password':
-          return "Incorrect password.";
+          return "wrong_password";
         case 'invalid-credential':
-          return "Invalid Email or Password. Sign Up First";
+          return "invalid_credential";
         case 'email-already-in-use':
-          return "This email is already in use.";
+          return "email_already_registered";
         case 'weak-password':
-          return "The password is too weak.";
+          return "password_at_least_6";
         case 'too-many-requests':
-          return "Too many tries. Please wait and try again.";
+          return "too_many_requests";
         case 'network-request-failed':
-          return "No internet connection. Please check your network.";
+          return "network_error";
         default:
-          return e.message ?? "Authentication failed.";
+          return "auth_failed";
       }
     }
-    return "Something went wrong. Please check your internet connection.";
+    return "something_went_wrong";
   }
 
   @override

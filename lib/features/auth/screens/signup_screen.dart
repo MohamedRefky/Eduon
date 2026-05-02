@@ -14,6 +14,7 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/core/widgets/language_toggle.dart';
+import 'package:eduon/core/utils/auth_error_ext.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -42,10 +43,10 @@ class SignUpScreen extends StatelessWidget {
           }
         }
 
-        if (state is AuthEmailAlreadyExists) {
+        if (state is AuthError) {
           showCustomSnackBar(
             context,
-            message: 'Email already registered. Please login',
+            message: state.message.translateAuthError(context),
             type: SnackBarType.error,
           );
         }
@@ -53,7 +54,7 @@ class SignUpScreen extends StatelessWidget {
         if (state is AuthCanceled) {
           showCustomSnackBar(
             context,
-            message: 'Sign in canceled',
+            message: AppLocalizations.of(context)!.signin_canceled,
             type: SnackBarType.info,
             duration: const Duration(seconds: 2),
           );
@@ -96,7 +97,7 @@ class SignUpScreen extends StatelessWidget {
                       hintText: AppLocalizations.of(context)!.full_name,
                       controller: cubit.fullNameController,
                       keyboardType: TextInputType.name,
-                      validator: AppValidator.fullName,
+                      validator: (value) => AppValidator.fullName(value, AppLocalizations.of(context)!),
                     ),
 
                     Gap(AppSizes.h20),
@@ -112,7 +113,7 @@ class SignUpScreen extends StatelessWidget {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: AppValidator.email,
+                      validator: (value) => AppValidator.email(value, AppLocalizations.of(context)!),
                     ),
 
                     Gap(AppSizes.h20),
@@ -137,7 +138,7 @@ class SignUpScreen extends StatelessWidget {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: AppValidator.password,
+                          validator: (value) => AppValidator.password(value, AppLocalizations.of(context)!),
                         );
                       },
                     ),

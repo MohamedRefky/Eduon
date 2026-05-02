@@ -68,7 +68,84 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your academic details to start your learning journey.';
 
   @override
+  String get email_already_registered =>
+      'Email already registered. Please login';
+
+  @override
+  String get user_not_found_signup => 'User not found. Please sign up first.';
+
+  @override
+  String get password_reset_sent => 'Password reset link sent to your email';
+
+  @override
+  String get signin_canceled => 'Sign in canceled';
+
+  @override
+  String get enter_email_first => 'Enter your email first';
+
+  @override
+  String get check_your_email => 'Check your email';
+
+  @override
+  String get password_reset_link_sent_desc =>
+      'We sent a password reset link to your email address.';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get wrong_password => 'Incorrect password.';
+
+  @override
+  String get invalid_credential => 'Invalid email or password.';
+
+  @override
+  String get too_many_requests => 'Too many attempts. Please try again later.';
+
+  @override
+  String get network_error => 'Network error. Please check your internet.';
+
+  @override
+  String get auth_failed => 'Authentication failed.';
+
+  @override
+  String get registration_failed => 'Registration failed.';
+
+  @override
   String get or_continue_with => 'OR CONTINUE WITH';
+
+  @override
+  String get please_enter_email => 'Please enter your email';
+
+  @override
+  String get email_must_contain_at => 'Email must contain @';
+
+  @override
+  String get enter_valid_email => 'Enter a valid email (name@email.com)';
+
+  @override
+  String get please_enter_password => 'Please enter your password';
+
+  @override
+  String get password_no_spaces => 'Password must not contain spaces';
+
+  @override
+  String get password_at_least_6 => 'Password must be at least 6 characters';
+
+  @override
+  String get weak_password => 'Weak password. Use letters & numbers.';
+
+  @override
+  String get please_enter_full_name => 'Please enter your full name';
+
+  @override
+  String get name_too_short => 'Name is too short';
+
+  @override
+  String get name_letters_only => 'Name must contain letters only';
+
+  @override
+  String get enter_first_last_name => 'Please enter first & last name';
 
   @override
   String get google => 'Google';

@@ -16,6 +16,7 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/core/widgets/language_toggle.dart';
+import 'package:eduon/core/utils/auth_error_ext.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -44,34 +45,26 @@ class LoginScreen extends StatelessWidget {
             }
           }
 
-          if (state is AuthUserNotFound) {
-            showCustomSnackBar(
-              context,
-              message: "User not found. Please sign up first.",
-              type: SnackBarType.error,
-            );
-          }
-          if (state is AuthPasswordResetSent) {
-            showCustomSnackBar(
-              context,
-              message: 'Password reset link sent to your email',
-              type: SnackBarType.success,
-            );
-          }
-
           if (state is AuthError) {
             showCustomSnackBar(
               context,
-              message: state.message,
+              message: state.message.translateAuthError(context),
               type: SnackBarType.error,
             );
           }
           if (state is AuthCanceled) {
             showCustomSnackBar(
               context,
-              message: 'Sign in canceled',
+              message: AppLocalizations.of(context)!.signin_canceled,
               type: SnackBarType.info,
               duration: const Duration(seconds: 2),
+            );
+          }
+          if (state is AuthPasswordResetSent) {
+            showCustomSnackBar(
+              context,
+              message: AppLocalizations.of(context)!.password_reset_sent,
+              type: SnackBarType.success,
             );
           }
         },
@@ -115,7 +108,10 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: AppValidator.email,
+                      validator: (value) => AppValidator.email(
+                        value,
+                        AppLocalizations.of(context)!,
+                      ),
                     ),
                     Gap(AppSizes.h20),
                     Text(
@@ -128,7 +124,9 @@ class LoginScreen extends StatelessWidget {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomTextFormField(
-                          hintText: AppLocalizations.of(context)!.enter_password,
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.enter_password,
                           prefixIcon: Icons.lock_outline_rounded,
                           obscureText: !cubit.showPassword,
                           suffixIcon: cubit.showPassword
@@ -137,7 +135,10 @@ class LoginScreen extends StatelessWidget {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: AppValidator.password,
+                          validator: (value) => AppValidator.password(
+                            value,
+                            AppLocalizations.of(context)!,
+                          ),
                         );
                       },
                     ),
@@ -153,7 +154,9 @@ class LoginScreen extends StatelessWidget {
                                 if (email.isEmpty) {
                                   showCustomSnackBar(
                                     context,
-                                    message: "Enter your email first",
+                                    message: AppLocalizations.of(
+                                      context,
+                                    )!.enter_email_first,
                                     type: SnackBarType.error,
                                   );
                                   return;
@@ -165,15 +168,23 @@ class LoginScreen extends StatelessWidget {
                                     context: context,
                                     builder: (_) {
                                       return AlertDialog(
-                                        title: const Text("Check your email"),
-                                        content: const Text(
-                                          "We sent a password reset link to your email address.",
+                                        title: Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.check_your_email,
+                                        ),
+                                        content: Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.password_reset_link_sent_desc,
                                         ),
                                         actions: [
                                           TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context),
-                                            child: const Text("OK"),
+                                            child: Text(
+                                              AppLocalizations.of(context)!.ok,
+                                            ),
                                           ),
                                         ],
                                       );
@@ -211,7 +222,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Gap(AppSizes.h28),
                     AuthSwitchText(
-                      firstText: '${AppLocalizations.of(context)!.dont_have_account} ',
+                      firstText:
+                          '${AppLocalizations.of(context)!.dont_have_account} ',
                       secondText: AppLocalizations.of(context)!.signup,
                       ontap: () {
                         Navigator.push(
