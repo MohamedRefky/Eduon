@@ -10,19 +10,10 @@ class AiService {
   AiService() {
     final apiKey = dotenv.env['GOOGLE_GENERATIVE_AI_API_KEY'] ?? '';
 
-    if (apiKey.isEmpty) {
-      print('❌ AI_SERVICE: API Key is missing from .env file!');
-    } else {
-      print(
-        '✅ AI_SERVICE: API Key loaded successfully (Starts with: ${apiKey.substring(0, 5)}...)',
-      );
-    }
-
     try {
-      // استخدام الموديل الرسمي gemini-1.5-flash
-      _model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+      _model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: apiKey);
     } catch (e) {
-      print('❌ AI_SERVICE_INIT_ERROR: $e');
+      // Error handling without print
     }
   }
 
@@ -46,7 +37,6 @@ class AiService {
         content = [Content.text(message)];
       }
 
-      // إرسال الطلب
       final response = await _model.generateContent(content);
 
       if (response.text == null) {
@@ -55,13 +45,12 @@ class AiService {
 
       return response.text!;
     } catch (e) {
-      print('❌ AI_SERVICE_SEND_ERROR: $e');
-
-      if (e.toString().contains('not found')) {
-        return "⚠️ Gemini Error: Model not found. This usually means your API Key is invalid or not authorized for this model. Please get a new key from https://aistudio.google.com/";
+      if (e.toString().contains('API_KEY_INVALID')) {
+        return "❌ Invalid API Key. Please check your .env file.";
+      } else if (e.toString().contains('QUOTA_EXCEEDED')) {
+        return "❌ API Quota exceeded. Please try again later.";
       }
-
-      return "⚠️ Error: ${e.toString()}";
+      return "❌ Error: $e";
     }
   }
 }
