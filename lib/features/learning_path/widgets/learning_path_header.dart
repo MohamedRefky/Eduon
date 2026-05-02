@@ -2,6 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class LearningPathHeader extends StatelessWidget {
   const LearningPathHeader({super.key, required this.learningPath});
@@ -9,6 +10,7 @@ class LearningPathHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -25,12 +27,12 @@ class LearningPathHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      learningPath.title,
+                      learningPath.getLocalizedTitle(l10n),
                       style: TextTheme.of(context).displayLarge,
                     ),
                     Gap(AppSizes.h4),
                     Text(
-                      learningPath.description,
+                      learningPath.getLocalizedDescription(l10n),
                       style: TextTheme.of(
                         context,
                       ).labelSmall?.copyWith(fontWeight: FontWeight.w400),
@@ -54,7 +56,7 @@ class LearningPathHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSizes.r8),
                 ),
                 child: Text(
-                  learningPath.level,
+                  learningPath.getLocalizedLevel(l10n),
                   style: TextTheme.of(
                     context,
                   ).labelMedium?.copyWith(fontSize: AppSizes.sp12),
@@ -64,7 +66,7 @@ class LearningPathHeader extends StatelessWidget {
               Icon(Icons.menu_book, size: AppSizes.sp16, color: Colors.grey),
               Gap(AppSizes.w4),
               Text(
-                '${learningPath.totalCourses} Courses',
+                l10n.courses_count(learningPath.totalCourses),
                 style: TextTheme.of(context).labelSmall,
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'dart:ui' as ui;
 import 'package:eduon/core/constants/api_constants.dart';
 import 'package:eduon/features/courses/data/models/playlist_model.dart';
 import 'package:eduon/features/courses/data/models/video_model.dart';
@@ -12,19 +13,23 @@ class YoutubeApiService {
     ),
   );
 
+  String get _currentLocale => ui.PlatformDispatcher.instance.locale.languageCode;
+
   // =========================
   // GET PLAYLIST DETAILS
   // =========================
   Future<PlaylistModel> getPlaylistDetails(
     String playlistId,
-    String category,
-  ) async {
+    String category, {
+    String? hl,
+  }) async {
     try {
       final response = await _dio.get(
         '/playlists',
         queryParameters: {
           'part': 'snippet,contentDetails',
           'id': playlistId,
+          'hl': hl ?? _currentLocale,
           'key': ApiConstants.apiKey,
         },
       );
@@ -45,8 +50,9 @@ class YoutubeApiService {
   // GET MULTIPLE PLAYLISTS DETAILS
   // =========================
   Future<List<PlaylistModel>> getMultiplePlaylistsDetails(
-    List<String> playlistIds,
-  ) async {
+    List<String> playlistIds, {
+    String? hl,
+  }) async {
     if (playlistIds.isEmpty) return [];
 
     List<PlaylistModel> allPlaylists = [];
@@ -61,6 +67,7 @@ class YoutubeApiService {
           queryParameters: {
             'part': 'snippet,contentDetails',
             'id': batch.join(','),
+            'hl': hl ?? _currentLocale,
             'key': ApiConstants.apiKey,
           },
         );
@@ -88,7 +95,8 @@ class YoutubeApiService {
   // =========================
   // GET PLAYLIST VIDEOS
   // =========================
-  Future<List<VideoModel>> getPlaylistVideos(String playlistId) async {
+  Future<List<VideoModel>> getPlaylistVideos(String playlistId,
+      {String? hl}) async {
     List<VideoModel> allVideos = [];
     String? nextPageToken;
 
@@ -100,6 +108,7 @@ class YoutubeApiService {
             'part': 'snippet',
             'playlistId': playlistId,
             'maxResults': 50,
+            'hl': hl ?? _currentLocale,
             'key': ApiConstants.apiKey,
             'pageToken': nextPageToken,
           },
@@ -123,47 +132,51 @@ class YoutubeApiService {
   // =========================
   // GET VIDEOS STATS (views, likes, duration)
   // =========================
- Future<List<VideoModel>> getVideosDetails(List<VideoModel> videos) async {
-  if (videos.isEmpty) return videos;
+  Future<List<VideoModel>> getVideosDetails(List<VideoModel> videos,
+      {String? hl}) async {
+    if (videos.isEmpty) return videos;
 
-  try {
-    final videoIds = videos.map((v) => v.videoId).join(',');
+    try {
+      final videoIds = videos.map((v) => v.videoId).join(',');
 
-    final response = await _dio.get(
-      '/videos',
-      queryParameters: {
-        'part': 'statistics,contentDetails',
-        'id': videoIds,
-        'key': ApiConstants.apiKey,
-      },
-    );
-
-    final items = response.data['items'] ?? [];
-
-    if (items.isEmpty) return videos;
-
-    final Map<String, dynamic> detailsMap = {
-      for (var item in items) item['id']: item,
-    };
-
-    return videos.map((video) {
-      final detail = detailsMap[video.videoId];
-
-      if (detail == null) return video;
-
-      final stats = (detail['statistics'] ?? {}) as Map;
-      final content = (detail['contentDetails'] ?? {}) as Map;
-
-      return video.copyWith(
-        viewCount: int.tryParse(stats['viewCount']?.toString() ?? '0') ?? 0,
-        likeCount: int.tryParse(stats['likeCount']?.toString() ?? '0') ?? 0,
-        duration: _formatDuration(content['duration'] ?? ''),
+      final response = await _dio.get(
+        '/videos',
+        queryParameters: {
+          'part': 'snippet,statistics,contentDetails',
+          'id': videoIds,
+          'hl': hl ?? _currentLocale,
+          'key': ApiConstants.apiKey,
+        },
       );
-    }).toList();
-  } on DioException catch (e) {
-    throw Exception('API Error: ${e.message}');
+
+      final items = response.data['items'] ?? [];
+
+      if (items.isEmpty) return videos;
+
+      final Map<String, dynamic> detailsMap = {
+        for (var item in items) item['id']: item,
+      };
+
+      return videos.map((video) {
+        final detail = detailsMap[video.videoId];
+
+        if (detail == null) return video;
+
+        final snippet = (detail['snippet'] ?? {}) as Map;
+        final stats = (detail['statistics'] ?? {}) as Map;
+        final content = (detail['contentDetails'] ?? {}) as Map;
+
+        return video.copyWith(
+          title: snippet['title'] ?? video.title,
+          viewCount: int.tryParse(stats['viewCount']?.toString() ?? '0') ?? 0,
+          likeCount: int.tryParse(stats['likeCount']?.toString() ?? '0') ?? 0,
+          duration: _formatDuration(content['duration'] ?? ''),
+        );
+      }).toList();
+    } on DioException catch (e) {
+      throw Exception('API Error: ${e.message}');
+    }
   }
-}
 }
 String _formatDuration(String iso) {
   final regex = RegExp(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?');

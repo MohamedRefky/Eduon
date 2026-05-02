@@ -92,7 +92,7 @@ class LearningPathSection extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        path.title,
+                                        path.getLocalizedTitle(l10n),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextTheme.of(
@@ -101,7 +101,7 @@ class LearningPathSection extends StatelessWidget {
                                       ),
                                       Gap(AppSizes.h2),
                                       Text(
-                                        path.description,
+                                        path.getLocalizedDescription(l10n),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextTheme.of(

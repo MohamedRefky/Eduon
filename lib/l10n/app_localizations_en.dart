@@ -413,6 +413,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get senior_guide => 'Senior Guide';
 
   @override
+  String get beginner => 'Beginner';
+
+  @override
+  String get intermediate => 'Intermediate';
+
+  @override
+  String get web_dev_title => 'Web Development';
+
+  @override
+  String get web_dev_desc => 'HTML, CSS, JavaScript';
+
+  @override
+  String get cpp_title => 'C++ Programming';
+
+  @override
+  String get cpp_desc => 'Learn C++ and solve programming problems';
+
+  @override
+  String get ui_ux_title => 'UI/UX Design';
+
+  @override
+  String get ui_ux_desc => 'Learn UI/UX design from scratch';
+
+  @override
+  String get business_title => 'Business Skills';
+
+  @override
+  String get business_desc => 'Learn business and marketing skills';
+
+  @override
+  String get soft_skills_path_title => 'Soft Skills';
+
+  @override
+  String get soft_skills_path_desc =>
+      'Improve your personal and communication skills';
+
+  @override
+  String get loading_course => 'Loading course...';
+
+  @override
+  String get no_videos_found => 'No videos found';
+
+  @override
   String get loading => 'Loading...';
 
   @override

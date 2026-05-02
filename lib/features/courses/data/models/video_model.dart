@@ -23,6 +23,7 @@ class VideoModel {
 
   factory VideoModel.fromPlaylistItem(Map<String, dynamic> json) {
     final snippet = json['snippet'] as Map<String, dynamic>? ?? {};
+    final localized = snippet['localized'] as Map<String, dynamic>? ?? {};
     final thumbnails = snippet['thumbnails'] as Map<String, dynamic>? ?? {};
     final resourceId = snippet['resourceId'] as Map<String, dynamic>? ?? {};
 
@@ -30,8 +31,8 @@ class VideoModel {
 
     return VideoModel(
       videoId: (resourceId['videoId'] ?? '').toString(),
-      title: (snippet['title'] ?? '').toString(),
-      description: (snippet['description'] ?? '').toString(),
+      title: (localized['title'] ?? snippet['title'] ?? '').toString(),
+      description: (localized['description'] ?? snippet['description'] ?? '').toString(),
       thumbnailUrl: thumbnail,
       channelTitle:
           (snippet['videoOwnerChannelTitle'] ?? snippet['channelTitle'] ?? '')
@@ -40,10 +41,15 @@ class VideoModel {
     );
   }
 
-  VideoModel copyWith({int? viewCount, String? duration, int? likeCount}) {
+  VideoModel copyWith({
+    String? title,
+    int? viewCount,
+    String? duration,
+    int? likeCount,
+  }) {
     return VideoModel(
       videoId: videoId,
-      title: title,
+      title: title ?? this.title,
       description: description,
       thumbnailUrl: thumbnailUrl,
       channelTitle: channelTitle,

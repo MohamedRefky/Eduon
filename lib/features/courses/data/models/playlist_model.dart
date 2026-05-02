@@ -23,6 +23,7 @@ class PlaylistModel {
 
   factory PlaylistModel.fromJson(Map<String, dynamic> json, String category) {
     final snippet = json['snippet'] as Map<String, dynamic>? ?? {};
+    final localized = snippet['localized'] as Map<String, dynamic>? ?? {};
     final thumbnails = snippet['thumbnails'] as Map<String, dynamic>? ?? {};
 
     final thumbnail = _extractThumbnailUrl(thumbnails);
@@ -31,8 +32,8 @@ class PlaylistModel {
       playlistId: json['id'] is String
           ? json['id'] as String
           : (json['id']?['playlistId'] ?? '').toString(),
-      title: (snippet['title'] ?? 'No Title').toString(),
-      description: (snippet['description'] ?? '').toString(),
+      title: (localized['title'] ?? snippet['title'] ?? 'No Title').toString(),
+      description: (localized['description'] ?? snippet['description'] ?? '').toString(),
       thumbnailUrl: thumbnail,
       channelTitle: (snippet['channelTitle'] ?? '').toString(),
       videoCount: json['contentDetails']?['itemCount'] ?? 0,

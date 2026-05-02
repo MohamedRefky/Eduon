@@ -410,6 +410,48 @@ class AppLocalizationsAr extends AppLocalizations {
   String get senior_guide => 'دليل الخريجين';
 
   @override
+  String get beginner => 'مبتدئ';
+
+  @override
+  String get intermediate => 'متوسط';
+
+  @override
+  String get web_dev_title => 'تطوير الويب';
+
+  @override
+  String get web_dev_desc => 'HTML, CSS, JavaScript';
+
+  @override
+  String get cpp_title => 'برمجة C++';
+
+  @override
+  String get cpp_desc => 'تعلم C++ وحل مشكلات برمجية';
+
+  @override
+  String get ui_ux_title => 'تصميم UI/UX';
+
+  @override
+  String get ui_ux_desc => 'تعلم تصميم UI/UX من الصفر';
+
+  @override
+  String get business_title => 'مهارات ريادة الأعمال';
+
+  @override
+  String get business_desc => 'تعلم مهارات البزنس والتسويق';
+
+  @override
+  String get soft_skills_path_title => 'مهارات ناعمة';
+
+  @override
+  String get soft_skills_path_desc => 'طور مهاراتك الشخصية والتواصل';
+
+  @override
+  String get loading_course => 'جاري تحميل الكورس...';
+
+  @override
+  String get no_videos_found => 'لم يتم العثور على فيديوهات';
+
+  @override
   String get loading => 'جاري التحميل...';
 
   @override

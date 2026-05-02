@@ -848,6 +848,90 @@ abstract class AppLocalizations {
   /// **'Senior Guide'**
   String get senior_guide;
 
+  /// No description provided for @beginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get beginner;
+
+  /// No description provided for @intermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get intermediate;
+
+  /// No description provided for @web_dev_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Development'**
+  String get web_dev_title;
+
+  /// No description provided for @web_dev_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'HTML, CSS, JavaScript'**
+  String get web_dev_desc;
+
+  /// No description provided for @cpp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'C++ Programming'**
+  String get cpp_title;
+
+  /// No description provided for @cpp_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn C++ and solve programming problems'**
+  String get cpp_desc;
+
+  /// No description provided for @ui_ux_title.
+  ///
+  /// In en, this message translates to:
+  /// **'UI/UX Design'**
+  String get ui_ux_title;
+
+  /// No description provided for @ui_ux_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn UI/UX design from scratch'**
+  String get ui_ux_desc;
+
+  /// No description provided for @business_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Skills'**
+  String get business_title;
+
+  /// No description provided for @business_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn business and marketing skills'**
+  String get business_desc;
+
+  /// No description provided for @soft_skills_path_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft Skills'**
+  String get soft_skills_path_title;
+
+  /// No description provided for @soft_skills_path_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Improve your personal and communication skills'**
+  String get soft_skills_path_desc;
+
+  /// No description provided for @loading_course.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading course...'**
+  String get loading_course;
+
+  /// No description provided for @no_videos_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No videos found'**
+  String get no_videos_found;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:

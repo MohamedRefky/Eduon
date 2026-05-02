@@ -156,7 +156,7 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
                           : l10n.course_details,
                     ),
                   ),
-                  body: _buildBody(state, player),
+                  body: _buildBody(state, player, l10n),
                 );
               },
             ),
@@ -166,7 +166,7 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
     );
   }
 
-  Widget _buildBody(CourseDetailsState state, Widget player) {
+  Widget _buildBody(CourseDetailsState state, Widget player, AppLocalizations l10n) {
     switch (state.status) {
       case CourseDetailsStatus.initial:
       case CourseDetailsStatus.loading:
@@ -175,7 +175,15 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Lottie.asset('assets/gif/error404.json')],
+            children: [
+              Lottie.asset('assets/gif/error404.json'),
+              Text(
+                state.errorMessage == 'No videos found'
+                    ? l10n.no_videos_found
+                    : l10n.something_went_wrong,
+                style: const TextStyle(color: Colors.grey),
+              ),
+            ],
           ),
         );
 
