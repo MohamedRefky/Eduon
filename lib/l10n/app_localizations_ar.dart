@@ -117,6 +117,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get or_continue_with => 'أو الاستمرار باستخدام';
 
   @override
+  String get every_day => 'كل يوم';
+
+  @override
+  String get weekends => 'عطلة نهاية الأسبوع';
+
+  @override
+  String get weekdays => 'أيام الأسبوع';
+
+  @override
   String get please_enter_email => 'يرجى إدخال البريد الإلكتروني';
 
   @override

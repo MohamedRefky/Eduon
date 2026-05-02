@@ -302,6 +302,24 @@ abstract class AppLocalizations {
   /// **'OR CONTINUE WITH'**
   String get or_continue_with;
 
+  /// No description provided for @every_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get every_day;
+
+  /// No description provided for @weekends.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekends'**
+  String get weekends;
+
+  /// No description provided for @weekdays.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekdays'**
+  String get weekdays;
+
   /// No description provided for @please_enter_email.
   ///
   /// In en, this message translates to:

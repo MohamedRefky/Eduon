@@ -83,7 +83,7 @@ class ReminderCard extends StatelessWidget {
                       ),
                       Gap(AppSizes.w4),
                       Text(
-                        reminder.timeLabel,
+                        reminder.getTimeLabel(context),
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
                       Gap(AppSizes.w8),
@@ -95,7 +95,7 @@ class ReminderCard extends StatelessWidget {
                       Gap(AppSizes.w4),
                       Expanded(
                         child: Text(
-                          reminder.daysLabel,
+                          reminder.getDaysLabel(l10n),
                           style: Theme.of(context).textTheme.displaySmall,
                           overflow: TextOverflow.ellipsis,
                         ),

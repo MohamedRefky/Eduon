@@ -58,7 +58,12 @@ class RemindersButton extends StatelessWidget {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: Colors.grey[500]),
+            Icon(
+              Localizations.localeOf(context).languageCode == 'ar'
+                  ? Icons.chevron_left_rounded
+                  : Icons.chevron_right_rounded,
+              color: Colors.grey[500],
+            ),
           ],
         ),
       ),

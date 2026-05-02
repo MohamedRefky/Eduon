@@ -193,10 +193,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
   }
 
   String get _timeLabel {
-    final hour = _time.hourOfPeriod == 0 ? 12 : _time.hourOfPeriod;
-    final minute = _time.minute.toString().padLeft(2, '0');
-    final period = _time.period == DayPeriod.am ? 'AM' : 'PM';
-    return '$hour:$minute $period';
+    return _time.format(context);
   }
 
   Future<void> _pickTime() async {

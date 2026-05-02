@@ -1,3 +1,4 @@
+import 'package:eduon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class StudyReminder {
@@ -49,21 +50,27 @@ class StudyReminder {
     isActive: json['isActive'] as bool,
   );
 
-  String get timeLabel {
-    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
-    final minute = time.minute.toString().padLeft(2, '0');
-    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
-    return '$hour:$minute $period';
+  String getTimeLabel(BuildContext context) {
+    return time.format(context);
   }
 
-  String get daysLabel {
-    const names = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    if (weekdays.length == 7) return 'Every day';
+  String getDaysLabel(AppLocalizations l10n) {
+    final names = [
+      l10n.mon,
+      l10n.tue,
+      l10n.wed,
+      l10n.thu,
+      l10n.fri,
+      l10n.sat,
+      l10n.sun,
+    ];
+
+    if (weekdays.length == 7) return l10n.every_day;
     if (weekdays.toSet().containsAll({6, 7}) && weekdays.length == 2) {
-      return 'Weekends';
+      return l10n.weekends;
     }
     if (weekdays.toSet().containsAll({1, 2, 3, 4, 5}) && weekdays.length == 5) {
-      return 'Weekdays';
+      return l10n.weekdays;
     }
     return weekdays.map((d) => names[d - 1]).join(', ');
   }

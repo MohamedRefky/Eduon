@@ -115,6 +115,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get or_continue_with => 'OR CONTINUE WITH';
 
   @override
+  String get every_day => 'Every day';
+
+  @override
+  String get weekends => 'Weekends';
+
+  @override
+  String get weekdays => 'Weekdays';
+
+  @override
   String get please_enter_email => 'Please enter your email';
 
   @override
