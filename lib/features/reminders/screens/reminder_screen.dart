@@ -1,6 +1,7 @@
-import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/reminders/cubit/reminder_cubit.dart';
 import 'package:eduon/features/reminders/cubit/reminder_state.dart';
+import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/features/reminders/widgets/empty_reminders.dart';
 import 'package:eduon/features/reminders/widgets/add_reminder_sheet.dart';
 import 'package:eduon/features/reminders/widgets/reminder_card.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _ReminderBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.study_reminders), centerTitle: true),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showAddReminderSheet(context),
+        onPressed: () => AddReminderSheet.show(context),
         icon: const Icon(Icons.add_alarm_rounded),
         label: Text(l10n.add_reminder),
       ),
@@ -40,7 +41,7 @@ class _ReminderBody extends StatelessWidget {
           }
 
           if (state is ReminderLoaded && state.reminders.isEmpty) {
-            return _buildEmpty(context);
+            return const EmptyReminders();
           }
 
           if (state is ReminderLoaded) {
@@ -55,52 +56,6 @@ class _ReminderBody extends StatelessWidget {
 
           return const SizedBox();
         },
-      ),
-    );
-  }
-
-  Widget _buildEmpty(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.notifications_none_rounded,
-            size: AppSizes.sp64,
-            color: Colors.grey[400],
-          ),
-          Gap(AppSizes.h16),
-          Text(
-            l10n.no_reminders_yet,
-            style: Theme.of(
-              context,
-            ).textTheme.displayMedium?.copyWith(color: Colors.grey[500]),
-          ),
-          Gap(AppSizes.h8),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.w32),
-            child: Text(
-              l10n.tap_to_schedule,
-              style: Theme.of(
-                context,
-              ).textTheme.displaySmall?.copyWith(color: Colors.grey[400]),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAddReminderSheet(BuildContext parentContext) {
-    showModalBottomSheet(
-      context: parentContext,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) => BlocProvider.value(
-        value: parentContext.read<ReminderCubit>(),
-        child: const AddReminderSheet(),
       ),
     );
   }

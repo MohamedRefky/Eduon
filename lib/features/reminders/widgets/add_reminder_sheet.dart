@@ -10,6 +10,18 @@ import 'package:eduon/l10n/app_localizations.dart';
 class AddReminderSheet extends StatefulWidget {
   const AddReminderSheet({super.key});
 
+  static void show(BuildContext parentContext) {
+    showModalBottomSheet(
+      context: parentContext,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) => BlocProvider.value(
+        value: parentContext.read<ReminderCubit>(),
+        child: const AddReminderSheet(),
+      ),
+    );
+  }
+
   @override
   State<AddReminderSheet> createState() => _AddReminderSheetState();
 }

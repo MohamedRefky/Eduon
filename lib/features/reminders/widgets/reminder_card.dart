@@ -30,7 +30,8 @@ class ReminderCard extends StatelessWidget {
         ),
         child: const Icon(Icons.delete_rounded, color: Colors.white, size: 28),
       ),
-      onDismissed: (_) => context.read<ReminderCubit>().deleteReminder(reminder),
+      onDismissed: (_) =>
+          context.read<ReminderCubit>().deleteReminder(reminder),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: AppSizes.w16,
@@ -50,8 +51,8 @@ class ReminderCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: AppSizes.h48,
-              height: AppSizes.h48,
+              width: AppSizes.h56,
+              height: AppSizes.h56,
               decoration: BoxDecoration(
                 color: scheme.primary.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(AppSizes.r12),
@@ -68,12 +69,15 @@ class ReminderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    reminder.label.isEmpty ? l10n.study_session : reminder.label,
+                    reminder.label.isEmpty
+                        ? l10n.study_session
+                        : reminder.label,
                     style: Theme.of(context).textTheme.displayMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Gap(AppSizes.h4),
+                  // ── Time Row ──
                   Row(
                     children: [
                       Icon(
@@ -81,22 +85,30 @@ class ReminderCard extends StatelessWidget {
                         size: AppSizes.sp14,
                         color: Colors.grey[500],
                       ),
-                      Gap(AppSizes.w4),
+                      Gap(AppSizes.w6),
                       Text(
                         reminder.getTimeLabel(context),
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
-                      Gap(AppSizes.w8),
+                    ],
+                  ),
+                  Gap(AppSizes.h2),
+                  // ── Days Row ──
+                  Row(
+                    children: [
                       Icon(
-                        Icons.calendar_today_rounded,
+                        Icons.calendar_month_rounded,
                         size: AppSizes.sp14,
                         color: Colors.grey[500],
                       ),
-                      Gap(AppSizes.w4),
+                      Gap(AppSizes.w6),
                       Expanded(
                         child: Text(
                           reminder.getDaysLabel(l10n),
-                          style: Theme.of(context).textTheme.displaySmall,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.displaySmall?.copyWith(height: 1.2),
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -128,8 +140,11 @@ class ReminderCard extends StatelessWidget {
                   value: 'edit',
                   child: Row(
                     children: [
-                      Icon(Icons.edit_rounded,
-                          color: scheme.primary, size: AppSizes.sp18),
+                      Icon(
+                        Icons.edit_rounded,
+                        color: scheme.primary,
+                        size: AppSizes.sp18,
+                      ),
                       Gap(AppSizes.w8),
                       Text(l10n.edit),
                     ],
@@ -139,11 +154,16 @@ class ReminderCard extends StatelessWidget {
                   value: 'delete',
                   child: Row(
                     children: [
-                      Icon(Icons.delete_rounded,
-                          color: Colors.red, size: AppSizes.sp18),
+                      Icon(
+                        Icons.delete_rounded,
+                        color: Colors.red,
+                        size: AppSizes.sp18,
+                      ),
                       Gap(AppSizes.w8),
-                      Text(l10n.delete,
-                          style: const TextStyle(color: Colors.red)),
+                      Text(
+                        l10n.delete,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
                 ),
@@ -177,7 +197,9 @@ class ReminderCard extends StatelessWidget {
         ),
         title: Text(l10n.delete_reminder_title),
         content: Text(
-          l10n.delete_reminder_confirm(reminder.label.isEmpty ? l10n.study_session : reminder.label),
+          l10n.delete_reminder_confirm(
+            reminder.label.isEmpty ? l10n.study_session : reminder.label,
+          ),
         ),
         actions: [
           TextButton(

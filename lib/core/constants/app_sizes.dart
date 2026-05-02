@@ -76,6 +76,7 @@ class AppSizes {
   static double get w1 => 1.w;
   static double get w2 => 2.w;
   static double get w4 => 4.w;
+  static double get w6 => 6.w;
   static double get w8 => 8.w;
   static double get w10 => 10.w;
   static double get w12 => 12.w;
