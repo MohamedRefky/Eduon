@@ -5,6 +5,7 @@ import 'package:eduon/features/reminders/data/services/notification_service.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class AddReminderSheet extends StatefulWidget {
   const AddReminderSheet({super.key});
@@ -18,8 +19,6 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
   TimeOfDay _time = TimeOfDay.now();
   final Set<int> _selectedDays = {1}; // default: Monday
 
-  static const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
   @override
   void dispose() {
     _labelController.dispose();
@@ -28,8 +27,19 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final dayNames = [
+      l10n.mon,
+      l10n.tue,
+      l10n.wed,
+      l10n.thu,
+      l10n.fri,
+      l10n.sat,
+      l10n.sun
+    ];
 
     return Container(
       margin: EdgeInsets.only(
@@ -63,7 +73,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
           Gap(AppSizes.h20),
 
           Text(
-            'New Study Reminder',
+            l10n.new_study_reminder,
             style: Theme.of(context).textTheme.displayLarge,
           ),
           Gap(AppSizes.h20),
@@ -75,10 +85,10 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
                   fontWeight: FontWeight.w600,
                 ),
             controller: _labelController,
-            decoration: const InputDecoration(
-              labelText: 'Label (optional)',
-              hintText: 'e.g. Math revision',
-              prefixIcon: Icon(Icons.label_outline_rounded),
+            decoration: InputDecoration(
+              labelText: l10n.label_optional,
+              hintText: l10n.label_hint,
+              prefixIcon: const Icon(Icons.label_outline_rounded),
             ),
           ),
           Gap(AppSizes.h16),
@@ -99,7 +109,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
                 children: [
                   Icon(Icons.access_time_rounded, color: scheme.primary),
                   Gap(AppSizes.w12),
-                  Text('Time', style: Theme.of(context).textTheme.displaySmall),
+                  Text(l10n.time, style: Theme.of(context).textTheme.displaySmall),
                   const Spacer(),
                   Text(
                     _timeLabel,
@@ -115,7 +125,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
           Gap(AppSizes.h16),
 
           // ── Day Selector ──
-          Text('Days', style: Theme.of(context).textTheme.displaySmall),
+          Text(l10n.days, style: Theme.of(context).textTheme.displaySmall),
           Gap(AppSizes.h10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,7 +161,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
                   ),
                   child: Center(
                     child: Text(
-                      _dayNames[i],
+                      dayNames[i],
                       style: TextStyle(
                         fontSize: AppSizes.sp10,
                         fontWeight: FontWeight.w600,
@@ -171,7 +181,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
             child: ElevatedButton.icon(
               onPressed: _save,
               icon: const Icon(Icons.check_rounded),
-              label: const Text('Save Reminder'),
+              label: Text(l10n.save_reminder),
             ),
           ),
         ],
@@ -192,6 +202,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
   }
 
   Future<void> _save() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_selectedDays.isEmpty) return;
 
     final granted = await NotificationService.instance.requestPermission();
@@ -199,7 +210,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
       if (mounted) {
         showCustomSnackBar(
           context,
-          message: 'Notification permission denied.',
+          message: l10n.notification_denied,
           type: SnackBarType.error,
         );
       }
@@ -215,7 +226,7 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
       Navigator.pop(context);
       showCustomSnackBar(
         context,
-        message: 'Reminder saved successfully!',
+        message: l10n.reminder_saved,
         type: SnackBarType.success,
       );
     }

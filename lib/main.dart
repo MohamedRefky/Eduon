@@ -12,6 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/reminders/data/services/notification_service.dart';
+import 'package:eduon/core/localization/locale_cubit.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
@@ -23,8 +26,11 @@ void main() async {
   await NotificationService.instance.initialize();
   ThemesController.init();
   runApp(
-    BlocProvider(
-      create: (context) => AuthCubit(AuthService()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit(AuthService())),
+        BlocProvider(create: (context) => LocaleCubit()..getSavedLocale()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -42,13 +48,28 @@ class MyApp extends StatelessWidget {
         return ValueListenableBuilder(
           valueListenable: ThemesController.themeNotifier,
           builder: (context, ThemeMode currentMode, child) {
-            return MaterialApp(
-              navigatorObservers: [routeObserver],
-              debugShowCheckedModeBanner: false,
-              theme: lightTheme,
-              darkTheme: darkTheme,
-              themeMode: currentMode,
-              home: const SplashScreen(),
+            return BlocBuilder<LocaleCubit, LocaleState>(
+              builder: (context, localeState) {
+                return MaterialApp(
+                  navigatorObservers: [routeObserver],
+                  debugShowCheckedModeBanner: false,
+                  theme: lightTheme,
+                  darkTheme: darkTheme,
+                  themeMode: currentMode,
+                  locale: localeState.locale,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: const [
+                    Locale('en'),
+                    Locale('ar'),
+                  ],
+                  home: const SplashScreen(),
+                );
+              },
             );
           },
         );

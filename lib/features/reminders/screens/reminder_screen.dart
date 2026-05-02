@@ -6,6 +6,7 @@ import 'package:eduon/features/reminders/widgets/reminder_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class ReminderScreen extends StatelessWidget {
   const ReminderScreen({super.key});
@@ -24,12 +25,13 @@ class _ReminderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Study Reminders'), centerTitle: true),
+      appBar: AppBar(title: Text(l10n.study_reminders), centerTitle: true),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddReminderSheet(context),
         icon: const Icon(Icons.add_alarm_rounded),
-        label: const Text('Add Reminder'),
+        label: Text(l10n.add_reminder),
       ),
       body: BlocBuilder<ReminderCubit, ReminderState>(
         builder: (context, state) {
@@ -58,6 +60,7 @@ class _ReminderBody extends StatelessWidget {
   }
 
   Widget _buildEmpty(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -69,18 +72,21 @@ class _ReminderBody extends StatelessWidget {
           ),
           Gap(AppSizes.h16),
           Text(
-            'No reminders yet',
+            l10n.no_reminders_yet,
             style: Theme.of(
               context,
             ).textTheme.displayMedium?.copyWith(color: Colors.grey[500]),
           ),
           Gap(AppSizes.h8),
-          Text(
-            'Tap + Add Reminder to schedule your study sessions',
-            style: Theme.of(
-              context,
-            ).textTheme.displaySmall?.copyWith(color: Colors.grey[400]),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.w32),
+            child: Text(
+              l10n.tap_to_schedule,
+              style: Theme.of(
+                context,
+              ).textTheme.displaySmall?.copyWith(color: Colors.grey[400]),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

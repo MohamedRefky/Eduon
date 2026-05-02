@@ -5,12 +5,14 @@ import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ValueListenableBuilder<int>(
       valueListenable: PreferencesManager().profileUpdateNotifier,
       builder: (context, _, _) {
@@ -21,6 +23,8 @@ class HomeHeader extends StatelessWidget {
         final imagePath = uid != null
             ? PreferencesManager().getUserImage(uid)
             : null;
+
+        final displayName = name ?? l10n.user;
 
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -62,7 +66,7 @@ class HomeHeader extends StatelessWidget {
                     Gap(AppSizes.w16),
                     Expanded(
                       child: Text(
-                        "Hello,\n${name ?? 'User'}",
+                        "${l10n.hello}\n$displayName",
                         style: Theme.of(context).textTheme.titleSmall,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -76,7 +80,7 @@ class HomeHeader extends StatelessWidget {
                 ),
                 Gap(AppSizes.h10),
                 Text(
-                  "Hi, ${name ?? 'User'}!",
+                  "${l10n.hi} $displayName!",
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(height: 1),
@@ -85,7 +89,7 @@ class HomeHeader extends StatelessWidget {
                 ),
                 Gap(AppSizes.h4),
                 Text(
-                  "Ready to turn \nlearning on?",
+                  l10n.ready_to_learn,
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(height: 1),

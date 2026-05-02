@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/widgets/language_toggle.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -79,6 +81,16 @@ class LoginScreen extends StatelessWidget {
           final isLoading = state is AuthLoading;
 
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              actions: const [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: LanguageToggle(),
+                ),
+              ],
+            ),
             body: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: AppSizes.w20),
               child: Form(
@@ -92,14 +104,14 @@ class LoginScreen extends StatelessWidget {
                     Gap(AppSizes.h30),
 
                     Text(
-                      'Email',
+                      AppLocalizations.of(context)!.email,
                       style: theme.textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp15,
                       ),
                     ),
                     Gap(AppSizes.h8),
                     CustomTextFormField(
-                      hintText: 'Enter your email',
+                      hintText: AppLocalizations.of(context)!.enter_email,
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -107,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Gap(AppSizes.h20),
                     Text(
-                      'Password',
+                      AppLocalizations.of(context)!.password,
                       style: theme.textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp15,
                       ),
@@ -116,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomTextFormField(
-                          hintText: 'Enter your password',
+                          hintText: AppLocalizations.of(context)!.enter_password,
                           prefixIcon: Icons.lock_outline_rounded,
                           obscureText: !cubit.showPassword,
                           suffixIcon: cubit.showPassword
@@ -170,7 +182,7 @@ class LoginScreen extends StatelessWidget {
                                 }
                               },
                         child: Text(
-                          'Forgot?',
+                          AppLocalizations.of(context)!.forgot_password,
                           style: theme.textTheme.displayMedium?.copyWith(
                             fontSize: AppSizes.sp13,
                           ),
@@ -191,7 +203,7 @@ class LoginScreen extends StatelessWidget {
                               'assets/gif/Loading_animation_blue.json',
                               fit: BoxFit.contain,
                             )
-                          : const Text('Login'),
+                          : Text(AppLocalizations.of(context)!.login),
                     ),
                     Gap(AppSizes.h35),
                     SocialAuthButton(
@@ -199,8 +211,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Gap(AppSizes.h28),
                     AuthSwitchText(
-                      firstText: 'Don\'t have an account? ',
-                      secondText: 'Sign Up',
+                      firstText: '${AppLocalizations.of(context)!.dont_have_account} ',
+                      secondText: AppLocalizations.of(context)!.signup,
                       ontap: () {
                         Navigator.push(
                           context,

@@ -1,6 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class ChatInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -18,6 +19,7 @@ class ChatInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.all(AppSizes.h12),
       child: Row(
@@ -33,17 +35,19 @@ class ChatInputField extends StatelessWidget {
                 fontSize: AppSizes.sp16,
               ),
               decoration: InputDecoration(
-                hintText: "Ask AI anything...",
+                hintText: l10n.ask_ai,
                 fillColor: Theme.of(context).cardColor,
+                filled: true,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.w16,
+                  vertical: AppSizes.h12,
+                ),
                 prefixIcon: onPickImage != null
-                    ? Padding(
-                        padding: EdgeInsets.only(left: AppSizes.w8, right: AppSizes.w4),
-                        child: IconButton(
-                          icon: const Icon(Icons.add_photo_alternate_rounded),
-                          color: const Color(0xFF607290),
-                          splashRadius: AppSizes.r20,
-                          onPressed: isLoading ? null : onPickImage,
-                        ),
+                    ? IconButton(
+                        icon: const Icon(Icons.add_photo_alternate_rounded),
+                        color: Theme.of(context).colorScheme.primary,
+                        splashRadius: AppSizes.r20,
+                        onPressed: isLoading ? null : onPickImage,
                       )
                     : null,
                 border: OutlineInputBorder(
@@ -56,7 +60,10 @@ class ChatInputField extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSizes.r30),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                    width: 1,
+                  ),
                 ),
               ),
             ),

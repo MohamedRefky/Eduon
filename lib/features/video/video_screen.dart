@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 import 'cubit/video_cubit.dart';
 import 'cubit/video_state.dart';
 import 'widgets/open_in_youtube_button.dart';
@@ -106,6 +107,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
   }
 
   Future<void> _openInYoutube() async {
+    final l10n = AppLocalizations.of(context)!;
     final url = Uri.parse('https://www.youtube.com/watch?v=${widget.videoId}');
 
     final launched = await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -113,7 +115,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     if (!launched && mounted) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Could not open YouTube')));
+      ).showSnackBar(SnackBar(content: Text(l10n.could_not_open_youtube)));
     }
   }
 
@@ -126,6 +128,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return PopScope(
       onPopInvokedWithResult: (_, _) => _saveProgress(),
       child: YoutubePlayerBuilder(
@@ -144,7 +147,7 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                widget.title.isNotEmpty ? widget.title : 'Video Player',
+                widget.title.isNotEmpty ? widget.title : l10n.video_player,
               ),
             ),
             body: BlocListener<VideoCubit, VideoState>(
@@ -176,22 +179,24 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
   }
 
   void _showCompletionSnackBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.check_circle, color: Colors.white),
-            SizedBox(width: AppSizes.w8),
-            Text('Video completed!'),
+            const Icon(Icons.check_circle, color: Colors.white),
+            Gap(AppSizes.w8),
+            Text(l10n.video_completed),
           ],
         ),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         backgroundColor: Colors.green,
       ),
     );
   }
 
   Widget _buildErrorState(BuildContext context, VideoState state) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -199,13 +204,13 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
           Icon(Icons.error_outline, size: AppSizes.sp48, color: Colors.red),
           Gap(AppSizes.h16),
           Text(
-            state.errorMessage ?? 'Something went wrong',
+            state.errorMessage ?? l10n.something_went_wrong,
             textAlign: TextAlign.center,
           ),
           Gap(AppSizes.h16),
           ElevatedButton(
             onPressed: () => context.read<VideoCubit>().initialize(),
-            child: const Text('Retry'),
+            child: Text(l10n.retry),
           ),
         ],
       ),

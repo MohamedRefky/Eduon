@@ -3,12 +3,14 @@ import 'package:eduon/core/constants/learning_paths_constants.dart';
 import 'package:eduon/features/learning_path/learning_path_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class LearningPathSection extends StatelessWidget {
   const LearningPathSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final paths = LearningPathsConstants.learningPaths;
 
     return Padding(
@@ -16,7 +18,7 @@ class LearningPathSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Learning Paths', style: TextTheme.of(context).displayLarge),
+          Text(l10n.learning_paths, style: TextTheme.of(context).displayLarge),
           Gap(AppSizes.h14),
           SizedBox(
             height: AppSizes.h200,
@@ -118,7 +120,7 @@ class LearningPathSection extends StatelessWidget {
                                       Gap(AppSizes.w4),
                                       Flexible(
                                         child: Text(
-                                          '${path.totalCourses} Courses',
+                                          l10n.courses_count(path.totalCourses),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextTheme.of(context)
@@ -142,7 +144,7 @@ class LearningPathSection extends StatelessWidget {
                                           ),
                                         ),
                                         child: Text(
-                                          'Start Now',
+                                          l10n.start_now,
                                           style: TextTheme.of(context)
                                               .titleSmall
                                               ?.copyWith(

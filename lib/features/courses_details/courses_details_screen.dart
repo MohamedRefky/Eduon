@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 import 'cubit/course_details_cubit.dart';
 import 'cubit/course_details_state.dart';
@@ -102,13 +103,14 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocListener<CourseDetailsCubit, CourseDetailsState>(
       listenWhen: (previous, current) =>
           !previous.hasMarkedAsWatched && current.hasMarkedAsWatched,
       listener: (context, state) {
         showCustomSnackBar(
           context,
-          message: 'Video completed!',
+          message: l10n.video_completed,
           type: SnackBarType.success,
         );
       },
@@ -151,7 +153,7 @@ class _CourseDetailsViewState extends State<_CourseDetailsView>
                     title: Text(
                       state.playlistTitle.isNotEmpty
                           ? state.playlistTitle
-                          : 'Course Details',
+                          : l10n.course_details,
                     ),
                   ),
                   body: _buildBody(state, player),

@@ -3,6 +3,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 import 'learning_path_step_item.dart';
 
@@ -18,6 +19,7 @@ class LearningPathRoadmapSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Expanded(
       child: Column(
         children: [
@@ -38,7 +40,7 @@ class LearningPathRoadmapSection extends StatelessWidget {
 
                 return LearningPathStepItem(
                   index: index,
-                  title: currentPlaylist?.title ?? 'Loading...',
+                  title: currentPlaylist?.title ?? l10n.loading,
                   thumbnail: currentPlaylist?.thumbnailUrl ?? '',
                   videoCount: currentPlaylist?.videoCount ?? 0,
                   channelTitle: currentPlaylist?.channelTitle ?? '',
@@ -72,7 +74,7 @@ class LearningPathRoadmapSection extends StatelessWidget {
                       );
                     },
               icon: Icon(Icons.play_arrow, size: AppSizes.sp24),
-              label: const Text('Start Now'),
+              label: Text(l10n.start_now),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.r16),

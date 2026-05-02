@@ -2,6 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class SocialAuthButton extends StatelessWidget {
   const SocialAuthButton({super.key, required this.onTap});
@@ -16,7 +17,7 @@ class SocialAuthButton extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
               child: Text(
-                'OR CONTINUE WITH',
+                AppLocalizations.of(context)!.or_continue_with,
                 style: TextTheme.of(
                   context,
                 ).displaySmall?.copyWith(fontSize: AppSizes.sp10),
@@ -41,7 +42,7 @@ class SocialAuthButton extends StatelessWidget {
               children: [
                 SvgPicture.asset('assets/svg/google.svg'),
                 Gap(AppSizes.w4),
-                Text("Google", style: TextTheme.of(context).bodySmall),
+                Text(AppLocalizations.of(context)!.google, style: TextTheme.of(context).bodySmall),
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({super.key});
@@ -17,10 +18,10 @@ class LoginHeader extends StatelessWidget {
           Gap(AppSizes.h10),
           Text('EDUON', style: theme.textTheme.bodyMedium),
           Gap(AppSizes.h15),
-          Text('Welcome Back', style: theme.textTheme.titleLarge),
+          Text(AppLocalizations.of(context)!.welcome_back, style: theme.textTheme.titleLarge),
           Gap(AppSizes.h8),
           Text(
-            'Login to continue your learning journey',
+            AppLocalizations.of(context)!.login_to_continue,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),

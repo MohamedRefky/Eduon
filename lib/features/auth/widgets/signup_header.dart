@@ -1,6 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class SignUpHeader extends StatelessWidget {
   const SignUpHeader({super.key});
@@ -13,7 +14,7 @@ class SignUpHeader extends StatelessWidget {
       children: [
         RichText(
           text: TextSpan(
-            text: 'Join  ',
+            text: '${AppLocalizations.of(context)!.join} ',
             style: theme.textTheme.displayLarge?.copyWith(
               fontSize: AppSizes.sp24,
             ),
@@ -25,13 +26,13 @@ class SignUpHeader extends StatelessWidget {
         ),
         Gap(AppSizes.h10),
         Text(
-          'Enter your academic details to start your learning journey.',
+          AppLocalizations.of(context)!.signup_to_start,
           style: theme.textTheme.labelSmall?.copyWith(fontSize: AppSizes.sp16),
         ),
         Gap(AppSizes.h20),
         Center(
           child: Text(
-            'Login to continue your\nlearning journey',
+            AppLocalizations.of(context)!.login_to_continue,
             textAlign: TextAlign.center,
             style: theme.textTheme.labelSmall?.copyWith(
               fontSize: AppSizes.sp15,

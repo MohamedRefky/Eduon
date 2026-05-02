@@ -1,6 +1,7 @@
 // lib/features/profile/profile_screen.dart
 
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/locale_cubit.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:eduon/features/main/main_screen.dart';
@@ -9,7 +10,7 @@ import 'package:eduon/features/reminders/screens/reminder_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
+import 'package:eduon/l10n/app_localizations.dart';
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';
 import 'package:eduon/core/theme/themes_controller.dart';
@@ -31,6 +32,7 @@ class _ProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -43,7 +45,7 @@ class _ProfileScreenBody extends StatelessWidget {
             );
           },
         ),
-        title: const Text('My Profile'),
+        title: Text(l10n.my_profile),
         actions: [
           ValueListenableBuilder<ThemeMode>(
             valueListenable: ThemesController.themeNotifier,
@@ -57,6 +59,7 @@ class _ProfileScreenBody extends StatelessWidget {
               );
             },
           ),
+          Gap(AppSizes.w8),
         ],
       ),
       body: ListView(
@@ -68,6 +71,8 @@ class _ProfileScreenBody extends StatelessWidget {
           Gap(AppSizes.h12),
           _buildRemindersButton(context),
           Gap(AppSizes.h12),
+          _buildLanguageButton(context),
+          Gap(AppSizes.h12),
           _buildLogoutButton(context),
         ],
       ),
@@ -75,6 +80,7 @@ class _ProfileScreenBody extends StatelessWidget {
   }
 
   Widget _buildRemindersButton(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -118,7 +124,7 @@ class _ProfileScreenBody extends StatelessWidget {
             Gap(AppSizes.w14),
             Expanded(
               child: Text(
-                'Study Reminders',
+                l10n.study_reminders,
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
@@ -129,7 +135,70 @@ class _ProfileScreenBody extends StatelessWidget {
     );
   }
 
+  Widget _buildLanguageButton(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = Theme.of(context).colorScheme.primary;
+
+    return BlocBuilder<LocaleCubit, LocaleState>(
+      builder: (context, state) {
+        final isArabic = state.locale.languageCode == 'ar';
+        return GestureDetector(
+          onTap: () => context.read<LocaleCubit>().toggleLanguage(),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSizes.w16,
+              vertical: AppSizes.h14,
+            ),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1E293B) : Colors.white,
+              borderRadius: BorderRadius.circular(AppSizes.r15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: AppSizes.h42,
+                  height: AppSizes.h42,
+                  decoration: BoxDecoration(
+                    color: primary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(AppSizes.r10),
+                  ),
+                  child: Icon(
+                    Icons.language_rounded,
+                    color: primary,
+                    size: AppSizes.sp22,
+                  ),
+                ),
+                Gap(AppSizes.w14),
+                Expanded(
+                  child: Text(
+                    isArabic ? 'English' : 'العربية',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+                Icon(
+                  isArabic
+                      ? Icons.chevron_left_rounded
+                      : Icons.chevron_right_rounded,
+                  color: Colors.grey[500],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildLogoutButton(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       height: AppSizes.h56,
@@ -155,7 +224,7 @@ class _ProfileScreenBody extends StatelessWidget {
         },
         icon: Icon(Icons.logout, color: Colors.red, size: AppSizes.sp22),
         label: Text(
-          'Logout',
+          l10n.logout,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
             color: Colors.red,
             fontSize: AppSizes.sp16,

@@ -2,13 +2,14 @@ import 'package:eduon/features/courses/bloc/courses_bloc.dart';
 import 'package:eduon/features/courses/bloc/courses_event.dart';
 import 'package:eduon/features/activities/activities_screen.dart';
 import 'package:eduon/features/courses/courses_screen.dart';
-import 'package:eduon/features/eduon_ai/screen/edone_ai_screeen.dart';
+import 'package:eduon/features/eduon_ai/screen/eduon_ai_screen.dart';
 import 'package:eduon/features/home/home_screen.dart';
 import 'package:eduon/features/profile/profile_screen.dart';
 import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,7 +30,7 @@ class MainScreenState extends State<MainScreen> {
     screens = [
       HomeScreen(),
       CoursesScreen(),
-      EdoneAiScreen(),
+      EduonAiScreen(),
       ActivitiesScreen(),
       ProfileScreen(),
     ];
@@ -58,23 +59,23 @@ class MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/Home.svg"),
-              label: "Home",
+              label: AppLocalizations.of(context)!.home,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/courses.svg"),
-              label: "Courses",
+              label: AppLocalizations.of(context)!.courses,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/chat boot.svg"),
-              label: "Ai",
+              label: AppLocalizations.of(context)!.ai,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/activites.svg"),
-              label: "Activities",
+              label: AppLocalizations.of(context)!.activities,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset("assets/svg/profile.svg"),
-              label: "Profile",
+              label: AppLocalizations.of(context)!.profile,
             ),
           ],
         ),

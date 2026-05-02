@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/widgets/language_toggle.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -21,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final cubit = context.read<AuthCubit>();
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
@@ -58,8 +60,20 @@ class SignUpScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final cubit = context.read<AuthCubit>();
         final isLoading = state is AuthLoading;
+
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            actions: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: LanguageToggle(),
+              ),
+            ],
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSizes.w20),
@@ -68,18 +82,18 @@ class SignUpScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Gap(AppSizes.h80),
+                    Gap(AppSizes.h10),
                     const SignUpHeader(),
                     Gap(AppSizes.h15),
                     Text(
-                      'Full Name',
+                      AppLocalizations.of(context)!.full_name,
                       style: theme.textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp15,
                       ),
                     ),
                     Gap(AppSizes.h8),
                     CustomTextFormField(
-                      hintText: 'Tamer Nabil',
+                      hintText: AppLocalizations.of(context)!.full_name,
                       controller: cubit.fullNameController,
                       keyboardType: TextInputType.name,
                       validator: AppValidator.fullName,
@@ -87,14 +101,14 @@ class SignUpScreen extends StatelessWidget {
 
                     Gap(AppSizes.h20),
                     Text(
-                      'Email',
+                      AppLocalizations.of(context)!.email,
                       style: theme.textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp15,
                       ),
                     ),
                     Gap(AppSizes.h8),
                     CustomTextFormField(
-                      hintText: 'Enter your email',
+                      hintText: AppLocalizations.of(context)!.enter_email,
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -103,7 +117,7 @@ class SignUpScreen extends StatelessWidget {
 
                     Gap(AppSizes.h20),
                     Text(
-                      'Password',
+                      AppLocalizations.of(context)!.password,
                       style: theme.textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp15,
                       ),
@@ -112,7 +126,9 @@ class SignUpScreen extends StatelessWidget {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomTextFormField(
-                          hintText: 'Enter your password',
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.enter_password,
                           prefixIcon: Icons.lock_outline_rounded,
                           obscureText: !cubit.showPassword,
                           suffixIcon: cubit.showPassword
@@ -141,7 +157,7 @@ class SignUpScreen extends StatelessWidget {
                               'assets/gif/Loading_animation_blue.json',
                               fit: BoxFit.contain,
                             )
-                          : const Text('Sign Up'),
+                          : Text(AppLocalizations.of(context)!.signup),
                     ),
                     Gap(AppSizes.h35),
                     SocialAuthButton(
@@ -149,8 +165,9 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     Gap(AppSizes.h28),
                     AuthSwitchText(
-                      firstText: 'Already have an account? ',
-                      secondText: 'Login',
+                      firstText:
+                          '${AppLocalizations.of(context)!.already_have_account} ',
+                      secondText: AppLocalizations.of(context)!.login,
                       ontap: () => Navigator.pop(context),
                     ),
                     Gap(AppSizes.h30),

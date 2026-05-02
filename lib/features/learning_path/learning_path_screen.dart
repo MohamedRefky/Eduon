@@ -5,6 +5,7 @@ import 'package:eduon/features/learning_path/data/models/learning_path_model.dar
 import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 import 'widgets/learning_path_header.dart';
 import 'widgets/learning_path_roadmap_section.dart';
@@ -32,8 +33,9 @@ class LearningPathView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text('Learning Path')),
+      appBar: AppBar(title: Text(l10n.learning_path)),
       body: BlocBuilder<CoursesBloc, CoursesState>(
         builder: (context, state) {
           return Column(

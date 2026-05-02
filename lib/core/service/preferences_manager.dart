@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,9 +8,7 @@ class PreferencesManager {
   PreferencesManager._internal();
   late final SharedPreferences _preferences;
   static const String onboardingKey = 'onboarding_seen';
-  static const String selectedYearKey = 'selected_year';
-  static const String fullNameKey = 'full_name';
-  static const String userImageKey = 'user_image';
+  static const String activeLearningKey = 'active_learning_courses';
 
   final ValueNotifier<int> profileUpdateNotifier = ValueNotifier(0);
 
@@ -17,6 +16,52 @@ class PreferencesManager {
     profileUpdateNotifier.value++;
   }
 
+  Future<void> init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  /// Active Learning Methods
+  List<Map<String, dynamic>> getActiveLearning() {
+    final String? data = _preferences.getString(activeLearningKey);
+    if (data == null) return [];
+    try {
+      final List<dynamic> decoded = jsonDecode(data);
+      return decoded.map((e) => Map<String, dynamic>.from(e)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<void> addToActiveLearning(Map<String, dynamic> course) async {
+    final List<Map<String, dynamic>> courses = getActiveLearning();
+    final String? playlistId = course['playlistId'];
+    
+    // منع التكرار
+    courses.removeWhere((c) => c['playlistId'] == playlistId);
+    courses.insert(0, course);
+    
+    await _preferences.setString(activeLearningKey, jsonEncode(courses));
+  }
+
+  Future<void> removeFromActiveLearning(String playlistId) async {
+    final List<Map<String, dynamic>> courses = getActiveLearning();
+    courses.removeWhere((c) => c['playlistId'] == playlistId);
+    await _preferences.setString(activeLearningKey, jsonEncode(courses));
+  }
+
+  Future<void> updateCourseProgress(String playlistId, double progress, int watched, int total) async {
+    final List<Map<String, dynamic>> courses = getActiveLearning();
+    final index = courses.indexWhere((c) => c['playlistId'] == playlistId);
+    
+    if (index != -1) {
+      courses[index]['progress'] = progress;
+      courses[index]['watchedVideos'] = watched;
+      courses[index]['totalVideos'] = total;
+      await _preferences.setString(activeLearningKey, jsonEncode(courses));
+    }
+  }
+
+  /// Existing Methods
   Future<bool> setOnboardingSeen(bool value) {
     return _preferences.setBool(onboardingKey, value);
   }
@@ -24,23 +69,21 @@ class PreferencesManager {
   bool getOnboardingSeen() {
     return _preferences.getBool(onboardingKey) ?? false;
   }
-Future<bool> setUserImage(String uid, String path) {
-  return _preferences.setString('user_image_$uid', path);
-}
 
-String? getUserImage(String uid) {
-  return _preferences.getString('user_image_$uid');
-}
+  Future<bool> setUserImage(String uid, String path) {
+    return _preferences.setString('user_image_$uid', path);
+  }
+
+  String? getUserImage(String uid) {
+    return _preferences.getString('user_image_$uid');
+  }
+
   Future<bool> setUserFullName(String uid, String name) {
     return _preferences.setString('full_name_$uid', name);
   }
 
   String? getUserFullName(String uid) {
     return _preferences.getString('full_name_$uid');
-  }
-
-  Future<void> init() async {
-    _preferences = await SharedPreferences.getInstance();
   }
 
   Future<bool> setUserSelectedYear(String uid, String year) {

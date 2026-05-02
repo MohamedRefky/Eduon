@@ -5,6 +5,7 @@ import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class CustomHeader extends StatefulWidget implements PreferredSizeWidget {
   const CustomHeader({super.key});
@@ -38,6 +39,7 @@ class _CustomHeaderState extends State<CustomHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
       decoration: BoxDecoration(
@@ -71,7 +73,7 @@ class _CustomHeaderState extends State<CustomHeader> {
               ),
               Gap(AppSizes.w10),
               Text(
-                "Hello,\n${_name ?? 'User'}",
+                "${l10n.hello}\n${_name ?? l10n.user}",
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const Spacer(),

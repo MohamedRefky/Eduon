@@ -1,5 +1,6 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class CoursesCountHeader extends StatelessWidget {
   final int count;
@@ -15,6 +16,21 @@ class CoursesCountHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Map internal key to translated name for the chip
+    String categoryDisplay = selectedCategory;
+    if (selectedCategory == 'Design')
+      categoryDisplay = l10n.design;
+    else if (selectedCategory == 'Tech')
+      categoryDisplay = l10n.tech;
+    else if (selectedCategory == 'Soft Skills')
+      categoryDisplay = l10n.soft_skills;
+    else if (selectedCategory == 'Video Editing')
+      categoryDisplay = l10n.video_editing;
+    else if (selectedCategory == 'Business')
+      categoryDisplay = l10n.business;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSizes.h16,
@@ -23,8 +39,8 @@ class CoursesCountHeader extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            '$count Courses',
-            style: TextTheme.of(context).displaySmall?.copyWith(
+            l10n.courses_count(count),
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontSize: AppSizes.sp14,
               fontWeight: FontWeight.w600,
             ),
@@ -46,9 +62,9 @@ class CoursesCountHeader extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      selectedCategory,
-                      style: TextTheme.of(context).displaySmall?.copyWith(
-                        color: Color(0xFF587DBD),
+                      categoryDisplay,
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        color: const Color(0xFF587DBD),
                         fontWeight: FontWeight.w800,
                       ),
                     ),

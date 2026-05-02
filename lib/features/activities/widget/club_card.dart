@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class ClubCardWidget extends StatelessWidget {
   const ClubCardWidget({super.key, required this.club});
@@ -17,6 +18,7 @@ class ClubCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final String link = club['link'] as String? ?? '';
     return Container(
       margin: EdgeInsets.only(bottom: AppSizes.h16),
@@ -81,9 +83,7 @@ class ClubCardWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         club['name'] as String,
-                        style: TextTheme.of(
-                          context,
-                        ).displayMedium?.copyWith(fontSize: AppSizes.sp15),
+                        style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp15),
                       ),
                     ),
                   ],
@@ -91,7 +91,7 @@ class ClubCardWidget extends StatelessWidget {
                 Gap(AppSizes.h8),
                 Text(
                   club['description'] as String,
-                  style: TextTheme.of(context).displaySmall?.copyWith(
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontSize: AppSizes.sp12,
                     height: 1.5,
                   ),
@@ -99,7 +99,7 @@ class ClubCardWidget extends StatelessWidget {
                 Gap(AppSizes.h4),
                 Text(
                   club['tag'] as String,
-                  style: TextTheme.of(context).displaySmall?.copyWith(
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontSize: AppSizes.sp12,
                     color: Colors.grey,
                     fontStyle: FontStyle.italic,
@@ -121,8 +121,8 @@ class ClubCardWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: AppSizes.w24),
                       ),
                       child: Text(
-                        'Join',
-                        style: TextTheme.of(context).displaySmall?.copyWith(
+                        l10n.join,
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
                           color: Colors.white,
                           fontSize: AppSizes.sp14,
                           fontWeight: FontWeight.bold,

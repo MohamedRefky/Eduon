@@ -2,12 +2,14 @@ import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/student_guide/student_guide_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class StudentGuideSection extends StatelessWidget {
   const StudentGuideSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: AppSizes.h16),
       padding: EdgeInsets.symmetric(
@@ -23,10 +25,10 @@ class StudentGuideSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Student Guide', style: TextTheme.of(context).labelLarge),
+          Text(l10n.student_guide, style: TextTheme.of(context).labelLarge),
           Gap(AppSizes.h4),
           Text(
-            'Start your journey and learn what to do in your academic year.',
+            l10n.student_guide_desc,
             style: TextTheme.of(context).labelMedium,
           ),
           Gap(AppSizes.h10),
@@ -46,7 +48,7 @@ class StudentGuideSection extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  'View Guide',
+                  l10n.view_guide,
                   style: TextTheme.of(context).labelSmall,
                 ),
               ),

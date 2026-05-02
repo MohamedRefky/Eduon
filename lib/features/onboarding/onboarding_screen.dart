@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -17,30 +18,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   bool isLastPage = false;
 
-  final List<Map<String, String>> onboardingData = [
-    {
-      "image": "assets/gif/onboarding1.json",
-      "title": "Shape Your Future",
-      "desc":
-          "Your personal guide to university success and self-development. Let’s start the journey",
-    },
-    {
-      "image": "assets/gif/onboarding2.json",
-      "title": "Develop real-world skills",
-      "desc":
-          "Skills that take you further. Simple tips and tools to help you grow beyond your university lectures.",
-    },
-    {
-      "image": "assets/gif/onboarding3.json",
-      "title": "Explore student activities and campus opportunities",
-      "desc":
-          "Don’t just study, live the experience. Join student clubs, find campus events, and make the most of your university life.",
-    },
-  ];
-
   void finishOnboarding() async {
     await PreferencesManager().setOnboardingSeen(true);
 
+    if (!mounted) return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -50,6 +31,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    final List<Map<String, String>> onboardingData = [
+      {
+        "image": "assets/gif/onboarding1.json",
+        "title": l10n.onboarding_title_1,
+        "desc": l10n.onboarding_desc_1,
+      },
+      {
+        "image": "assets/gif/onboarding2.json",
+        "title": l10n.onboarding_title_2,
+        "desc": l10n.onboarding_desc_2,
+      },
+      {
+        "image": "assets/gif/onboarding3.json",
+        "title": l10n.onboarding_title_3,
+        "desc": l10n.onboarding_desc_3,
+      },
+    ];
 
     return Scaffold(
       body: SafeArea(
@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: TextButton(
                   onPressed: finishOnboarding,
                   child: Text(
-                    "Skip",
+                    l10n.skip,
                     style: theme.textTheme.displayMedium?.copyWith(),
                   ),
                 ),
@@ -113,6 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
               Gap(AppSizes.h20),
+
               /// Indicator
               SmoothPageIndicator(
                 controller: _controller,
@@ -138,7 +139,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     }
                   },
-                  child: Text(isLastPage ? "Get Started" : "Next"),
+                  child: Text(isLastPage ? l10n.get_started : l10n.next),
                 ),
               ),
             ],

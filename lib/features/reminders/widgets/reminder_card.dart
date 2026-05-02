@@ -4,6 +4,7 @@ import 'package:eduon/features/reminders/data/models/study_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 import 'edit_reminder_sheet.dart';
 
@@ -13,6 +14,7 @@ class ReminderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -66,7 +68,7 @@ class ReminderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    reminder.label.isEmpty ? 'Study Session' : reminder.label,
+                    reminder.label.isEmpty ? l10n.study_session : reminder.label,
                     style: Theme.of(context).textTheme.displayMedium,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -129,7 +131,7 @@ class ReminderCard extends StatelessWidget {
                       Icon(Icons.edit_rounded,
                           color: scheme.primary, size: AppSizes.sp18),
                       Gap(AppSizes.w8),
-                      const Text('Edit'),
+                      Text(l10n.edit),
                     ],
                   ),
                 ),
@@ -140,8 +142,8 @@ class ReminderCard extends StatelessWidget {
                       Icon(Icons.delete_rounded,
                           color: Colors.red, size: AppSizes.sp18),
                       Gap(AppSizes.w8),
-                      const Text('Delete',
-                          style: TextStyle(color: Colors.red)),
+                      Text(l10n.delete,
+                          style: const TextStyle(color: Colors.red)),
                     ],
                   ),
                 ),
@@ -166,27 +168,28 @@ class ReminderCard extends StatelessWidget {
   }
 
   void _showDeleteDialog(BuildContext ctx, StudyReminder reminder) {
+    final l10n = AppLocalizations.of(ctx)!;
     showDialog(
       context: ctx,
       builder: (dialogCtx) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSizes.r16),
         ),
-        title: const Text('Delete Reminder'),
+        title: Text(l10n.delete_reminder_title),
         content: Text(
-          'Are you sure you want to delete "${reminder.label.isEmpty ? 'Study Session' : reminder.label}"?',
+          l10n.delete_reminder_confirm(reminder.label.isEmpty ? l10n.study_session : reminder.label),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogCtx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(dialogCtx);
               ctx.read<ReminderCubit>().deleteReminder(reminder);
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),

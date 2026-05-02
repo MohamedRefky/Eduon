@@ -5,6 +5,7 @@ import 'package:eduon/features/reminders/data/models/study_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class EditReminderSheet extends StatefulWidget {
   final StudyReminder reminder;
@@ -18,8 +19,6 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
   late final TextEditingController _labelController;
   late TimeOfDay _time;
   late Set<int> _selectedDays;
-
-  static const _dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   @override
   void initState() {
@@ -37,8 +36,19 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final dayNames = [
+      l10n.mon,
+      l10n.tue,
+      l10n.wed,
+      l10n.thu,
+      l10n.fri,
+      l10n.sat,
+      l10n.sun
+    ];
 
     return Container(
       margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -68,7 +78,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
             ),
           ),
           Gap(AppSizes.h20),
-          Text('Edit Reminder', style: Theme.of(context).textTheme.displayLarge),
+          Text(l10n.edit_reminder, style: Theme.of(context).textTheme.displayLarge),
           Gap(AppSizes.h20),
 
           // ── Label ──
@@ -78,10 +88,10 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
                   fontWeight: FontWeight.w600,
                 ),
             controller: _labelController,
-            decoration: const InputDecoration(
-              labelText: 'Label (optional)',
-              hintText: 'e.g. Math revision',
-              prefixIcon: Icon(Icons.label_outline_rounded),
+            decoration: InputDecoration(
+              labelText: l10n.label_optional,
+              hintText: l10n.label_hint,
+              prefixIcon: const Icon(Icons.label_outline_rounded),
             ),
           ),
           Gap(AppSizes.h16),
@@ -102,7 +112,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
                 children: [
                   Icon(Icons.access_time_rounded, color: scheme.primary),
                   Gap(AppSizes.w12),
-                  Text('Time', style: Theme.of(context).textTheme.displaySmall),
+                  Text(l10n.time, style: Theme.of(context).textTheme.displaySmall),
                   const Spacer(),
                   Text(
                     _timeLabel,
@@ -118,7 +128,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
           Gap(AppSizes.h16),
 
           // ── Day Selector ──
-          Text('Days', style: Theme.of(context).textTheme.displaySmall),
+          Text(l10n.days, style: Theme.of(context).textTheme.displaySmall),
           Gap(AppSizes.h10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -154,7 +164,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
                   ),
                   child: Center(
                     child: Text(
-                      _dayNames[i],
+                      dayNames[i],
                       style: TextStyle(
                         fontSize: AppSizes.sp10,
                         fontWeight: FontWeight.w600,
@@ -174,7 +184,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
             child: ElevatedButton.icon(
               onPressed: _save,
               icon: const Icon(Icons.check_rounded),
-              label: const Text('Update Reminder'),
+              label: Text(l10n.update_reminder),
             ),
           ),
         ],
@@ -195,6 +205,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
   }
 
   Future<void> _save() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_selectedDays.isEmpty) return;
 
     final updated = widget.reminder.copyWith(
@@ -216,7 +227,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
       Navigator.pop(context);
       showCustomSnackBar(
         context,
-        message: 'Reminder updated successfully!',
+        message: l10n.reminder_updated,
         type: SnackBarType.success,
       );
     }

@@ -1,4 +1,4 @@
-﻿import 'package:eduon/features/courses/bloc/courses_bloc.dart';
+import 'package:eduon/features/courses/bloc/courses_bloc.dart';
 import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/widgets/custom_header.dart';
@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 import 'widgets/category_filter_grid.dart';
 import 'widgets/courses_count_header.dart';
 import 'widgets/courses_list_view.dart';
@@ -30,6 +31,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: const CustomHeader(),
       body: BlocBuilder<CoursesBloc, CoursesState>(
@@ -82,38 +85,38 @@ class _CoursesScreenState extends State<CoursesScreen> {
                 ),
               ),
               if (filteredCourses.isEmpty && state.searchQuery.isNotEmpty)
-                const SliverFillRemaining(
+                SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.search_off, size: 64, color: Colors.grey),
-                        SizedBox(height: 16),
+                        const Icon(Icons.search_off, size: 64, color: Colors.grey),
+                        const Gap(16),
                         Text(
-                          'No results found',
-                          style: TextStyle(color: Colors.grey),
+                          l10n.no_results,
+                          style: const TextStyle(color: Colors.grey),
                         ),
                       ],
                     ),
                   ),
                 )
               else if (filteredCourses.isEmpty)
-                const SliverFillRemaining(
+                SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.school_outlined,
                           size: 64,
                           color: Colors.grey,
                         ),
-                        SizedBox(height: 16),
+                        const Gap(16),
                         Text(
-                          'No courses found',
-                          style: TextStyle(color: Colors.grey),
+                          l10n.no_courses,
+                          style: const TextStyle(color: Colors.grey),
                         ),
                       ],
                     ),

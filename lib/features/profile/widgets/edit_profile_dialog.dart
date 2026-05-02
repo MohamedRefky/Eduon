@@ -1,4 +1,4 @@
-﻿// lib/features/profile/widgets/edit_profile_dialog.dart
+// lib/features/profile/widgets/edit_profile_dialog.dart
 
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/utils/app_validator.dart';
@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class EditProfileDialog extends StatefulWidget {
   const EditProfileDialog({super.key});
@@ -21,8 +22,6 @@ class EditProfileDialog extends StatefulWidget {
 class _EditProfileDialogState extends State<EditProfileDialog> {
   final nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
 
   @override
   void initState() {
@@ -49,15 +48,36 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
     }
   }
 
+  String _getYearKey(String? year) {
+    if (year == null) return 'none';
+    if (year.contains('1') || year.contains('First') || year.contains('الأولى')) return 'year1';
+    if (year.contains('2') || year.contains('Second') || year.contains('الثانية')) return 'year2';
+    if (year.contains('3') || year.contains('Third') || year.contains('الثالثة')) return 'year3';
+    if (year.contains('4') || year.contains('Fourth') || year.contains('الرابعة')) return 'year4';
+    return 'none';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final years = [
+      l10n.first_year,
+      l10n.second_year,
+      l10n.third_year,
+      l10n.fourth_year
+    ];
+
     return BlocListener<ProfileCubit, ProfileState>(
       listenWhen: (prev, curr) => curr.snackBarMessage != null && curr.isSaved,
       listener: (context, state) {
         if (state.snackBarMessage != null && state.snackBarType != null) {
+          String message = state.snackBarMessage!;
+          if (message.toLowerCase().contains('success')) {
+            message = l10n.profile_updated;
+          }
           showCustomSnackBar(
             context,
-            message: state.snackBarMessage!,
+            message: message,
             type: state.snackBarType!,
           );
           context.read<ProfileCubit>().clearSnackBar();
@@ -120,7 +140,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
 
               CustomTextFormField(
                 controller: nameController,
-                labelText: 'Full Name',
+                labelText: l10n.full_name,
                 keyboardType: TextInputType.text,
                 validator: AppValidator.fullName,
               ),
@@ -165,9 +185,9 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                           child: Row(
                             children: [
                               Text(
-                                state.selectedYear ?? 'Select Year',
+                                l10n.academic_year(_getYearKey(state.selectedYear)),
                                 style:
-                                    TextTheme.of(context).displayMedium,
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                               const Spacer(),
                               Icon(
@@ -190,7 +210,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                           },
                           child: Text(
                             e,
-                            style: TextTheme.of(context).displayMedium,
+                            style: Theme.of(context).textTheme.displayMedium,
                           ),
                         ),
                       );
@@ -230,7 +250,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                     onTap: _save,
                     child: Center(
                       child: Text(
-                        'Save Changes',
+                        l10n.save_changes,
                         style: Theme.of(context)
                             .textTheme
                             .displayMedium
@@ -276,6 +296,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   }
 
   void _showImageSourceDialog(BuildContext parentContext) {
+  final l10n = AppLocalizations.of(parentContext)!;
   showDialog(
     context: parentContext,
     builder: (dialogContext) {
@@ -285,8 +306,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             ListTile(
               leading: const Icon(Icons.photo),
               title: Text(
-                'Gallery',
-                style: TextTheme.of(parentContext)
+                l10n.gallery,
+                style: Theme.of(parentContext).textTheme
                     .displayMedium
                     ?.copyWith(fontSize: AppSizes.sp18),
               ),
@@ -300,8 +321,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             ListTile(
               leading: const Icon(Icons.camera_alt),
               title: Text(
-                'Camera',
-                style: TextTheme.of(parentContext)
+                l10n.camera,
+                style: Theme.of(parentContext).textTheme
                     .displayMedium
                     ?.copyWith(fontSize: AppSizes.sp18),
               ),

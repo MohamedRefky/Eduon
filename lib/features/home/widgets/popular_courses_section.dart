@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class PopularCoursesSection extends StatelessWidget {
   const PopularCoursesSection({super.key, required this.playlist});
@@ -17,6 +18,7 @@ class PopularCoursesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<CoursesBloc, CoursesState>(
       buildWhen: (prev, curr) =>
           prev.isPopularLoading != curr.isPopularLoading ||
@@ -37,8 +39,8 @@ class PopularCoursesSection extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Popular Courses',
-                    style: TextTheme.of(context).displayLarge,
+                    l10n.popular_courses,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const Spacer(),
                   TextButton(
@@ -50,8 +52,8 @@ class PopularCoursesSection extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      'View all',
-                      style: TextTheme.of(context).displayMedium?.copyWith(
+                      l10n.view_all,
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
                         fontSize: AppSizes.sp14,
                         decoration: TextDecoration.underline,
                       ),
@@ -65,7 +67,7 @@ class PopularCoursesSection extends StatelessWidget {
                 separatorBuilder: (context, index) => Gap(AppSizes.h12),
                 padding: EdgeInsets.zero,
                 scrollDirection: Axis.vertical,
-                itemCount: 5,
+                itemCount: state.popularCourses.length > 5 ? 5 : state.popularCourses.length,
                 itemBuilder: (context, index) {
                   final playlist = state.popularCourses[index];
                   return GestureDetector(
@@ -136,9 +138,7 @@ class PopularCoursesSection extends StatelessWidget {
                                         playlist.title,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextTheme.of(
-                                          context,
-                                        ).displayMedium?.copyWith(height: 1.1),
+                                        style: Theme.of(context).textTheme.displayMedium?.copyWith(height: 1.1),
                                       ),
                                       Gap(AppSizes.h4),
                                       Text(
@@ -146,9 +146,7 @@ class PopularCoursesSection extends StatelessWidget {
                                         maxLines: 1,
 
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextTheme.of(
-                                          context,
-                                        ).displaySmall,
+                                        style: Theme.of(context).textTheme.displaySmall,
                                       ),
                                       Gap(AppSizes.h4),
                                       Row(
@@ -161,12 +159,10 @@ class PopularCoursesSection extends StatelessWidget {
                                           Gap(AppSizes.w2),
                                           Flexible(
                                             child: Text(
-                                              'Lessons ${playlist.videoCount}',
+                                              l10n.lessons_count(playlist.videoCount),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextTheme.of(
-                                                context,
-                                              ).displaySmall,
+                                              style: Theme.of(context).textTheme.displaySmall,
                                             ),
                                           ),
                                         ],

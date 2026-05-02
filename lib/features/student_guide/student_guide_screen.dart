@@ -1,72 +1,66 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class StudentGuideScreen extends StatelessWidget {
   const StudentGuideScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(Icons.arrow_back, size: AppSizes.sp24),
         ),
-        title: Text('Student Guide'),
+        title: Text(l10n.student_guide),
       ),
       body: ListView(
         padding: EdgeInsets.all(AppSizes.h16),
-        children: const [
+        children: [
           _GuideCard(
-            year: 'Year 1 & 2',
-            title: 'Freshman Guide',
+            year: l10n.year_1_2,
+            title: l10n.freshman_guide,
             tips: [
               _GuideTip(
-                title: 'Expand Your Network',
-                description:
-                    'Connect with students from all majors Your university network is your future\'s greatest asset.',
+                title: l10n.tip_network_title,
+                description: l10n.tip_network_desc,
               ),
               _GuideTip(
-                title: 'Master Your Time',
-                description:
-                    'Learn to balance study, life, and hobbies. Good habits now prevent burnout later.',
+                title: l10n.tip_time_title,
+                description: l10n.tip_time_desc,
               ),
               _GuideTip(
-                title: 'Focus on Soft Skills',
-                description:
-                    'Work on your communication Sharing your ideas clearly is the key to professional success.',
+                title: l10n.tip_soft_skills_title,
+                description: l10n.tip_soft_skills_desc,
               ),
               _GuideTip(
-                title: 'Explore & Discover',
-                description:
-                    'Don\'t limit yourself to your major, Join clubs, Events and explore new interests outside your field.',
+                title: l10n.tip_explore_title,
+                description: l10n.tip_explore_desc,
               ),
             ],
           ),
           _GuideCard(
-            year: 'Year 3 & 4',
-            title: 'Senior Guide',
+            year: l10n.year_3_4,
+            title: l10n.senior_guide,
             tips: [
               _GuideTip(
-                title: 'Go Professional',
-                description:
-                    'Start your LinkedIn profile. Connect with experts and observe how your industry operates.',
+                title: l10n.tip_professional_title,
+                description: l10n.tip_professional_desc,
               ),
               _GuideTip(
-                title: 'Stay Consistent',
-                description:
-                    'Small daily efforts beat sudden hard work Build a routine that helps you grow every day.',
+                title: l10n.tip_consistent_title,
+                description: l10n.tip_consistent_desc,
               ),
               _GuideTip(
-                title: 'Gain Experience',
-                description:
-                    'Seek any internship or volunteer work Learning "work culture" is as vital as the job itself.',
+                title: l10n.tip_experience_title,
+                description: l10n.tip_experience_desc,
               ),
               _GuideTip(
-                title: 'Solve Problems',
-                description:
-                    'Train your mind to find solutions, not just identify issues A proactive attitude wins everywhere.',
+                title: l10n.tip_problems_title,
+                description: l10n.tip_problems_desc,
               ),
             ],
           ),
@@ -101,7 +95,7 @@ class _GuideCard extends StatelessWidget {
         children: [
           Text(
             year,
-            style: TextTheme.of(context).displayMedium?.copyWith(
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
               color: Colors.white,
               fontSize: AppSizes.sp16,
               fontWeight: FontWeight.bold,
@@ -110,7 +104,7 @@ class _GuideCard extends StatelessWidget {
           Gap(AppSizes.h4),
           Text(
             title,
-            style: TextTheme.of(context).displayMedium?.copyWith(
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
               color: Colors.white,
               fontSize: AppSizes.sp16,
               fontWeight: FontWeight.bold,
@@ -138,7 +132,7 @@ class _TipItem extends StatelessWidget {
         children: [
           Text(
             '• ',
-            style: TextTheme.of(context).displayMedium?.copyWith(
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
               color: Colors.white,
               fontSize: AppSizes.sp16,
             ),
