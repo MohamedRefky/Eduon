@@ -359,25 +359,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reminder_saved => 'تم حفظ التذكير بنجاح!';
 
   @override
-  String get mon => 'إثن';
+  String get mon => 'الاثنين';
 
   @override
-  String get tue => 'ثلا';
+  String get tue => 'الثلاثاء';
 
   @override
-  String get wed => 'أرب';
+  String get wed => 'الأربعاء';
 
   @override
-  String get thu => 'خمي';
+  String get thu => 'الخميس';
 
   @override
-  String get fri => 'جمع';
+  String get fri => 'الجمعة';
 
   @override
-  String get sat => 'سبت';
+  String get sat => 'السبت';
 
   @override
-  String get sun => 'أحد';
+  String get sun => 'الأحد';
 
   @override
   String get ask_ai => 'اسأل الذكاء الاصطناعي أي شيء...';

@@ -1,19 +1,18 @@
 // lib/features/profile/profile_screen.dart
 
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/localization/locale_cubit.dart';
-import 'package:eduon/features/auth/cubit/auth_cubit.dart';
-import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
-import 'package:eduon/features/reminders/screens/reminder_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/theme/themes_controller.dart';
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';
-import 'package:eduon/core/theme/themes_controller.dart';
+import 'widgets/reminders_button.dart';
+import 'widgets/language_button.dart';
+import 'widgets/logout_button.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -69,167 +68,12 @@ class _ProfileScreenBody extends StatelessWidget {
           Gap(AppSizes.h30),
           const ActiveLearning(),
           Gap(AppSizes.h12),
-          _buildRemindersButton(context),
+          const RemindersButton(),
           Gap(AppSizes.h12),
-          _buildLanguageButton(context),
+          const LanguageButton(),
           Gap(AppSizes.h12),
-          _buildLogoutButton(context),
+          const LogoutButton(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildRemindersButton(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const ReminderScreen()),
-      ),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSizes.w16,
-          vertical: AppSizes.h14,
-        ),
-        decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1E293B) : Colors.white,
-          borderRadius: BorderRadius.circular(AppSizes.r15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: AppSizes.h42,
-              height: AppSizes.h42,
-              decoration: BoxDecoration(
-                color: Theme.of(
-                  context,
-                ).colorScheme.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(AppSizes.r10),
-              ),
-              child: Icon(
-                Icons.alarm_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: AppSizes.sp22,
-              ),
-            ),
-            Gap(AppSizes.w14),
-            Expanded(
-              child: Text(
-                l10n.study_reminders,
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-            ),
-            Icon(Icons.chevron_right_rounded, color: Colors.grey[500]),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageButton(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primary = Theme.of(context).colorScheme.primary;
-
-    return BlocBuilder<LocaleCubit, LocaleState>(
-      builder: (context, state) {
-        final isArabic = state.locale.languageCode == 'ar';
-        return GestureDetector(
-          onTap: () => context.read<LocaleCubit>().toggleLanguage(),
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.w16,
-              vertical: AppSizes.h14,
-            ),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E293B) : Colors.white,
-              borderRadius: BorderRadius.circular(AppSizes.r15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: AppSizes.h42,
-                  height: AppSizes.h42,
-                  decoration: BoxDecoration(
-                    color: primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(AppSizes.r10),
-                  ),
-                  child: Icon(
-                    Icons.language_rounded,
-                    color: primary,
-                    size: AppSizes.sp22,
-                  ),
-                ),
-                Gap(AppSizes.w14),
-                Expanded(
-                  child: Text(
-                    isArabic ? 'English' : 'العربية',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                ),
-                Icon(
-                  isArabic
-                      ? Icons.chevron_left_rounded
-                      : Icons.chevron_right_rounded,
-                  color: Colors.grey[500],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLogoutButton(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      height: AppSizes.h56,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(AppSizes.r15),
-        border: Border.all(
-          color: Colors.red.withValues(alpha: 0.5),
-          width: 1.5,
-        ),
-      ),
-      child: TextButton.icon(
-        onPressed: () async {
-          await context.read<AuthCubit>().logout();
-
-          if (context.mounted) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => LoginScreen()),
-              (route) => false,
-            );
-          }
-        },
-        icon: Icon(Icons.logout, color: Colors.red, size: AppSizes.sp22),
-        label: Text(
-          l10n.logout,
-          style: Theme.of(context).textTheme.displayMedium?.copyWith(
-            color: Colors.red,
-            fontSize: AppSizes.sp16,
-          ),
-        ),
       ),
     );
   }

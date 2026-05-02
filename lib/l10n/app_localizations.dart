@@ -743,43 +743,43 @@ abstract class AppLocalizations {
   /// No description provided for @mon.
   ///
   /// In en, this message translates to:
-  /// **'Mon'**
+  /// **'Monday'**
   String get mon;
 
   /// No description provided for @tue.
   ///
   /// In en, this message translates to:
-  /// **'Tue'**
+  /// **'Tuesday'**
   String get tue;
 
   /// No description provided for @wed.
   ///
   /// In en, this message translates to:
-  /// **'Wed'**
+  /// **'Wednesday'**
   String get wed;
 
   /// No description provided for @thu.
   ///
   /// In en, this message translates to:
-  /// **'Thu'**
+  /// **'Thursday'**
   String get thu;
 
   /// No description provided for @fri.
   ///
   /// In en, this message translates to:
-  /// **'Fri'**
+  /// **'Friday'**
   String get fri;
 
   /// No description provided for @sat.
   ///
   /// In en, this message translates to:
-  /// **'Sat'**
+  /// **'Saturday'**
   String get sat;
 
   /// No description provided for @sun.
   ///
   /// In en, this message translates to:
-  /// **'Sun'**
+  /// **'Sunday'**
   String get sun;
 
   /// No description provided for @ask_ai.

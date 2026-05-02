@@ -357,25 +357,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminder_saved => 'Reminder saved successfully!';
 
   @override
-  String get mon => 'Mon';
+  String get mon => 'Monday';
 
   @override
-  String get tue => 'Tue';
+  String get tue => 'Tuesday';
 
   @override
-  String get wed => 'Wed';
+  String get wed => 'Wednesday';
 
   @override
-  String get thu => 'Thu';
+  String get thu => 'Thursday';
 
   @override
-  String get fri => 'Fri';
+  String get fri => 'Friday';
 
   @override
-  String get sat => 'Sat';
+  String get sat => 'Saturday';
 
   @override
-  String get sun => 'Sun';
+  String get sun => 'Sunday';
 
   @override
   String get ask_ai => 'Ask AI anything...';
