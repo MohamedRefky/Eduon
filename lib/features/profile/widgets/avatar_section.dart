@@ -11,21 +11,29 @@ class AvatarSection extends StatelessWidget {
   const AvatarSection({super.key});
 
   String _getYearKey(String? year) {
-    if (year == null) return 'none';
-    if (year.contains('1') || year.contains('First') || year.contains('الأولى'))
+    if (year == null) {
+      return 'none';
+    }
+    if (year.contains('1') ||
+        year.contains('First') ||
+        year.contains('الأولى')) {
       return 'year1';
+    }
     if (year.contains('2') ||
         year.contains('Second') ||
-        year.contains('الثانية'))
+        year.contains('الثانية')) {
       return 'year2';
+    }
     if (year.contains('3') ||
         year.contains('Third') ||
-        year.contains('الثالثة'))
+        year.contains('الثالثة')) {
       return 'year3';
+    }
     if (year.contains('4') ||
         year.contains('Fourth') ||
-        year.contains('الرابعة'))
+        year.contains('الرابعة')) {
       return 'year4';
+    }
     return 'none';
   }
 

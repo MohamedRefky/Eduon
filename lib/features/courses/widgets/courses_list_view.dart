@@ -15,16 +15,17 @@ class CourseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     String categoryDisplay = playlist.category;
-    if (playlist.category == 'Design')
+    if (playlist.category == 'Design') {
       categoryDisplay = l10n.design;
-    else if (playlist.category == 'Tech')
+    } else if (playlist.category == 'Tech') {
       categoryDisplay = l10n.tech;
-    else if (playlist.category == 'Soft Skills')
+    } else if (playlist.category == 'Soft Skills') {
       categoryDisplay = l10n.soft_skills;
-    else if (playlist.category == 'Video Editing')
+    } else if (playlist.category == 'Video Editing') {
       categoryDisplay = l10n.video_editing;
-    else if (playlist.category == 'Business')
+    } else if (playlist.category == 'Business') {
       categoryDisplay = l10n.business;
+    }
 
     return GestureDetector(
       onTap: () => Navigator.push(

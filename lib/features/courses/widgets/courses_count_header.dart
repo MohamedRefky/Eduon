@@ -20,16 +20,17 @@ class CoursesCountHeader extends StatelessWidget {
 
     // Map internal key to translated name for the chip
     String categoryDisplay = selectedCategory;
-    if (selectedCategory == 'Design')
+    if (selectedCategory == 'Design') {
       categoryDisplay = l10n.design;
-    else if (selectedCategory == 'Tech')
+    } else if (selectedCategory == 'Tech') {
       categoryDisplay = l10n.tech;
-    else if (selectedCategory == 'Soft Skills')
+    } else if (selectedCategory == 'Soft Skills') {
       categoryDisplay = l10n.soft_skills;
-    else if (selectedCategory == 'Video Editing')
+    } else if (selectedCategory == 'Video Editing') {
       categoryDisplay = l10n.video_editing;
-    else if (selectedCategory == 'Business')
+    } else if (selectedCategory == 'Business') {
       categoryDisplay = l10n.business;
+    }
 
     return Padding(
       padding: EdgeInsets.symmetric(
