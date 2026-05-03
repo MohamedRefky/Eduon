@@ -34,8 +34,7 @@ class LearningPathSection extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) =>
-                            LearningPathScreen(learningPath: path),
+                        builder: (_) => LearningPathScreen(learningPath: path),
                       ),
                     );
                   },
@@ -82,7 +81,7 @@ class LearningPathSection extends StatelessWidget {
                                 vertical: AppSizes.h6,
                               ),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -111,6 +110,8 @@ class LearningPathSection extends StatelessWidget {
                                     ],
                                   ),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Icon(
                                         Icons.menu_book,
@@ -138,8 +139,7 @@ class LearningPathSection extends StatelessWidget {
                                         ),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF475569),
-                                          borderRadius:
-                                              BorderRadius.circular(
+                                          borderRadius: BorderRadius.circular(
                                             AppSizes.r5,
                                           ),
                                         ),
