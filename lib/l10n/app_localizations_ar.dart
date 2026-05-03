@@ -710,4 +710,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get club_robotics_tag => 'هندسة عملية ومشاريع ابتكارية';
+
+  @override
+  String get error_opening_link => 'تعذر فتح الرابط';
 }

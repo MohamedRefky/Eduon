@@ -230,5 +230,6 @@
   "club_robotics_name": "ROBOTICS",
   "club_robotics_desc": "Specialized technical community dedicated to the fields of autonomous systems, embedded electronics, and practical robotics design.",
   "club_robotics_tag": "Hands-on engineering & innovation projects",
-  "join": "Join"
+  "join": "Join",
+  "error_opening_link": "Could not open link"
 }

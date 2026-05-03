@@ -9,10 +9,15 @@ class ClubCardWidget extends StatelessWidget {
   const ClubCardWidget({super.key, required this.club});
   final Map<String, dynamic> club;
 
-  Future<void> _openLink(String link) async {
+  Future<void> _openLink(BuildContext context, String link) async {
     final Uri url = Uri.parse(link);
+    final l10n = AppLocalizations.of(context)!;
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      debugPrint('Could not launch $link');
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.error_opening_link)));
+      }
     }
   }
 
@@ -37,9 +42,9 @@ class ClubCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(AppSizes.r15),
-              topRight: Radius.circular(AppSizes.r15),
+            borderRadius: BorderRadiusDirectional.only(
+              topStart: Radius.circular(AppSizes.r15),
+              topEnd: Radius.circular(AppSizes.r15),
             ),
             child: AspectRatio(
               aspectRatio: 16 / 9,
@@ -83,7 +88,8 @@ class ClubCardWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         club['name'] as String,
-                        style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: AppSizes.sp15),
+                        style: Theme.of(context).textTheme.displayMedium
+                            ?.copyWith(fontSize: AppSizes.sp15),
                       ),
                     ),
                   ],
@@ -107,11 +113,11 @@ class ClubCardWidget extends StatelessWidget {
                 ),
                 Gap(AppSizes.h12),
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: AlignmentDirectional.centerEnd,
                   child: SizedBox(
                     height: AppSizes.h35,
                     child: ElevatedButton(
-                      onPressed: link.isNotEmpty ? () => _openLink(link) : null,
+                      onPressed: link.isNotEmpty ? () => _openLink(context, link) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
@@ -122,11 +128,12 @@ class ClubCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         l10n.join,
-                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                          color: Colors.white,
-                          fontSize: AppSizes.sp14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.displaySmall
+                            ?.copyWith(
+                              color: Colors.white,
+                              fontSize: AppSizes.sp14,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ),
                   ),

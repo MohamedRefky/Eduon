@@ -14,15 +14,15 @@ class ActivitiesScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (_) => const MainScreen()),
               (route) => false,
             );
           },
-          child: const Icon(Icons.arrow_back),
         ),
         title: Text(l10n.students_activities),
       ),
@@ -31,7 +31,9 @@ class ActivitiesScreen extends StatelessWidget {
         children: [
           Text(
             l10n.featured_clubs,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).textTheme.titleLarge?.color),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Theme.of(context).textTheme.titleLarge?.color,
+            ),
           ),
           Gap(AppSizes.h8),
           Text(
@@ -43,9 +45,9 @@ class ActivitiesScreen extends StatelessWidget {
             ),
           ),
           Gap(AppSizes.h16),
-          ...ActivitiesConstants.getClubs(context).map(
-            (club) => ClubCardWidget(club: club),
-          ),
+          ...ActivitiesConstants.getClubs(
+            context,
+          ).map((club) => ClubCardWidget(club: club)),
         ],
       ),
     );

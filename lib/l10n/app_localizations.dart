@@ -1405,6 +1405,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hands-on engineering & innovation projects'**
   String get club_robotics_tag;
+
+  /// No description provided for @error_opening_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link'**
+  String get error_opening_link;
 }
 
 class _AppLocalizationsDelegate

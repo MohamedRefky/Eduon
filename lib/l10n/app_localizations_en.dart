@@ -709,4 +709,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get club_robotics_tag => 'Hands-on engineering & innovation projects';
+
+  @override
+  String get error_opening_link => 'Could not open link';
 }
