@@ -25,21 +25,44 @@ class _CustomHeaderState extends State<CustomHeader> {
   void initState() {
     super.initState();
     _loadUserData();
+    // Listen for profile updates
+    PreferencesManager().profileUpdateNotifier.addListener(_loadUserData);
+  }
+
+  @override
+  void dispose() {
+    PreferencesManager().profileUpdateNotifier.removeListener(_loadUserData);
+    super.dispose();
   }
 
   void _loadUserData() {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
-    setState(() {
-      _name = PreferencesManager().getUserFullName(uid);
-      _imagePath = PreferencesManager().getUserImage(uid);
-    });
+    if (mounted) {
+      setState(() {
+        _name = PreferencesManager().getUserFullName(uid);
+        _imagePath = PreferencesManager().getUserImage(uid);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    
+    ImageProvider imageProvider = const AssetImage("assets/images/Avatar.png");
+    if (_imagePath != null && _imagePath!.isNotEmpty) {
+      if (_imagePath!.startsWith('http')) {
+        imageProvider = NetworkImage(_imagePath!);
+      } else {
+        final file = File(_imagePath!);
+        if (file.existsSync()) {
+          imageProvider = FileImage(file);
+        }
+      }
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
       decoration: BoxDecoration(
@@ -51,9 +74,9 @@ class _CustomHeaderState extends State<CustomHeader> {
             const Color(0xFFC0C7D2),
           ],
         ),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(AppSizes.r20),
-          bottomRight: Radius.circular(AppSizes.r20),
+        borderRadius: BorderRadiusDirectional.only(
+          bottomStart: Radius.circular(AppSizes.r20),
+          bottomEnd: Radius.circular(AppSizes.r20),
         ),
       ),
       child: SafeArea(
@@ -65,11 +88,7 @@ class _CustomHeaderState extends State<CustomHeader> {
             children: [
               CircleAvatar(
                 radius: AppSizes.r27,
-                backgroundImage:
-                    _imagePath != null && File(_imagePath!).existsSync()
-                    ? FileImage(File(_imagePath!))
-                    : const AssetImage("assets/images/Avatar.png")
-                          as ImageProvider,
+                backgroundImage: imageProvider,
               ),
               Gap(AppSizes.w10),
               Text(
