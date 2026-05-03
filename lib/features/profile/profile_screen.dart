@@ -10,7 +10,7 @@ import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/core/theme/themes_controller.dart';
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';
-import 'widgets/reminders_button.dart';
+import 'package:eduon/features/reminders/widgets/reminders_button.dart';
 import 'widgets/language_button.dart';
 import 'widgets/logout_button.dart';
 
