@@ -1,75 +1,58 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
+import 'package:eduon/features/profile/cubit/profile_cubit.dart';
+import 'package:eduon/features/profile/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:eduon/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class ActiveLearning extends StatefulWidget {
+class ActiveLearning extends StatelessWidget {
   const ActiveLearning({super.key});
-
-  @override
-  State<ActiveLearning> createState() => _ActiveLearningState();
-}
-
-class _ActiveLearningState extends State<ActiveLearning> {
-  List<Map<String, dynamic>> activeCourses = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadActiveCourses();
-  }
-
-  void _loadActiveCourses() {
-    setState(() {
-      activeCourses = PreferencesManager().getActiveLearning();
-    });
-  }
-
-  void _removeCourse(String playlistId) {
-    final l10n = AppLocalizations.of(context)!;
-    PreferencesManager().removeFromActiveLearning(playlistId);
-    _loadActiveCourses();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.course_removed)),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    if (activeCourses.isEmpty) {
-      return const SizedBox.shrink();
-    }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        if (state.isLoadingCourses) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.activeCourses.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              l10n.active_learning,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.active_learning,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+              ],
+            ),
+            Gap(AppSizes.h12),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.activeCourses.length,
+              separatorBuilder: (context, index) => Gap(AppSizes.h12),
+              itemBuilder: (context, index) {
+                final course = state.activeCourses[index];
+                return _buildCourseItem(context, course: course);
+              },
             ),
           ],
-        ),
-        Gap(AppSizes.h12),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: activeCourses.length,
-          separatorBuilder: (context, index) => Gap(AppSizes.h12),
-          itemBuilder: (context, index) {
-            final course = activeCourses[index];
-            return _buildCourseItem(context, course: course);
-          },
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -78,7 +61,8 @@ class _ActiveLearningState extends State<ActiveLearning> {
     required Map<String, dynamic> course,
   }) {
     final l10n = AppLocalizations.of(context)!;
-    
+    final cubit = context.read<ProfileCubit>();
+
     final double progress = (course['progress'] ?? 0.0).toDouble();
     final int watchedVideos = (course['watchedVideos'] ?? 0);
     final int totalVideos = (course['totalVideos'] ?? 0);
@@ -88,7 +72,7 @@ class _ActiveLearningState extends State<ActiveLearning> {
     final int percentage = (progress * 100).toInt();
 
     return Container(
-      padding: EdgeInsets.all(AppSizes.h12),
+      padding: EdgeInsets.all(AppSizes.h6),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(AppSizes.r12),
@@ -102,23 +86,37 @@ class _ActiveLearningState extends State<ActiveLearning> {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppSizes.r12),
-            child: CachedNetworkImage(
-              imageUrl: thumbnailUrl ?? '',
-              width: AppSizes.h80,
-              height: AppSizes.h80,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => Container(
+          GestureDetector(
+            onTap: () {
+              if (playlistId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CourseDetailsScreen(playlistId: playlistId),
+                  ),
+                );
+              }
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppSizes.r12),
+              child: CachedNetworkImage(
+                imageUrl: thumbnailUrl ?? '',
                 width: AppSizes.h80,
                 height: AppSizes.h80,
-                color: Colors.grey[300],
-                child: const Icon(Icons.play_circle_outline),
+                fit: BoxFit.fill,
+                errorWidget: (context, url, error) => Container(
+                  width: AppSizes.h80,
+                  height: AppSizes.h80,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.play_circle_outline),
+                ),
               ),
             ),
           ),
           Gap(AppSizes.w12),
-          Expanded(
+          Flexible(
+            fit: FlexFit.loose,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -126,16 +124,16 @@ class _ActiveLearningState extends State<ActiveLearning> {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Gap(AppSizes.h8),
                 Text(
                   l10n.videos_completed(watchedVideos, totalVideos, percentage),
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.grey[600],
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelSmall?.copyWith(color: Colors.grey[600]),
                 ),
                 Gap(AppSizes.h8),
                 ClipRRect(
@@ -152,30 +150,19 @@ class _ActiveLearningState extends State<ActiveLearning> {
               ],
             ),
           ),
+          Gap(AppSizes.w12),
           IconButton(
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
             icon: Icon(
-              Icons.delete_outline,
+              Icons.delete_forever_outlined,
               color: Colors.red[400],
               size: AppSizes.sp20,
             ),
             onPressed: () {
               if (playlistId != null) {
-                _removeCourse(playlistId);
-              }
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.arrow_forward_ios, size: AppSizes.sp16),
-            onPressed: () {
-              if (playlistId != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CourseDetailsScreen(
-                      playlistId: playlistId,
-                    ),
-                  ),
-                );
+                cubit.removeCourse(playlistId);
               }
             },
           ),

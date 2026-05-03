@@ -30,6 +30,7 @@ class VideoProgressService {
     final key = '${_watchedVideosKey}_${_uid()}_$playlistId';
 
     await _prefs.setString(key, jsonEncode(watchedList));
+    _prefs.notifyProfileUpdated();
   }
 
   // =========================
@@ -218,6 +219,7 @@ class VideoProgressService {
         'active_playlists_${_uid()}',
         jsonEncode(playlists),
       );
+      _prefs.notifyProfileUpdated();
     }
   }
 

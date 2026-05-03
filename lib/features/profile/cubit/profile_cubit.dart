@@ -1,4 +1,4 @@
-﻿// lib/features/profile/cubit/profile_cubit.dart
+// lib/features/profile/cubit/profile_cubit.dart
 
 import 'dart:io';
 import 'package:eduon/core/service/preferences_manager.dart';
@@ -11,13 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(const ProfileState());
+  ProfileCubit() : super(const ProfileState()) {
+    _prefs.profileUpdateNotifier.addListener(loadActiveCourses);
+  }
 
   final PreferencesManager _prefs = PreferencesManager();
   final ImagePicker _picker = ImagePicker();
   final VideoProgressService _progressService = VideoProgressService();
 
   String get _uid => FirebaseAuth.instance.currentUser!.uid;
+
   void loadProfile() {
     final name = _prefs.getUserFullName(_uid);
     final year = _prefs.getUserSelectedYear(_uid);
@@ -43,6 +46,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     loadActiveCourses();
   }
+
   Future<void> loadActiveCourses() async {
     if (state.activeCourses.isEmpty) {
       emit(state.copyWith(isLoadingCourses: true));
@@ -52,12 +56,15 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     emit(state.copyWith(activeCourses: courses, isLoadingCourses: false));
   }
+
   void updateName(String name) {
     emit(state.copyWith(name: name));
   }
+
   void updateYear(String year) {
     emit(state.copyWith(selectedYear: year));
   }
+
   Future<void> pickImage(ImageSource source) async {
     try {
       emit(state.copyWith(isLoadingImage: true));
@@ -85,6 +92,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(isLoadingImage: false));
     }
   }
+
   void saveProfile() {
     _prefs.setUserFullName(_uid, state.name ?? '');
     _prefs.setUserSelectedYear(_uid, state.selectedYear ?? '');
@@ -98,6 +106,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   Future<void> removeCourse(String playlistId) async {
     await _progressService.clearCourseProgress(playlistId);
     await loadActiveCourses();
@@ -109,7 +118,14 @@ class ProfileCubit extends Cubit<ProfileState> {
       ),
     );
   }
+
   void clearSnackBar() {
     emit(state.copyWith(clearSnackBar: true));
+  }
+
+  @override
+  Future<void> close() {
+    _prefs.profileUpdateNotifier.removeListener(loadActiveCourses);
+    return super.close();
   }
 }
