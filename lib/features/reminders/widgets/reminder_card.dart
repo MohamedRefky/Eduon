@@ -22,8 +22,8 @@ class ReminderCard extends StatelessWidget {
       key: ValueKey(reminder.id),
       direction: DismissDirection.endToStart,
       background: Container(
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: AppSizes.w20),
+        alignment: AlignmentDirectional.centerEnd,
+        padding: EdgeInsetsDirectional.only(end: AppSizes.w20),
         decoration: BoxDecoration(
           color: Colors.red.shade400,
           borderRadius: BorderRadius.circular(AppSizes.r16),
@@ -38,7 +38,7 @@ class ReminderCard extends StatelessWidget {
           vertical: AppSizes.h14,
         ),
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1E293B) : Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppSizes.r16),
           boxShadow: [
             BoxShadow(

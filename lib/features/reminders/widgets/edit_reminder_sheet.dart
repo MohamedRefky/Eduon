@@ -38,7 +38,6 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final dayNames = [
       l10n.mon,
@@ -59,7 +58,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
         AppSizes.h32,
       ),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC),
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.r24)),
       ),
       child: Column(
@@ -105,7 +104,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
                 vertical: AppSizes.h14,
               ),
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(AppSizes.r12),
               ),
               child: Row(
@@ -150,7 +149,7 @@ class _EditReminderSheetState extends State<EditReminderSheet> {
                   decoration: BoxDecoration(
                     color: selected
                         ? scheme.primary
-                        : (isDark ? const Color(0xFF1E293B) : Colors.white),
+                        : Theme.of(context).cardColor,
                     shape: BoxShape.circle,
                     boxShadow: selected
                         ? [
