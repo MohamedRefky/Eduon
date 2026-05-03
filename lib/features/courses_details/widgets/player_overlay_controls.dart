@@ -23,8 +23,8 @@ class PlayerOverlayControls extends StatelessWidget {
       child: Stack(
         children: [
           // Previous Button
-          Positioned(
-            left: AppSizes.h40,
+          PositionedDirectional(
+            start: AppSizes.h40,
             top: 0,
             bottom: 0,
             child: Center(
@@ -37,8 +37,8 @@ class PlayerOverlayControls extends StatelessWidget {
           ),
 
           // Next Button
-          Positioned(
-            right: AppSizes.h40,
+          PositionedDirectional(
+            end: AppSizes.h40,
             top: 0,
             bottom: 0,
             child: Center(
@@ -52,10 +52,10 @@ class PlayerOverlayControls extends StatelessWidget {
 
           // Video Title
           if (currentTitle.isNotEmpty)
-            Positioned(
+            PositionedDirectional(
               top: AppSizes.h8,
-              left: AppSizes.h40,
-              right: AppSizes.h40,
+              start: AppSizes.h40,
+              end: AppSizes.h40,
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSizes.w8,
@@ -70,7 +70,7 @@ class PlayerOverlayControls extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: TextTheme.of(context).labelMedium?.copyWith(
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     fontSize: AppSizes.sp12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -104,10 +104,13 @@ class _OverlayButton extends StatelessWidget {
           color: Colors.black.withValues(alpha: 0.5),
           shape: BoxShape.circle,
         ),
-        child: Icon(
-          icon,
-          color: isEnabled ? Colors.white : Colors.white38,
-          size: AppSizes.sp30,
+        child: Transform.flip(
+          flipX: Directionality.of(context) == TextDirection.rtl,
+          child: Icon(
+            icon,
+            color: isEnabled ? Colors.white : Colors.white38,
+            size: AppSizes.sp30,
+          ),
         ),
       ),
     );

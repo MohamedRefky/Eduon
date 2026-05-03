@@ -85,7 +85,7 @@ class VideoListItem extends StatelessWidget {
       subtitle: Row(
         children: [
           Text(
-            '#${index + 1}',
+            '${index + 1}#',
             style: TextTheme.of(context).displaySmall?.copyWith(
               color: isPlaying ? Colors.deepPurple : Colors.grey.shade600,
             ),
