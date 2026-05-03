@@ -144,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Gap(AppSizes.h8),
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: AlignmentDirectional.centerEnd,
                       child: GestureDetector(
                         onTap: isLoading
                             ? null
