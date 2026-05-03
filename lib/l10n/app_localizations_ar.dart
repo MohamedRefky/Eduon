@@ -288,7 +288,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get start_now => 'ابدأ الآن';
 
   @override
-  String get popular_courses => 'الكورسات الشائعة';
+  String get popular_courses => 'أبرز الكورسات';
 
   @override
   String get view_all => 'عرض الكل';

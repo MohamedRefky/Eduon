@@ -57,11 +57,13 @@ class HomeHeader extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: AppSizes.r30,
-                      backgroundImage:
-                          imagePath != null && File(imagePath).existsSync()
-                          ? FileImage(File(imagePath))
-                          : const AssetImage("assets/images/Avatar.png")
-                                as ImageProvider,
+                      backgroundImage: imagePath != null && imagePath.isNotEmpty
+                          ? (imagePath.startsWith('http')
+                              ? NetworkImage(imagePath)
+                              : (File(imagePath).existsSync()
+                                  ? FileImage(File(imagePath))
+                                  : const AssetImage("assets/images/Avatar.png") as ImageProvider))
+                          : const AssetImage("assets/images/Avatar.png") as ImageProvider,
                     ),
                     Gap(AppSizes.w16),
                     Expanded(
