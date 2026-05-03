@@ -97,7 +97,7 @@ class AvatarSection extends StatelessWidget {
                   vertical: AppSizes.h8,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6B7FA3),
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(AppSizes.r20),
                 ),
                 child: Text(
