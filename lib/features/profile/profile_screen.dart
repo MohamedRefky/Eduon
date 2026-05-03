@@ -19,62 +19,54 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => ProfileCubit()..loadProfile(),
-      child: const _ProfileScreenBody(),
-    );
-  }
-}
-
-class _ProfileScreenBody extends StatelessWidget {
-  const _ProfileScreenBody();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const MainScreen()),
-              (route) => false,
-            );
-          },
-        ),
-        title: Text(l10n.my_profile),
-        actions: [
-          ValueListenableBuilder<ThemeMode>(
-            valueListenable: ThemesController.themeNotifier,
-            builder: (context, mode, child) {
-              final isDark = mode == ThemeMode.dark;
-              return IconButton(
-                icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-                onPressed: () {
-                  ThemesController.toggleTheme();
-                },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const MainScreen()),
+                (route) => false,
               );
             },
           ),
-          Gap(AppSizes.w8),
-        ],
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(AppSizes.h16),
-        children: [
-          const AvatarSection(),
-          Gap(AppSizes.h30),
-          const ActiveLearning(),
-          Gap(AppSizes.h12),
-          const RemindersButton(),
-          Gap(AppSizes.h12),
-          const LanguageButton(),
-          Gap(AppSizes.h12),
-          const LogoutButton(),
-        ],
+          title: Text(l10n.my_profile),
+          actions: [
+            ValueListenableBuilder<ThemeMode>(
+              valueListenable: ThemesController.themeNotifier,
+              builder: (context, mode, child) {
+                final isDark = mode == ThemeMode.dark;
+                return IconButton(
+                  icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                  onPressed: () {
+                    ThemesController.toggleTheme();
+                  },
+                );
+              },
+            ),
+            Gap(AppSizes.w8),
+          ],
+        ),
+        body: ListView(
+          padding: EdgeInsets.all(AppSizes.h16),
+          children: [
+            const AvatarSection(),
+            Gap(AppSizes.h30),
+            const ActiveLearning(),
+            Gap(AppSizes.h12),
+            const RemindersButton(),
+            Gap(AppSizes.h12),
+            const LanguageButton(),
+            Gap(AppSizes.h12),
+            const LogoutButton(),
+          ],
+        ),
       ),
     );
   }
 }
+
