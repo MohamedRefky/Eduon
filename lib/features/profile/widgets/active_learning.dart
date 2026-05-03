@@ -167,7 +167,7 @@ class ActiveLearning extends StatelessWidget {
             ),
             onPressed: () {
               if (playlistId != null) {
-                cubit.removeCourse(playlistId);
+                cubit.removeCourse(playlistId, l10n.course_removed);
               }
             },
           ),

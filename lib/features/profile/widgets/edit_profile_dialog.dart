@@ -5,7 +5,6 @@ import 'package:eduon/core/utils/app_validator.dart';
 import 'package:eduon/core/widgets/custom_text_form_field.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
 import 'package:eduon/features/profile/cubit/profile_state.dart';
-import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -42,7 +41,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
 
       final cubit = context.read<ProfileCubit>();
       cubit.updateName(nameController.text);
-      cubit.saveProfile();
+      cubit.saveProfile(AppLocalizations.of(context)!.profile_updated);
 
       Navigator.pop(context, true);
     }
@@ -85,224 +84,215 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       l10n.fourth_year,
     ];
 
-    return BlocListener<ProfileCubit, ProfileState>(
-      listenWhen: (prev, curr) => curr.snackBarMessage != null && curr.isSaved,
-      listener: (context, state) {
-        if (state.snackBarMessage != null && state.snackBarType != null) {
-          String message = state.snackBarMessage!;
-          if (message.toLowerCase().contains('success')) {
-            message = l10n.profile_updated;
-          }
-          showCustomSnackBar(
-            context,
-            message: message,
-            type: state.snackBarType!,
-          );
-          context.read<ProfileCubit>().clearSnackBar();
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.all(AppSizes.w20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close, color: Colors.black),
-                ),
+    return Padding(
+      padding: EdgeInsets.all(AppSizes.w20),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.close, color: Colors.black),
               ),
+            ),
 
-              /// Avatar
-              BlocBuilder<ProfileCubit, ProfileState>(
-                buildWhen: (prev, curr) =>
-                    prev.displayImage != curr.displayImage ||
-                    prev.isLoadingImage != curr.isLoadingImage,
-                builder: (context, state) {
-                  return SizedBox(
-                    width: AppSizes.h120,
-                    height: AppSizes.h120,
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        _buildAvatar(state),
-                        Positioned(
-                          bottom: 3,
-                          right: 10,
-                          child: GestureDetector(
-                            onTap: () => _showImageSourceDialog(context),
-                            child: Container(
-                              padding: EdgeInsets.all(AppSizes.h5),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.white,
-                                size: 20,
-                              ),
+            /// Avatar
+            BlocBuilder<ProfileCubit, ProfileState>(
+              buildWhen: (prev, curr) =>
+                  prev.displayImage != curr.displayImage ||
+                  prev.isLoadingImage != curr.isLoadingImage,
+              builder: (context, state) {
+                return SizedBox(
+                  width: AppSizes.h120,
+                  height: AppSizes.h120,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      _buildAvatar(state),
+                      Positioned(
+                        bottom: 3,
+                        right: 10,
+                        child: GestureDetector(
+                          onTap: () => _showImageSourceDialog(context),
+                          child: Container(
+                            padding: EdgeInsets.all(AppSizes.h5),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt_outlined,
+                              color: Colors.white,
+                              size: 20,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-
-              Gap(AppSizes.h40),
-
-              CustomTextFormField(
-                controller: nameController,
-                labelText: l10n.full_name,
-                keyboardType: TextInputType.text,
-                validator: (value) => AppValidator.fullName(value, l10n),
-              ),
-
-              Gap(AppSizes.h30),
-
-              /// Year Selector
-              BlocBuilder<ProfileCubit, ProfileState>(
-                buildWhen: (prev, curr) =>
-                    prev.selectedYear != curr.selectedYear,
-                builder: (context, state) {
-                  return MenuAnchor(
-                    style: MenuStyle(
-                      backgroundColor: const WidgetStatePropertyAll(
-                        Colors.white,
                       ),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSizes.r12),
-                        ),
-                      ),
-                    ),
-                    alignmentOffset: const Offset(0, 8),
-                    builder: (context, controller, child) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.isOpen
-                              ? controller.close()
-                              : controller.open();
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppSizes.w16,
-                            vertical: AppSizes.h16,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8FAFC),
-                            borderRadius: BorderRadius.circular(AppSizes.r15),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                l10n.academic_year(
-                                  _getYearKey(state.selectedYear),
-                                ),
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.displayMedium,
-                              ),
-                              const Spacer(),
-                              Icon(
-                                controller.isOpen
-                                    ? Icons.keyboard_arrow_up
-                                    : Icons.keyboard_arrow_down,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    menuChildren: years.map((e) {
-                      return SizedBox(
-                        width: MediaQuery.of(context).size.width - AppSizes.w40,
-                        child: MenuItemButton(
-                          onPressed: () {
-                            context.read<ProfileCubit>().updateYear(e);
-                          },
-                          child: Text(
-                            e,
-                            style: Theme.of(context).textTheme.displayMedium,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                },
-              ),
-
-              Gap(AppSizes.h50),
-
-              /// Save Button
-              Container(
-                width: AppSizes.w200,
-                height: AppSizes.h50,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      const Color(0xFF0F172A),
-                      const Color(0xFF64748B).withValues(alpha: 0.7),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(AppSizes.r20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+                );
+              },
+            ),
+
+            Gap(AppSizes.h40),
+
+            CustomTextFormField(
+              controller: nameController,
+              labelText: l10n.full_name,
+              keyboardType: TextInputType.text,
+              validator: (value) => AppValidator.fullName(value, l10n),
+            ),
+
+            Gap(AppSizes.h30),
+
+            /// Year Selector
+            BlocBuilder<ProfileCubit, ProfileState>(
+              buildWhen: (prev, curr) => prev.selectedYear != curr.selectedYear,
+              builder: (context, state) {
+                return MenuAnchor(
+                  style: MenuStyle(
+                    backgroundColor: const WidgetStatePropertyAll(Colors.white),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppSizes.r12),
+                      ),
                     ),
+                  ),
+                  alignmentOffset: const Offset(0, 8),
+                  builder: (context, controller, child) {
+                    return GestureDetector(
+                      onTap: () {
+                        controller.isOpen
+                            ? controller.close()
+                            : controller.open();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSizes.w16,
+                          vertical: AppSizes.h16,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8FAFC),
+                          borderRadius: BorderRadius.circular(AppSizes.r15),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              l10n.academic_year(
+                                _getYearKey(state.selectedYear),
+                              ),
+                              style: Theme.of(context).textTheme.displayMedium,
+                            ),
+                            const Spacer(),
+                            Icon(
+                              controller.isOpen
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  menuChildren: years.map((e) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width - AppSizes.w40,
+                      child: MenuItemButton(
+                        onPressed: () {
+                          context.read<ProfileCubit>().updateYear(e);
+                        },
+                        child: Text(
+                          e,
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+
+            Gap(AppSizes.h50),
+
+            /// Save Button
+            Container(
+              width: AppSizes.w200,
+              height: AppSizes.h50,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF0F172A),
+                    const Color(0xFF64748B).withValues(alpha: 0.7),
                   ],
                 ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(AppSizes.r20),
-                    onTap: _save,
-                    child: Center(
-                      child: Text(
-                        l10n.save_changes,
-                        style: Theme.of(context).textTheme.displayMedium
-                            ?.copyWith(
-                              color: const Color(0xFFE2F6FF),
-                              fontSize: AppSizes.sp16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                      ),
+                borderRadius: BorderRadius.circular(AppSizes.r20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(AppSizes.r20),
+                  onTap: _save,
+                  child: Center(
+                    child: Text(
+                      l10n.save_changes,
+                      style: Theme.of(context).textTheme.displayMedium
+                          ?.copyWith(
+                            color: const Color(0xFFE2F6FF),
+                            fontSize: AppSizes.sp16,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                   ),
                 ),
               ),
+            ),
 
-              Gap(AppSizes.h260),
-            ],
-          ),
+            Gap(AppSizes.h260),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildAvatar(ProfileState state) {
-    final file = state.displayImage;
-
     return ClipOval(
       child: state.isLoadingImage
           ? const Center(child: CircularProgressIndicator())
-          : (file != null && file.existsSync())
-          ? Image.file(
-              file,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            )
+          : (state.imagePath != null && state.imagePath!.isNotEmpty)
+          ? (state.imagePath!.startsWith('http')
+                ? Image.network(
+                    state.imagePath!,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  )
+                : (state.displayImage != null &&
+                          state.displayImage!.existsSync()
+                      ? Image.file(
+                          state.displayImage!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        )
+                      : Image.asset(
+                          'assets/images/Avatar.png',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        )))
           : Image.asset(
               'assets/images/Avatar.png',
               fit: BoxFit.cover,

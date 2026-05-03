@@ -66,14 +66,13 @@ class AvatarSection extends StatelessWidget {
                   ],
                 ),
                 child: ClipOval(
-                  child:
-                      (state.displayImage != null &&
-                          state.displayImage!.existsSync())
-                      ? Image.file(state.displayImage!, fit: BoxFit.cover)
-                      : Image.asset(
-                          'assets/images/Avatar.png',
-                          fit: BoxFit.cover,
-                        ),
+                  child: (state.imagePath != null && state.imagePath!.isNotEmpty)
+                      ? (state.imagePath!.startsWith('http')
+                          ? Image.network(state.imagePath!, fit: BoxFit.cover)
+                          : (state.displayImage != null && state.displayImage!.existsSync()
+                              ? Image.file(state.displayImage!, fit: BoxFit.cover)
+                              : Image.asset('assets/images/Avatar.png', fit: BoxFit.cover)))
+                      : Image.asset('assets/images/Avatar.png', fit: BoxFit.cover),
                 ),
               ),
             ),

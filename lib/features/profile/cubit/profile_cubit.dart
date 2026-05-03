@@ -93,7 +93,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void saveProfile() {
+  void saveProfile(String message) {
     _prefs.setUserFullName(_uid, state.name ?? '');
     _prefs.setUserSelectedYear(_uid, state.selectedYear ?? '');
     _prefs.notifyProfileUpdated();
@@ -101,19 +101,19 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(
       state.copyWith(
         isSaved: true,
-        snackBarMessage: 'Profile updated successfully',
+        snackBarMessage: message,
         snackBarType: SnackBarType.success,
       ),
     );
   }
 
-  Future<void> removeCourse(String playlistId) async {
+  Future<void> removeCourse(String playlistId, String message) async {
     await _progressService.clearCourseProgress(playlistId);
     await loadActiveCourses();
 
     emit(
       state.copyWith(
-        snackBarMessage: 'Course removed successfully',
+        snackBarMessage: message,
         snackBarType: SnackBarType.info,
       ),
     );
