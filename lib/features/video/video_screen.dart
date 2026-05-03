@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'cubit/video_cubit.dart';
 import 'cubit/video_state.dart';
 import 'widgets/open_in_youtube_button.dart';
@@ -113,9 +114,11 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     final launched = await launchUrl(url, mode: LaunchMode.externalApplication);
 
     if (!launched && mounted) {
-      ScaffoldMessenger.of(
+      showCustomSnackBar(
         context,
-      ).showSnackBar(SnackBar(content: Text(l10n.could_not_open_youtube)));
+        message: l10n.could_not_open_youtube,
+        type: SnackBarType.error,
+      );
     }
   }
 
@@ -124,6 +127,10 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _saveProgress() {
+    context.read<VideoCubit>().saveCurrentProgress();
   }
 
   @override
@@ -174,24 +181,12 @@ class _VideoViewState extends State<VideoView> with WidgetsBindingObserver {
     );
   }
 
-  void _saveProgress() {
-    context.read<VideoCubit>().saveCurrentProgress();
-  }
-
   void _showCompletionSnackBar(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.white),
-            Gap(AppSizes.w8),
-            Text(l10n.video_completed),
-          ],
-        ),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.green,
-      ),
+    showCustomSnackBar(
+      context,
+      message: l10n.video_completed,
+      type: SnackBarType.success,
     );
   }
 
