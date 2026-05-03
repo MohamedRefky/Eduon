@@ -61,7 +61,9 @@ class ChatInputField extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSizes.r30),
                   borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -89,7 +91,10 @@ class ChatInputField extends StatelessWidget {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Icon(Icons.send_outlined, color: Colors.white),
+                  : Directionality(
+                      textDirection: Directionality.of(context),
+                      child: const Icon(Icons.send_outlined, color: Colors.white),
+                    ),
             ),
           ),
         ],

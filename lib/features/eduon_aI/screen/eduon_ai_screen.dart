@@ -100,8 +100,8 @@ class _EduonAiScreenContentState extends State<_EduonAiScreenContent> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Positioned(
-                        right: 0,
+                      PositionedDirectional(
+                        end: 0,
                         top: 0,
                         child: GestureDetector(
                           onTap: () => setState(() => _selectedImage = null),

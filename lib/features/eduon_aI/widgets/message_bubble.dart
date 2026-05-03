@@ -56,13 +56,13 @@ class MessageBubble extends StatelessWidget {
                   color: message.isMe 
                       ? Theme.of(context).colorScheme.primary 
                       : Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(AppSizes.r24),
-                    topRight: Radius.circular(AppSizes.r24),
-                    bottomLeft: Radius.circular(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(AppSizes.r24),
+                    topEnd: Radius.circular(AppSizes.r24),
+                    bottomStart: Radius.circular(
                       message.isMe ? AppSizes.r24 : AppSizes.r2,
                     ),
-                    bottomRight: Radius.circular(
+                    bottomEnd: Radius.circular(
                       message.isMe ? AppSizes.r2 : AppSizes.r24,
                     ),
                   ),
@@ -108,8 +108,12 @@ class MessageBubble extends StatelessWidget {
             Gap(AppSizes.h8),
             CircleAvatar(
               radius: AppSizes.r16,
-              backgroundImage: imagePath != null && File(imagePath).existsSync()
-                  ? FileImage(File(imagePath))
+              backgroundImage: imagePath != null && imagePath.isNotEmpty
+                  ? (imagePath.startsWith('http')
+                      ? NetworkImage(imagePath)
+                      : (File(imagePath).existsSync()
+                          ? FileImage(File(imagePath))
+                          : const AssetImage("assets/images/Avatar.png") as ImageProvider))
                   : const AssetImage("assets/images/Avatar.png") as ImageProvider,
             ),
           ],
