@@ -47,7 +47,7 @@ class MainScreenState extends State<MainScreen> {
           CoursesBloc(repository: CourseRepository())
             ..add(GetAllCategoriesEvent()),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF3F4F6),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
         body: IndexedStack(index: _currentIndex, children: screens),
 
@@ -57,26 +57,58 @@ class MainScreenState extends State<MainScreen> {
           selectedFontSize: 12,
           unselectedFontSize: 11,
           type: BottomNavigationBarType.fixed,
+          backgroundColor: Theme.of(context).cardColor,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.grey,
           items: [
             BottomNavigationBarItem(
-              icon: SvgPicture.asset("assets/svg/Home.svg"),
-
+              icon: SvgPicture.asset(
+                "assets/svg/Home.svg",
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 0 ? Theme.of(context).primaryColor : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: AppLocalizations.of(context)!.home,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset("assets/svg/courses.svg"),
+              icon: SvgPicture.asset(
+                "assets/svg/courses.svg",
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 1 ? Theme.of(context).primaryColor : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: AppLocalizations.of(context)!.courses,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset("assets/svg/chat boot.svg"),
+              icon: SvgPicture.asset(
+                "assets/svg/chat boot.svg",
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 2 ? Theme.of(context).primaryColor : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: AppLocalizations.of(context)!.ai,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset("assets/svg/activites.svg"),
+              icon: SvgPicture.asset(
+                "assets/svg/activites.svg",
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 3 ? Theme.of(context).primaryColor : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: AppLocalizations.of(context)!.activities,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset("assets/svg/profile.svg"),
+              icon: SvgPicture.asset(
+                "assets/svg/profile.svg",
+                colorFilter: ColorFilter.mode(
+                  _currentIndex == 4 ? Theme.of(context).primaryColor : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: AppLocalizations.of(context)!.profile,
             ),
           ],

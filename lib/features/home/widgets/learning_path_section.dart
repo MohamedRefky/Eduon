@@ -119,17 +119,13 @@ class LearningPathSection extends StatelessWidget {
                                         size: AppSizes.sp14,
                                       ),
                                       Gap(AppSizes.w4),
-                                      Flexible(
-                                        child: Text(
-                                          l10n.courses_count(path.totalCourses),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextTheme.of(context)
-                                              .displaySmall
-                                              ?.copyWith(
-                                                fontSize: AppSizes.sp12,
-                                              ),
-                                        ),
+                                      Text(
+                                        l10n.courses_count(path.totalCourses),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextTheme.of(context)
+                                            .displaySmall
+                                            ?.copyWith(fontSize: AppSizes.sp12),
                                       ),
                                       const Spacer(),
                                       Container(
