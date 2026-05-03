@@ -52,6 +52,8 @@ class AppSizes {
   static double get h56 => 56.h;
   static double get h60 => 60.h;
   static double get h64 => 64.h;
+  static double get h70 => 70.h;
+  static double get h75 => 75.h;
   static double get h80 => 80.h;
   static double get h90 => 90.h;
   static double get h100 => 100.h;

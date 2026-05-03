@@ -85,6 +85,9 @@ class ActiveLearning extends StatelessWidget {
         ],
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
           GestureDetector(
             onTap: () {
@@ -103,11 +106,11 @@ class ActiveLearning extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: thumbnailUrl ?? '',
                 width: AppSizes.h80,
-                height: AppSizes.h80,
+                height: AppSizes.h75,
                 fit: BoxFit.fill,
                 errorWidget: (context, url, error) => Container(
                   width: AppSizes.h80,
-                  height: AppSizes.h80,
+                  height: AppSizes.h75,
                   color: Colors.grey[300],
                   child: const Icon(Icons.play_circle_outline),
                 ),
@@ -124,6 +127,7 @@ class ActiveLearning extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -131,6 +135,7 @@ class ActiveLearning extends StatelessWidget {
                 Gap(AppSizes.h8),
                 Text(
                   l10n.videos_completed(watchedVideos, totalVideos, percentage),
+
                   style: Theme.of(
                     context,
                   ).textTheme.labelSmall?.copyWith(color: Colors.grey[600]),
