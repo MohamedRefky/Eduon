@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/courses/data/models/playlist_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/utils/category_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 
 class CourseItem extends StatelessWidget {
   final PlaylistModel playlist;
@@ -14,18 +15,7 @@ class CourseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    String categoryDisplay = playlist.category;
-    if (playlist.category == 'Design') {
-      categoryDisplay = l10n.design;
-    } else if (playlist.category == 'Tech') {
-      categoryDisplay = l10n.tech;
-    } else if (playlist.category == 'Soft Skills') {
-      categoryDisplay = l10n.soft_skills;
-    } else if (playlist.category == 'Video Editing') {
-      categoryDisplay = l10n.video_editing;
-    } else if (playlist.category == 'Business') {
-      categoryDisplay = l10n.business;
-    }
+    final categoryDisplay = playlist.category.translateCategory(context);
 
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -50,9 +40,9 @@ class CourseItem extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppSizes.r12),
-                topRight: Radius.circular(AppSizes.r12),
+              borderRadius: BorderRadiusDirectional.only(
+                topStart: Radius.circular(AppSizes.r12),
+                topEnd: Radius.circular(AppSizes.r12),
               ),
               child: CachedNetworkImage(
                 imageUrl: playlist.thumbnailUrl,
@@ -74,9 +64,9 @@ class CourseItem extends StatelessWidget {
             Gap(AppSizes.w10),
             // Content
             Padding(
-              padding: EdgeInsets.only(
-                left: AppSizes.w10,
-                right: AppSizes.w10,
+              padding: EdgeInsetsDirectional.only(
+                start: AppSizes.w10,
+                end: AppSizes.w10,
                 bottom: AppSizes.h10,
               ),
               child: Column(
@@ -118,9 +108,9 @@ class CourseItem extends StatelessWidget {
                       // Category Badge
                       Flexible(
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                          padding: EdgeInsetsDirectional.symmetric(
+                            horizontal: AppSizes.w8,
+                            vertical: AppSizes.h2,
                           ),
                           decoration: BoxDecoration(
                             color: Theme.of(
@@ -129,7 +119,7 @@ class CourseItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(AppSizes.r8),
                           ),
                           child: Text(
-                            categoryDisplay.toUpperCase(),
+                            categoryDisplay,
                             style: Theme.of(context).textTheme.displaySmall
                                 ?.copyWith(
                                   color: Theme.of(context).colorScheme.primary,
@@ -141,6 +131,7 @@ class CourseItem extends StatelessWidget {
 
                       // Lessons Count
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.menu_book,

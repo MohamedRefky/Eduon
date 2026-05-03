@@ -295,7 +295,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String lessons_count(Object count) {
-    return 'درس $count';
+    return '$count درس';
   }
 
   @override
@@ -423,10 +423,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get design => 'تصميم';
 
   @override
-  String get tech => 'تقنية';
+  String get tech => 'تكنولوجيا';
 
   @override
-  String get soft_skills => 'مهارات ناعمة';
+  String get soft_skills => 'مهارات شخصية';
 
   @override
   String get video_editing => 'مونتاج فيديو';
@@ -531,7 +531,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get business_desc => 'تعلم مهارات البزنس والتسويق';
 
   @override
-  String get soft_skills_path_title => 'مهارات ناعمة';
+  String get soft_skills_path_title => 'مهارات شخصية';
 
   @override
   String get soft_skills_path_desc => 'طور مهاراتك الشخصية والتواصل';
@@ -590,7 +590,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعلم كيفية الموازنة بين الدراسة والحياة والهوايات؛ فالعادات الجيدة الآن تمنع الاحتراق النفسي لاحقاً.';
 
   @override
-  String get tip_soft_skills_title => 'ركز على المهارات الناعمة';
+  String get tip_soft_skills_title => 'ركز على مهاراتك الشخصية';
 
   @override
   String get tip_soft_skills_desc =>

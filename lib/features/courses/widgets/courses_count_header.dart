@@ -1,4 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/utils/category_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:eduon/l10n/app_localizations.dart';
 
@@ -17,20 +18,7 @@ class CoursesCountHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
-    // Map internal key to translated name for the chip
-    String categoryDisplay = selectedCategory;
-    if (selectedCategory == 'Design') {
-      categoryDisplay = l10n.design;
-    } else if (selectedCategory == 'Tech') {
-      categoryDisplay = l10n.tech;
-    } else if (selectedCategory == 'Soft Skills') {
-      categoryDisplay = l10n.soft_skills;
-    } else if (selectedCategory == 'Video Editing') {
-      categoryDisplay = l10n.video_editing;
-    } else if (selectedCategory == 'Business') {
-      categoryDisplay = l10n.business;
-    }
+    final categoryDisplay = selectedCategory.translateCategory(context);
 
     return Padding(
       padding: EdgeInsets.symmetric(

@@ -32,7 +32,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: const CustomHeader(),
       body: BlocBuilder<CoursesBloc, CoursesState>(
@@ -59,7 +59,9 @@ class _CoursesScreenState extends State<CoursesScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: AppSizes.h16,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -91,7 +93,11 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.search_off, size: 64, color: Colors.grey),
+                        const Icon(
+                          Icons.search_off,
+                          size: 64,
+                          color: Colors.grey,
+                        ),
                         const Gap(16),
                         Text(
                           l10n.no_results,
@@ -124,11 +130,13 @@ class _CoursesScreenState extends State<CoursesScreen> {
                 )
               else
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.h16),
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: AppSizes.h16,
+                  ),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return Padding(
-                        padding: EdgeInsets.only(
+                        padding: EdgeInsetsDirectional.only(
                           bottom: index == filteredCourses.length - 1
                               ? AppSizes.h16
                               : AppSizes.h12,

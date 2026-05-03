@@ -623,7 +623,7 @@ abstract class AppLocalizations {
   /// No description provided for @lessons_count.
   ///
   /// In en, this message translates to:
-  /// **'Lessons {count}'**
+  /// **'{count} Lessons'**
   String lessons_count(Object count);
 
   /// No description provided for @my_profile.

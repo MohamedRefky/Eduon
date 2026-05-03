@@ -91,7 +91,7 @@
   "start_now": "Start Now",
   "popular_courses": "Popular Courses",
   "view_all": "View all",
-  "lessons_count": "Lessons {count}",
+  "lessons_count": "{count} Lessons",
   "my_profile": "My Profile",
   "study_reminders": "Study Reminders",
   "logout": "Logout",

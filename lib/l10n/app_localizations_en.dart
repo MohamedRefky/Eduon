@@ -293,7 +293,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String lessons_count(Object count) {
-    return 'Lessons $count';
+    return '$count Lessons';
   }
 
   @override
