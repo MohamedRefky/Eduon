@@ -713,4 +713,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get error_opening_link => 'تعذر فتح الرابط';
+
+  @override
+  String get select => 'اختر';
 }

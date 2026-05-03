@@ -712,4 +712,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_opening_link => 'Could not open link';
+
+  @override
+  String get select => 'Select';
 }

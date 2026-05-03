@@ -93,15 +93,15 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.search_off,
                           size: 64,
-                          color: Colors.grey,
+                          color: Theme.of(context).disabledColor,
                         ),
                         const Gap(16),
                         Text(
                           l10n.no_results,
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Theme.of(context).disabledColor),
                         ),
                       ],
                     ),
@@ -114,15 +114,15 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.school_outlined,
                           size: 64,
-                          color: Colors.grey,
+                          color: Theme.of(context).disabledColor,
                         ),
                         const Gap(16),
                         Text(
                           l10n.no_courses,
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Theme.of(context).disabledColor),
                         ),
                       ],
                     ),

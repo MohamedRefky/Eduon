@@ -32,9 +32,7 @@ class YearSelectionScreen extends StatelessWidget {
                     Gap(AppSizes.h24),
                     Text(
                       AppLocalizations.of(context)!.which_year,
-                      style: textTheme.titleLarge?.copyWith(
-                        color: const Color(0xFF0F172A),
-                      ),
+                      style: textTheme.titleLarge,
                     ),
 
                     Gap(AppSizes.h12),
@@ -42,7 +40,6 @@ class YearSelectionScreen extends StatelessWidget {
                     Text(
                       AppLocalizations.of(context)!.select_academic_year,
                       style: textTheme.bodySmall?.copyWith(
-                        color: const Color(0xFF64748B),
                         fontSize: AppSizes.sp16,
                         height: 1.4,
                       ),

@@ -1,3 +1,4 @@
+import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,9 +15,11 @@ class ClubCardWidget extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
+        showCustomSnackBar(
           context,
-        ).showSnackBar(SnackBar(content: Text(l10n.error_opening_link)));
+          message: l10n.error_opening_link,
+          type: SnackBarType.error,
+        );
       }
     }
   }
@@ -107,7 +110,7 @@ class ClubCardWidget extends StatelessWidget {
                   club['tag'] as String,
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     fontSize: AppSizes.sp12,
-                    color: Colors.grey,
+                    color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.6),
                     fontStyle: FontStyle.italic,
                   ),
                 ),

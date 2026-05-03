@@ -1,4 +1,5 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -29,7 +30,7 @@ class CustomYearContainer extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppSizes.r20),
           border: isSelected
-              ? Border.all(color: const Color(0xFF3B82F6), width: 2)
+              ? Border.all(color: Theme.of(context).primaryColor, width: 2)
               : null,
         ),
         child: Row(
@@ -43,14 +44,12 @@ class CustomYearContainer extends StatelessWidget {
                     title,
                     style: textTheme.titleLarge?.copyWith(
                       fontSize: AppSizes.sp22,
-                      color: textTheme.titleLarge?.color,
                     ),
                   ),
                   SizedBox(height: AppSizes.h8),
                   Text(
                     description,
                     style: textTheme.bodySmall?.copyWith(
-                      color: textTheme.bodySmall?.color,
                       fontSize: AppSizes.sp15,
                     ),
                   ),
@@ -61,16 +60,17 @@ class CustomYearContainer extends StatelessWidget {
                       vertical: AppSizes.h8,
                     ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(AppSizes.r20),
                     ),
                     child: Text(
-                      "Select",
+                      AppLocalizations.of(context)!.select,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontSize: AppSizes.sp16,
                         fontWeight: FontWeight.w700,
-                        fontFamily: "PlusJakartaSans",
                       ),
                     ),
                   ),
