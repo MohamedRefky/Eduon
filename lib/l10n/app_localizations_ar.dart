@@ -219,25 +219,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get next => 'التالي';
 
   @override
-  String get onboarding_title_1 => 'شكل مستقبلك';
+  String get onboarding_title_1 => 'ابدأ رحلة نجاحك الجامعي';
 
   @override
   String get onboarding_desc_1 =>
-      'دليلك الشخصي للنجاح الجامعي والتطوير الذاتي. دعنا نبدأ الرحلة.';
+      'دليلك الشامل لتنظيم دراستك والوصول لأفضل المصادر التعليمية لتجتاز سنواتك الجامعية بتفوق.';
 
   @override
-  String get onboarding_title_2 => 'طور مهارات حقيقية';
+  String get onboarding_title_2 => 'أتقن مهارات المستقبل';
 
   @override
   String get onboarding_desc_2 =>
-      'مهارات تأخذك بعيداً. نصائح وأدوات بسيطة لمساعدتك على النمو خارج محاضراتك الجامعية.';
+      'لا تكتفِ بالمناهج فقط؛ اكتسب مهارات سوق العمل وأسرار النجاح المهني لتكون مستعداً لمستقبلك الوظيفي.';
 
   @override
-  String get onboarding_title_3 => 'استكشف الأنشطة الطلابية والفرص';
+  String get onboarding_title_3 => 'عِش حياة جامعية متكاملة';
 
   @override
   String get onboarding_desc_3 =>
-      'لا تكتفِ بالدراسة فقط، عِش التجربة. انضم للنوادي الطلابية، وابحث عن الفعاليات، واستمتع بحياتك الجامعية.';
+      'اكتشف عالماً من الأنشطة والفرص التي تبني شخصيتك، وتواصل مع مجتمعك الطلابي لتصنع ذكريات لا تُنسى.';
 
   @override
   String get home => 'الرئيسية';

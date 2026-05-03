@@ -59,12 +59,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               /// Skip Button
               Align(
-                alignment: Alignment.topRight,
+                alignment: AlignmentDirectional.topEnd,
                 child: TextButton(
                   onPressed: finishOnboarding,
                   child: Text(
                     l10n.skip,
-                    style: theme.textTheme.displayMedium?.copyWith(),
+                    style: theme.textTheme.displayMedium,
                   ),
                 ),
               ),
@@ -118,8 +118,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SmoothPageIndicator(
                 controller: _controller,
                 count: onboardingData.length,
-                effect: const ExpandingDotsEffect(
-                  activeDotColor: Color(0xFF354155),
+                effect: ExpandingDotsEffect(
+                  activeDotColor: theme.primaryColor,
+                  dotColor: theme.primaryColor.withValues(alpha: 0.2),
                   dotHeight: 8,
                   dotWidth: 8,
                 ),
