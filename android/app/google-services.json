@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "648950609561",
+    "project_id": "eduon-a2ec6",
+    "storage_bucket": "eduon-a2ec6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648950609561:android:6b35e89be7c1598db1aa08",
+        "android_client_info": {
+          "package_name": "com.example.eduon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648950609561-serc1trre6imro2cpllnje67mghtkblr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eduon",
+            "certificate_hash": "3d362a66c210da3f608ce38ff9fffc9047a60110"
+          }
+        },
+        {
+          "client_id": "648950609561-5vt66br00oe08ffg1sordicl751tk7e1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0uVjoHPpTR3HxkETDZz0Bv-Veylz7j5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648950609561-5vt66br00oe08ffg1sordicl751tk7e1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "648950609561-50uaomk8g8qvfljhm36hkrpifh2tn48e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eduon"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
