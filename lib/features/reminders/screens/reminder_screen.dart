@@ -1,13 +1,13 @@
+import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/reminders/cubit/reminder_cubit.dart';
 import 'package:eduon/features/reminders/cubit/reminder_state.dart';
-import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/features/reminders/widgets/empty_reminders.dart';
 import 'package:eduon/features/reminders/widgets/add_reminder_sheet.dart';
+import 'package:eduon/features/reminders/widgets/empty_reminders.dart';
 import 'package:eduon/features/reminders/widgets/reminder_card.dart';
+import 'package:eduon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 
 class ReminderScreen extends StatelessWidget {
   const ReminderScreen({super.key});
@@ -31,8 +31,13 @@ class _ReminderBody extends StatelessWidget {
       appBar: AppBar(title: Text(l10n.study_reminders), centerTitle: true),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => AddReminderSheet.show(context),
-        icon: const Icon(Icons.add_alarm_rounded),
-        label: Text(l10n.add_reminder),
+        icon: const Icon(Icons.add_alarm_rounded ),
+        label: Text(
+          l10n.add_reminder,
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(fontSize: AppSizes.sp16),
+        ),
       ),
       body: BlocBuilder<ReminderCubit, ReminderState>(
         builder: (context, state) {
