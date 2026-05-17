@@ -1,15 +1,15 @@
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
+import 'package:eduon/features/activities/activities_screen.dart';
 import 'package:eduon/features/courses/bloc/courses_bloc.dart';
 import 'package:eduon/features/courses/bloc/courses_event.dart';
-import 'package:eduon/features/activities/activities_screen.dart';
 import 'package:eduon/features/courses/courses_screen.dart';
+import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:eduon/features/eduon_ai/screen/eduon_ai_screen.dart';
 import 'package:eduon/features/home/home_screen.dart';
 import 'package:eduon/features/profile/profile_screen.dart';
-import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -59,7 +59,7 @@ class MainScreenState extends State<MainScreen> {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Theme.of(context).cardColor,
           selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Colors.grey.shade500,
+          unselectedItemColor: Colors.grey.shade700,
           selectedLabelStyle: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
             fontSize: 12,
@@ -67,7 +67,7 @@ class MainScreenState extends State<MainScreen> {
             fontFamily: 'PlusJakartaSans',
           ),
           unselectedLabelStyle: TextStyle(
-            color: Colors.grey.shade500,
+            color: Colors.grey.shade700,
             fontSize: 11,
             fontFamily: 'PlusJakartaSans',
           ),
@@ -78,7 +78,7 @@ class MainScreenState extends State<MainScreen> {
                 colorFilter: ColorFilter.mode(
                   _currentIndex == 0
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade500,
+                      : Colors.grey.shade700,
                   BlendMode.srcIn,
                 ),
               ),
@@ -90,7 +90,7 @@ class MainScreenState extends State<MainScreen> {
                 colorFilter: ColorFilter.mode(
                   _currentIndex == 1
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade500,
+                      : Colors.grey.shade700,
                   BlendMode.srcIn,
                 ),
               ),
@@ -102,7 +102,7 @@ class MainScreenState extends State<MainScreen> {
                 colorFilter: ColorFilter.mode(
                   _currentIndex == 2
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade500,
+                      : Colors.grey.shade700,
                   BlendMode.srcIn,
                 ),
               ),
@@ -114,7 +114,7 @@ class MainScreenState extends State<MainScreen> {
                 colorFilter: ColorFilter.mode(
                   _currentIndex == 3
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade500,
+                      : Colors.grey.shade700,
                   BlendMode.srcIn,
                 ),
               ),
@@ -126,14 +126,13 @@ class MainScreenState extends State<MainScreen> {
                 colorFilter: ColorFilter.mode(
                   _currentIndex == 4
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.grey.shade500,
+                      : Colors.grey.shade700,
                   BlendMode.srcIn,
                 ),
               ),
               label: AppLocalizations.of(context)!.profile,
             ),
           ],
-
         ),
       ),
     );
