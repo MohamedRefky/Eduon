@@ -120,7 +120,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
               Gap(AppSizes.h20),
-
               /// Indicator
               SmoothPageIndicator(
                 controller: _controller,
