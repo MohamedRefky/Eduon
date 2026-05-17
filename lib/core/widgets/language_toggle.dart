@@ -1,4 +1,4 @@
-import 'package:eduon/core/localization/locale_cubit.dart';
+import 'package:eduon/core/localization/cubit/locale_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eduon/core/constants/app_sizes.dart';

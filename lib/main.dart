@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/reminders/data/services/notification_service.dart';
-import 'package:eduon/core/localization/locale_cubit.dart';
+import 'package:eduon/core/localization/cubit/locale_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:eduon/l10n/app_localizations.dart';
 
