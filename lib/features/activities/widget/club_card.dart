@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 class ClubCardWidget extends StatelessWidget {
   const ClubCardWidget({super.key, required this.club});

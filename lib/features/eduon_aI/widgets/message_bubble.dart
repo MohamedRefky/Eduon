@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 class MessageBubble extends StatelessWidget {
   final MessageAiModel message;

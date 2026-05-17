@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/courses/bloc/courses_bloc.dart';
 import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 class PopularCoursesSection extends StatelessWidget {
   const PopularCoursesSection({super.key, required this.playlist});

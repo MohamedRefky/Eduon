@@ -1,4 +1,6 @@
-import 'package:eduon/l10n/app_localizations.dart';
+
+
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 class LearningPathModel {
   final String title;

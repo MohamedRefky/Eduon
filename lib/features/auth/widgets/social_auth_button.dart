@@ -1,8 +1,8 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 
 class SocialAuthButton extends StatelessWidget {
   const SocialAuthButton({super.key, required this.onTap});
@@ -42,7 +42,10 @@ class SocialAuthButton extends StatelessWidget {
               children: [
                 SvgPicture.asset('assets/svg/google.svg'),
                 Gap(AppSizes.w4),
-                Text(AppLocalizations.of(context)!.google, style: TextTheme.of(context).bodySmall),
+                Text(
+                  AppLocalizations.of(context)!.google,
+                  style: TextTheme.of(context).bodySmall,
+                ),
               ],
             ),
           ),

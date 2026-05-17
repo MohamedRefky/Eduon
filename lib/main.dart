@@ -14,7 +14,7 @@ import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/reminders/data/services/notification_service.dart';
 import 'package:eduon/core/localization/cubit/locale_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();

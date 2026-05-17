@@ -1,8 +1,8 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import '../data/models/subject_model.dart';

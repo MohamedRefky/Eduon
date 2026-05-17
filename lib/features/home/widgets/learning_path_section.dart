@@ -1,9 +1,9 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/constants/learning_paths_constants.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/learning_path/learning_path_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 
 class LearningPathSection extends StatelessWidget {
   const LearningPathSection({super.key});

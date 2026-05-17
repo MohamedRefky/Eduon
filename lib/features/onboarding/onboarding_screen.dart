@@ -1,11 +1,12 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

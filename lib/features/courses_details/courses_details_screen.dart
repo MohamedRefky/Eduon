@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'cubit/course_details_cubit.dart';
 import 'cubit/course_details_state.dart';
 import 'widgets/course_details_loading.dart';

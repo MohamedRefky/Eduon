@@ -1,7 +1,7 @@
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/screens/login_screen.dart';
 

@@ -1,10 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/core/widgets/custom_snack_bar.dart';
 import 'cubit/video_cubit.dart';
 import 'cubit/video_state.dart';

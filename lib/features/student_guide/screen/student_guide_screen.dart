@@ -1,7 +1,7 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 import '../cubit/student_guide_cubit.dart';
 import '../cubit/student_guide_state.dart';
 import '../widgets/subject_list.dart';

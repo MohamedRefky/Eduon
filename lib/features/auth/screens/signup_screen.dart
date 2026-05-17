@@ -1,8 +1,11 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/core/utils/app_validator.dart';
-import 'package:eduon/core/widgets/custom_text_form_field.dart';
-import 'package:eduon/features/auth/cubit/auth_cubit.dart';
+import 'package:eduon/core/utils/auth_error_ext.dart';
 import 'package:eduon/core/widgets/custom_snack_bar.dart';
+import 'package:eduon/core/widgets/custom_text_form_field.dart';
+import 'package:eduon/core/widgets/language_toggle.dart';
+import 'package:eduon/features/auth/cubit/auth_cubit.dart';
 import 'package:eduon/features/auth/widgets/auth_switch_text.dart';
 import 'package:eduon/features/auth/widgets/signup_header.dart';
 import 'package:eduon/features/auth/widgets/social_auth_button.dart';
@@ -12,9 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:eduon/l10n/app_localizations.dart';
-import 'package:eduon/core/widgets/language_toggle.dart';
-import 'package:eduon/core/utils/auth_error_ext.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -97,7 +97,10 @@ class SignUpScreen extends StatelessWidget {
                       hintText: AppLocalizations.of(context)!.full_name,
                       controller: cubit.fullNameController,
                       keyboardType: TextInputType.name,
-                      validator: (value) => AppValidator.fullName(value, AppLocalizations.of(context)!),
+                      validator: (value) => AppValidator.fullName(
+                        value,
+                        AppLocalizations.of(context)!,
+                      ),
                     ),
 
                     Gap(AppSizes.h20),
@@ -113,7 +116,10 @@ class SignUpScreen extends StatelessWidget {
                       prefixIcon: Icons.email_outlined,
                       controller: cubit.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) => AppValidator.email(value, AppLocalizations.of(context)!),
+                      validator: (value) => AppValidator.email(
+                        value,
+                        AppLocalizations.of(context)!,
+                      ),
                     ),
 
                     Gap(AppSizes.h20),
@@ -138,7 +144,10 @@ class SignUpScreen extends StatelessWidget {
                           onSuffixPressed: cubit.togglePasswordVisibility,
                           controller: cubit.passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          validator: (value) => AppValidator.password(value, AppLocalizations.of(context)!),
+                          validator: (value) => AppValidator.password(
+                            value,
+                            AppLocalizations.of(context)!,
+                          ),
                         );
                       },
                     ),

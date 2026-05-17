@@ -1,11 +1,11 @@
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/core/constants/year_constant.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/core/service/preferences_manager.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 
 import 'widgets/custom_year_container.dart';
 
@@ -81,7 +81,8 @@ class YearSelectionScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return CustomYearContainer(
                               title: translatedYears[index]["title"]!,
-                              description: translatedYears[index]["description"]!,
+                              description:
+                                  translatedYears[index]["description"]!,
                               iconPath: translatedYears[index]["icon"]!,
                               isSelected: selected == index,
                               onSelect: () {

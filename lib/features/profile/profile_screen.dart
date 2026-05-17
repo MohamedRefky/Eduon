@@ -1,13 +1,13 @@
 // lib/features/profile/profile_screen.dart
 
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/main/main_screen.dart';
 import 'package:eduon/features/profile/cubit/profile_cubit.dart';
 import 'package:eduon/features/profile/cubit/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 import 'package:eduon/core/theme/themes_controller.dart';
 import 'widgets/active_learning.dart';
 import 'widgets/avatar_section.dart';

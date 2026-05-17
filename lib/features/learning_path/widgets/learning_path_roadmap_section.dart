@@ -1,9 +1,10 @@
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/courses/bloc/courses_state.dart';
 import 'package:eduon/core/constants/app_sizes.dart';
 import 'package:eduon/features/learning_path/data/models/learning_path_model.dart';
 import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 import 'learning_path_step_item.dart';
 

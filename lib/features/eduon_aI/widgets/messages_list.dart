@@ -1,10 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/eduon_ai/data/models/message_ai_model.dart';
 import 'package:eduon/features/eduon_ai/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:eduon/l10n/app_localizations.dart';
 
 class MessagesList extends StatefulWidget {
   final List<MessageAiModel> messages;
@@ -59,9 +59,6 @@ class _MessagesListState extends State<MessagesList> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
-    // تم إزالة Expanded من هنا لأن الأب (EduonAiScreen) يضعه بالفعل في Expanded
-    // وهذا يحل مشكلة "Incorrect use of ParentDataWidget"
     return ListView.builder(
       controller: _scrollController,
       itemCount: widget.messages.length + (widget.isTyping ? 1 : 0),

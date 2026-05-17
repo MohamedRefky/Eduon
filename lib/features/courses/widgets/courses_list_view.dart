@@ -5,7 +5,7 @@ import 'package:eduon/features/courses_details/courses_details_screen.dart';
 import 'package:eduon/core/utils/category_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 class CourseItem extends StatelessWidget {
   final PlaylistModel playlist;

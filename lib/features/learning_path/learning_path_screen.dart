@@ -1,3 +1,4 @@
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/courses/bloc/courses_bloc.dart';
 import 'package:eduon/features/courses/bloc/courses_event.dart';
 import 'package:eduon/features/courses/bloc/courses_state.dart';
@@ -5,7 +6,7 @@ import 'package:eduon/features/learning_path/data/models/learning_path_model.dar
 import 'package:eduon/features/courses/data/course_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 import 'widgets/learning_path_header.dart';
 import 'widgets/learning_path_roadmap_section.dart';

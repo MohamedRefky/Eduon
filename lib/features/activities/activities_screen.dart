@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'constants/activities_constants.dart';
 import 'widget/club_card.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({super.key});

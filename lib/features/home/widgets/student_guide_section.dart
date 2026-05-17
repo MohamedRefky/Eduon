@@ -1,8 +1,9 @@
 import 'package:eduon/core/constants/app_sizes.dart';
+import 'package:eduon/core/localization/l10n/app_localizations.dart';
 import 'package:eduon/features/student_guide/screen/student_guide_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:eduon/l10n/app_localizations.dart';
+
 
 class StudentGuideSection extends StatelessWidget {
   const StudentGuideSection({super.key});
