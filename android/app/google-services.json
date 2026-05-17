@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "648950609561-serc1trre6imro2cpllnje67mghtkblr.apps.googleusercontent.com",
+          "client_id": "648950609561-6hpu656v9q6lrhg4pe3b25efavs3rde1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.eduon",
-            "certificate_hash": "3d362a66c210da3f608ce38ff9fffc9047a60110"
+            "certificate_hash": "0e2c35f441ab5ce790a2d52207fbc5aebfa649c0"
           }
         },
         {
