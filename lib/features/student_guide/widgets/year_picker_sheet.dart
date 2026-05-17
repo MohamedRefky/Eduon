@@ -1,9 +1,10 @@
 import 'package:eduon/core/constants/app_sizes.dart';
-import 'package:flutter/material.dart';
-import 'package:eduon/l10n/app_localizations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eduon/core/widgets/custom_snack_bar.dart';
+import 'package:eduon/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
 import '../cubit/student_guide_cubit.dart';
 
 class YearPickerSheet extends StatelessWidget {
@@ -25,7 +26,10 @@ class YearPickerSheet extends StatelessWidget {
       ),
       builder: (_) => BlocProvider.value(
         value: cubit,
-        child: YearPickerSheet(currentYear: currentYear, parentContext: context),
+        child: YearPickerSheet(
+          currentYear: currentYear,
+          parentContext: context,
+        ),
       ),
     );
   }
@@ -77,6 +81,7 @@ class YearPickerSheet extends StatelessWidget {
               title: Text(
                 entry.$2,
                 style: textTheme.bodyMedium?.copyWith(
+                  fontSize: AppSizes.sp18,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   color: isSelected ? colorScheme.primary : null,
                 ),
