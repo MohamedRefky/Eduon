@@ -91,9 +91,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _StaticLottie(
-                          asset: item["image"]!,
-                          frame: item["frame"] ?? 1.0,
+                        Lottie.asset(
+                          item["image"]!,
+                          width: AppSizes.h300,
+                          height: AppSizes.h280,
+                          fit: BoxFit.cover,
                         ),
                         Gap(AppSizes.h40),
                         Text(
@@ -152,44 +154,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _StaticLottie extends StatefulWidget {
-  final String asset;
-  final double frame;
-
-  const _StaticLottie({required this.asset, required this.frame});
-
-  @override
-  State<_StaticLottie> createState() => _StaticLottieState();
-}
-
-class _StaticLottieState extends State<_StaticLottie>
-    with TickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this, value: widget.frame);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Lottie.asset(
-      widget.asset,
-      controller: _controller,
-      width: AppSizes.h300,
-      height: AppSizes.h280,
-      fit: BoxFit.cover,
     );
   }
 }
