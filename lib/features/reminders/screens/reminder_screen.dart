@@ -16,50 +16,47 @@ class ReminderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ReminderCubit()..loadReminders(),
-      child: const _ReminderBody(),
-    );
-  }
-}
+      child: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(l10n.study_reminders),
+              centerTitle: true,
+            ),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () => AddReminderSheet.show(context),
+              icon: const Icon(Icons.add_alarm_rounded),
+              label: Text(
+                l10n.add_reminder,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge?.copyWith(fontSize: AppSizes.sp16),
+              ),
+            ),
+            body: BlocBuilder<ReminderCubit, ReminderState>(
+              builder: (context, state) {
+                if (state is ReminderLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-class _ReminderBody extends StatelessWidget {
-  const _ReminderBody();
+                if (state is ReminderLoaded && state.reminders.isEmpty) {
+                  return const EmptyReminders();
+                }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.study_reminders), centerTitle: true),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => AddReminderSheet.show(context),
-        icon: const Icon(Icons.add_alarm_rounded ),
-        label: Text(
-          l10n.add_reminder,
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(fontSize: AppSizes.sp16),
-        ),
-      ),
-      body: BlocBuilder<ReminderCubit, ReminderState>(
-        builder: (context, state) {
-          if (state is ReminderLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is ReminderLoaded && state.reminders.isEmpty) {
-            return const EmptyReminders();
-          }
-
-          if (state is ReminderLoaded) {
-            return ListView.separated(
-              padding: EdgeInsets.all(AppSizes.h16),
-              separatorBuilder: (_, _) => Gap(AppSizes.h12),
-              itemCount: state.reminders.length,
-              itemBuilder: (context, i) =>
-                  ReminderCard(reminder: state.reminders[i]),
-            );
-          }
-
-          return const SizedBox();
+                if (state is ReminderLoaded) {
+                  return ListView.separated(
+                    padding: EdgeInsets.all(AppSizes.h16),
+                    separatorBuilder: (_, _) => Gap(AppSizes.h12),
+                    itemCount: state.reminders.length,
+                    itemBuilder: (context, i) =>
+                        ReminderCard(reminder: state.reminders[i]),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          );
         },
       ),
     );
