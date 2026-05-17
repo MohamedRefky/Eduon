@@ -43,13 +43,13 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
     final scheme = Theme.of(context).colorScheme;
 
     final dayNames = [
+      l10n.sat,
+      l10n.sun,
       l10n.mon,
       l10n.tue,
       l10n.wed,
       l10n.thu,
       l10n.fri,
-      l10n.sat,
-      l10n.sun,
     ];
 
     return Container(
@@ -117,10 +117,13 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
               child: Row(
                 children: [
                   Icon(Icons.access_time_rounded, color: scheme.primary),
-                  Gap(AppSizes.w12),
+                  Gap(AppSizes.w10),
                   Text(
                     l10n.time,
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      fontSize: AppSizes.sp14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const Spacer(),
                   Text(
@@ -137,7 +140,13 @@ class _AddReminderSheetState extends State<AddReminderSheet> {
           Gap(AppSizes.h16),
 
           // ── Day Selector ──
-          Text(l10n.days, style: Theme.of(context).textTheme.displaySmall),
+          Text(
+            l10n.days,
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+              fontSize: AppSizes.sp14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Gap(AppSizes.h10),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
