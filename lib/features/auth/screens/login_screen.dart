@@ -77,9 +77,9 @@ class LoginScreen extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              actions: const [
+              actions:  [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
                   child: LanguageToggle(),
                 ),
               ],
